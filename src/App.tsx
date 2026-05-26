@@ -238,7 +238,9 @@ export default function EdupreneurLandingPage() {
           </div>
 
           <a
-            href="#contact"
+            href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
           >
             Book a Free Consultation
@@ -289,7 +291,9 @@ export default function EdupreneurLandingPage() {
 
             <div className="mt-9 flex flex-wrap gap-4">
               <a
-                href="#contact"
+                href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
               >
                 Book a Free Consultation →
@@ -559,7 +563,9 @@ export default function EdupreneurLandingPage() {
               Email Me
             </a>
             <a
-              href="#"
+              href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-xl border border-white/30 px-7 py-4 text-white font-black hover:bg-white/10 transition"
             >
               Book Consultation →
