@@ -1,4 +1,5 @@
 export default function EdupreneurLandingPage() {
+  const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
   const services = [
     {
       title: "SAT Prep",
@@ -546,7 +547,7 @@ export default function EdupreneurLandingPage() {
       </section>
 
       <section id="contact" className="px-6 pb-20">
-        <div className="max-w-7xl mx-auto rounded-[2rem] bg-gradient-to-r from-blue-700 to-blue-600 text-white p-8 md:p-12 shadow-xl flex flex-col lg:flex-row gap-8 items-center justify-between">
+        <div className="max-w-7xl mx-auto rounded-[2rem] bg-gradient-to-r from-blue-700 to-blue-600 text-white p-8 md:p-12 shadow-xl grid lg:grid-cols-2 gap-8 items-start">
           <div>
             <h2 className="text-3xl md:text-4xl font-black">
               Ready to get started?
@@ -554,27 +555,78 @@ export default function EdupreneurLandingPage() {
             <p className="mt-3 text-blue-100 text-lg">
               Let’s make your goals feel realistic, organized, and achievable.
             </p>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=futurereadycollegeprep@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-xl bg-white px-7 py-4 text-blue-700 font-black shadow-md hover:bg-blue-50 transition"
-            >
-              Email Me
-            </a>
             <a
               href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-white/30 px-7 py-4 text-white font-black hover:bg-white/10 transition"
+              className="mt-6 inline-flex rounded-xl border border-white/30 px-7 py-4 text-white font-black hover:bg-white/10 transition"
             >
               Book Consultation →
             </a>
           </div>
+          <form
+            action={formspreeEndpoint}
+            method="POST"
+            className="rounded-2xl bg-white/95 p-5 md:p-6 text-slate-900 shadow-lg space-y-4"
+          >
+            <input type="hidden" name="_subject" value="New consultation request" />
+            <input
+              type="hidden"
+              name="_next"
+              value="https://futurereadycollegeprep.com/thank-you"
+            />
+            <div>
+              <label htmlFor="contact-name" className="block text-sm font-bold mb-1">
+                Name
+              </label>
+              <input
+                id="contact-name"
+                name="name"
+                type="text"
+                required
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-email" className="block text-sm font-bold mb-1">
+                Email
+              </label>
+              <input
+                id="contact-email"
+                name="email"
+                type="email"
+                required
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-message" className="block text-sm font-bold mb-1">
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows={4}
+                required
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Tell me what you want help with."
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
+            >
+              Send Message
+            </button>
+            <p className="text-xs text-slate-500">
+              Replace <code>your-form-id</code> in <code>formspreeEndpoint</code> with your live Formspree form ID.
+            </p>
+          </form>
         </div>
       </section>
     </div>
   );
 }
+
