@@ -621,7 +621,11 @@ export default function EdupreneurLandingPage() {
               Send Message
             </button>
             <p className="text-xs text-slate-500">
-              Reach out to us via this form. We will get back to you within 24 hours. If you don't receive a response, please check your spam folder or email us directly at <a href="mailto: futurereadycollegeprep@gmail.com"></a>
+              Reach out via this form and we will get back to you within 24 hours. If you do not receive a response, check your spam folder or email us directly at{" "}
+              <a href="mailto:futurereadycollegeprep@gmail.com" className="underline">
+                futurereadycollegeprep@gmail.com
+              </a>.
+            </p>
           </form>
         </div>
       </section>
