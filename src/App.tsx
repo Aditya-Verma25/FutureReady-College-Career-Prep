@@ -183,8 +183,8 @@ export default function EdupreneurLandingPage() {
     { value: "1500+", label: "SAT Score" },
     { value: "30+", label: "Students Mentored" },
     { value: "Published", label: "AI Researcher" },
-    { value: "Founder", label: "EZ Math Tutoring" },
-    { value: "$1M+", label: "Student Impact" },
+    { value: "$200K+", label: "College Merit Scholarships Earned" },
+    { value: "National Merit", label: "Commended Scholar" },
     { value: "UMD CS", label: "Computer Science Student" },
   ];
 
@@ -559,7 +559,7 @@ export default function EdupreneurLandingPage() {
               href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex rounded-xl border border-white/30 px-7 py-4 text-white font-black hover:bg-white/10 transition"
+              className="mt-6 inline-flex rounded-xl bg-white px-7 py-4 text-blue-700 font-black shadow-md hover:bg-blue-50 transition"
             >
               Book Consultation →
             </a>
@@ -621,12 +621,10 @@ export default function EdupreneurLandingPage() {
               Send Message
             </button>
             <p className="text-xs text-slate-500">
-              Replace <code>your-form-id</code> in <code>formspreeEndpoint</code> with your live Formspree form ID.
-            </p>
+              Reach out to us via this form. We will get back to you within 24 hours. If you don't receive a response, please check your spam folder or email us directly at <a href="mailto: futurereadycollegeprep@gmail.com"></a>
           </form>
         </div>
       </section>
     </div>
   );
 }
-
