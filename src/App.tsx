@@ -557,7 +557,7 @@ export default function EdupreneurLandingPage() {
           </div>
           <div className="flex flex-wrap gap-4">
             <a
-              href="mailto:adityavermaus@outlook.com"
+              href="mailto:futurereadycollegeprep@gmail.com"
               className="rounded-xl bg-white px-7 py-4 text-blue-700 font-black shadow-md hover:bg-blue-50 transition"
             >
               Email Me
