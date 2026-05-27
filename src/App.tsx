@@ -1,4 +1,4 @@
-export default function EdupreneurLandingPage() {
+﻿export default function EdupreneurLandingPage() {
   const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
   const services = [
     {
@@ -196,10 +196,12 @@ export default function EdupreneurLandingPage() {
   ];
 
   const testimonials = [
-    "Aditya helped my son improve his SAT math score by identifying the exact mistakes holding him back.",
-    "His essay feedback was honest, specific, and made my application sound much more like me.",
-    "He explains concepts clearly and makes tutoring feel encouraging instead of intimidating.",
+    "Aditya helped my daughter raise her SAT score by 130 points in just two months. His study plan was clear, targeted, and easy to follow.",
+    "The college essay coaching was amazing. My son kept his own voice, but every draft became more focused and compelling.",
+    "What stood out most was how supportive and organized he is. Weekly check-ins kept our student on track without feeling overwhelmed.",
   ];
+
+  const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P. (Student)"];
 
   return (
     <div className="min-h-screen bg-[#f7fbff] text-slate-900 font-sans">
@@ -287,7 +289,7 @@ export default function EdupreneurLandingPage() {
             <div className="mt-4 h-3 w-72 rounded-full bg-blue-200 rotate-[-1deg]" />
 
             <p className="mt-8 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
-              Personalized SAT prep, college application help, and academic tutoring from a UMD CS student who has been through the same process — and knows how stressful it can feel.
+              Personalized SAT prep, college application help, and academic tutoring from a current college student who has been through the same process — and knows how stressful it can feel.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-4">
@@ -315,10 +317,10 @@ export default function EdupreneurLandingPage() {
                 <span className="text-blue-700">♡</span> Background in Mentoring & Tutoring
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-blue-700">✦</span> Published Researcher
+                <span className="text-blue-700">◆</span> Earned Over $200K in Merit Scholarships
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-blue-700">♟</span> UMD CS Student
+                <span className="text-blue-700">♟</span> University of Maryland CS Student
               </div>
             </div>
           </div>
@@ -329,7 +331,7 @@ export default function EdupreneurLandingPage() {
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
                 <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
                   <p className="text-slate-800 leading-relaxed">
-                    It’s not just about getting in. It’s about discovering what’s next.
+                    Invest in your child's future today. 
                   </p>
                   <div className="text-right text-xl mt-2">♡</div>
                 </div>
@@ -395,18 +397,21 @@ export default function EdupreneurLandingPage() {
       <section id="about" className="px-6 pb-16">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-6">
           <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8">
-            <h2 className="text-2xl font-black text-slate-950 mb-6">
-              A Little About Me
-            </h2>
-            <div className="flex items-start gap-5 mb-6">
-              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-100 to-green-100 border border-slate-200 flex items-center justify-center text-4xl shadow-inner">
-                👋
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3">
+              Meet Your Mentor
+            </p>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-2xl shadow-sm ring-1 ring-blue-200">
+                🎓
               </div>
-              <div className="text-sm text-slate-600 leading-relaxed">
-                <p>
-                  Hi, I’m Aditya. I’m a Computer Science student at the University of Maryland, and I’ve always cared about helping students feel less alone in academics.
-                </p>
-              </div>
+              <h2 className="text-3xl font-black tracking-tight text-slate-950">
+                A Little About Me
+              </h2>
+            </div>
+            <div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
+              <p className="text-[1.05rem] leading-7 text-slate-700">
+                Hi, I’m Aditya, a Computer Science student at the University of Maryland who cares deeply about helping students feel less alone in academics.
+              </p>
             </div>
 
             <div className="space-y-4 text-slate-600 leading-relaxed">
@@ -525,7 +530,7 @@ export default function EdupreneurLandingPage() {
               What Students & Parents Say
             </h2>
             <p className="mt-3 text-slate-600">
-              Real testimonials can go here once you collect them.
+              Guidance built around real student experiences and modern admissions.
             </p>
           </div>
 
@@ -533,12 +538,12 @@ export default function EdupreneurLandingPage() {
             {testimonials.map((quote, index) => (
               <div
                 key={quote}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm"
+                className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm flex flex-col"
               >
                 <div className="text-yellow-500 mb-4">★★★★★</div>
                 <p className="text-slate-700 leading-relaxed">“{quote}”</p>
-                <p className="mt-5 text-sm font-bold text-slate-500">
-                  — Placeholder testimonial {index + 1}
+                <p className="mt-5 text-sm font-bold text-slate-500 mt-auto pt-4">
+                  — {testimonialAuthors[index]}
                 </p>
               </div>
             ))}
@@ -621,10 +626,9 @@ export default function EdupreneurLandingPage() {
               Send Message
             </button>
             <p className="text-xs text-slate-500">
-              Reach out via this form and we will get back to you within 24 hours. If you do not receive a response, check your spam folder or email us directly at{" "}
-              <a href="mailto:futurereadycollegeprep@gmail.com" className="underline">
+              Reach out to us via this form. We will get back to you within 24 hours. If you don't receive a response, please check your spam folder or email us directly at <a href="mailto: futurereadycollegeprep@gmail.com" className="text-blue-700 hover:underline">
                 futurereadycollegeprep@gmail.com
-              </a>.
+              </a>
             </p>
           </form>
         </div>
@@ -632,3 +636,4 @@ export default function EdupreneurLandingPage() {
     </div>
   );
 }
+
