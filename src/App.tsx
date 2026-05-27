@@ -1,13 +1,23 @@
 ﻿import { useEffect, useState, type FormEvent } from "react";
 import ReactGA from "react-ga4";
+import SatPage from "./SatPage";
+import BlogsHubPage from "./BlogsHubPage";
+import CollegeAdmissionsArticlePage from "./CollegeAdmissionsArticlePage";
 
 export default function EdupreneurLandingPage() {
   const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [hashPath, setHashPath] = useState(window.location.hash);
 
   useEffect(() => {
     ReactGA.initialize("G-2STM34BZQ2");
     ReactGA.send("pageview");
+  }, []);
+
+  useEffect(() => {
+    const handleHashChange = () => setHashPath(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   function trackCalendlyClick() {
@@ -246,6 +256,21 @@ export default function EdupreneurLandingPage() {
 
   const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P. (Student)"];
 
+  if (hashPath === "#/sat") {
+    return <SatPage onBack={() => (window.location.hash = "")} />;
+  }
+  if (hashPath === "#/blogs") {
+    return <BlogsHubPage onBack={() => (window.location.hash = "")} />;
+  }
+  if (hashPath === "#/blogs/college-admissions-guide") {
+    return (
+      <CollegeAdmissionsArticlePage
+        onBackHome={() => (window.location.hash = "")}
+        onBackToHub={() => (window.location.hash = "#/blogs")}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#f7fbff] text-slate-900 font-sans">
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
@@ -265,6 +290,9 @@ export default function EdupreneurLandingPage() {
               <p className="text-xs text-slate-500 font-medium">
                 SAT Prep • College Apps • Tutoring
               </p>
+              <p className="text-[11px] text-slate-400 font-semibold mt-0.5">
+                v0.5
+              </p>
             </div>
           </div>
 
@@ -280,6 +308,9 @@ export default function EdupreneurLandingPage() {
             </a>
             <a href="#testimonials" className="hover:text-blue-700 transition">
               Testimonials
+            </a>
+            <a href="#/blogs" className="hover:text-blue-700 transition">
+              Blog
             </a>
           </div>
 
@@ -430,7 +461,9 @@ export default function EdupreneurLandingPage() {
                     </div>
                   ))}
                 </div>
-                <a href="#contact" className="font-bold hover:underline">
+                <a
+                  href={service.title === "SAT Prep" ? "#/sat" : "#contact"}
+                  className="font-bold hover:underline">
                   Learn More →
                 </a>
               </div>
@@ -686,6 +719,10 @@ export default function EdupreneurLandingPage() {
     </div>
   );
 }
+
+
+
+
 
 
 
