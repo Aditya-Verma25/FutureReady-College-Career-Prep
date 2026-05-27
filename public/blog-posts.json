@@ -1,5 +1,44 @@
 [
   {
+    "slug": "how-to-build-a-weekly-sat-study-plan-that-actually-works-2026-05-27",
+    "title": "How To Build A Weekly SAT Study Plan That Actually Works",
+    "excerpt": "A practical SAT plan students can stick to without burning out or wasting hours.",
+    "topic": "SAT Prep",
+    "publishedAt": "2026-05-27",
+    "readTimeMinutes": 6,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/SAT_logo_%282017%29.svg/1280px-SAT_logo_%282017%29.svg.png",
+    "imageAttribution": "Photo via Wikimedia Commons (open license)",
+    "sections": [
+      {
+        "heading": "Start With A Baseline, Not Guesswork",
+        "points": [
+          "Take one timed diagnostic before planning anything.",
+          "Split errors by type: concept gaps, careless mistakes, or timing.",
+          "Prioritize the top 2 score blockers first."
+        ]
+      },
+      {
+        "heading": "Use A 4-Day Weekly SAT Structure",
+        "points": [
+          "Day 1: Math concepts + focused drill.",
+          "Day 2: Reading/Writing strategy + timed set.",
+          "Day 3: Mixed timed practice + review.",
+          "Day 4: Deep error analysis and corrections."
+        ]
+      },
+      {
+        "heading": "Track Progress The Smart Way",
+        "points": [
+          "Measure accuracy by question type every week.",
+          "Retake only missed question categories after review.",
+          "Aim for consistency before adding more hours."
+        ]
+      }
+    ],
+    "cta": "SAT scores improve fastest when your plan is specific, consistent, and review-heavy.",
+    "generatorKey": "sat-study-plan"
+  },
+  {
     "slug": "college-admissions-roadmap-9th-12th-grade",
     "title": "The 9th-12th Grade College Admissions Roadmap",
     "excerpt": "A practical year-by-year guide to help students stay ahead in college admissions without burning out.",
