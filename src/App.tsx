@@ -1,5 +1,30 @@
-﻿export default function EdupreneurLandingPage() {
+﻿import { useState, type FormEvent } from "react";
+export default function EdupreneurLandingPage() {
   const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setFormStatus("sending");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(formspreeEndpoint, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) throw new Error("Submission failed");
+
+      form.reset();
+      setFormStatus("success");
+    } catch {
+      setFormStatus("error");
+    }
+  }
   const services = [
     {
       title: "SAT Prep",
@@ -570,17 +595,10 @@
             </a>
           </div>
           <form
-            action={formspreeEndpoint}
-            method="POST"
+            onSubmit={handleContactSubmit}
             className="rounded-2xl bg-white/95 p-5 md:p-6 text-slate-900 shadow-lg space-y-4"
           >
-            <input type="hidden" name="_subject" value="New consultation request" />
-            <input
-              type="hidden"
-              name="_next"
-              value="https://futurereadycollegeprep.com/thank-you"
-            />
-            <div>
+            <input type="hidden" name="_subject" value="New consultation request" />            <div>
               <label htmlFor="contact-name" className="block text-sm font-bold mb-1">
                 Name
               </label>
@@ -621,10 +639,21 @@
             </div>
             <button
               type="submit"
-              className="w-full rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
+              disabled={formStatus === "sending"}
+              className="w-full rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Send Message
+              {formStatus === "sending" ? "Sending..." : "Send Message"}
             </button>
+            {formStatus === "success" && (
+              <p className="text-sm font-semibold text-green-700">
+                Thanks. Your message was sent successfully.
+              </p>
+            )}
+            {formStatus === "error" && (
+              <p className="text-sm font-semibold text-red-600">
+                Something went wrong. Please try again or email us directly.
+              </p>
+            )}
             <p className="text-xs text-slate-500">
               Reach out to us via this form. We will get back to you within 24 hours. If you don't receive a response, please check your spam folder or email us directly at <a href="mailto: futurereadycollegeprep@gmail.com" className="text-blue-700 hover:underline">
                 futurereadycollegeprep@gmail.com
@@ -636,4 +665,6 @@
     </div>
   );
 }
+
+
 
