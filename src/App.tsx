@@ -207,10 +207,10 @@ export default function EdupreneurLandingPage() {
   const achievements = [
     { value: "1500+", label: "SAT Score" },
     { value: "30+", label: "Students Mentored" },
-    { value: "Published", label: "AI Researcher" },
+    { value: "IB Diploma", label: "Graduate" },
     { value: "$200K+", label: "College Merit Scholarships Earned" },
     { value: "National Merit", label: "Commended Scholar" },
-    { value: "UMD CS", label: "Computer Science Student" },
+    { value: "University of Maryland CS", label: "Top 20 CS School" },
   ];
 
   const trustPoints = [
