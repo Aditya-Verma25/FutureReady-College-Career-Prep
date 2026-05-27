@@ -1,11 +1,29 @@
-﻿import { useState, type FormEvent } from "react";
+﻿import { useEffect, useState, type FormEvent } from "react";
+import ReactGA from "react-ga4";
+
 export default function EdupreneurLandingPage() {
   const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
+  useEffect(() => {
+    ReactGA.initialize("G-2STM34BZQ2");
+    ReactGA.send("pageview");
+  }, []);
+
+  function trackCalendlyClick() {
+    ReactGA.event({
+      category: "Consultation",
+      action: "Clicked Calendly Button",
+    });
+  }
+
   async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormStatus("sending");
+    ReactGA.event({
+      category: "Contact",
+      action: "Submitted Contact Form",
+    });
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -269,6 +287,7 @@ export default function EdupreneurLandingPage() {
             href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={trackCalendlyClick}
             className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
           >
             Book a Free Consultation
@@ -322,6 +341,7 @@ export default function EdupreneurLandingPage() {
                 href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={trackCalendlyClick}
                 className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
               >
                 Book a Free Consultation →
@@ -589,6 +609,7 @@ export default function EdupreneurLandingPage() {
               href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={trackCalendlyClick}
               className="mt-6 inline-flex rounded-xl bg-white px-7 py-4 text-blue-700 font-black shadow-md hover:bg-blue-50 transition"
             >
               Book Consultation →
@@ -665,6 +686,9 @@ export default function EdupreneurLandingPage() {
     </div>
   );
 }
+
+
+
 
 
 
