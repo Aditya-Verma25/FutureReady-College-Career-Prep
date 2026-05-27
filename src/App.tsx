@@ -314,7 +314,7 @@ export default function EdupreneurLandingPage() {
             <div className="mt-4 h-3 w-72 rounded-full bg-blue-200 rotate-[-1deg]" />
 
             <p className="mt-8 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
-              Personalized SAT prep, college application help, and academic tutoring from a current college student who has been through the same process — and knows how stressful it can feel.
+              Personalized SAT prep, college application help, and academic tutoring from a <b>current college student</b> who has been through the same process — and knows how stressful it can feel.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-4">
