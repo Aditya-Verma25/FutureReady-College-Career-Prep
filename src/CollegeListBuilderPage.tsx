@@ -218,6 +218,58 @@ function pickBalanced(
   return chosen;
 }
 
+function getSelectivityWeightForBucket(bucket: Bucket, tier: SelectivityTier): number {
+  const orderByBucket: Record<Bucket, SelectivityTier[]> = {
+    reach: ["Elite", "Highly Selective", "Selective", "Moderate", "Accessible"],
+    target: ["Selective", "Moderate", "Highly Selective", "Accessible", "Elite"],
+    likely: ["Accessible", "Moderate", "Selective", "Highly Selective", "Elite"],
+  };
+  return orderByBucket[bucket].indexOf(tier);
+}
+
+function fillBucketToCount(
+  base: RankedCollege[],
+  allRanked: RankedCollege[],
+  region: FormState["location"],
+  bucket: Bucket,
+  count: number,
+  excludedNames?: Set<string>
+): RankedCollege[] {
+  const chosen: RankedCollege[] = [];
+  const blockedNames = excludedNames ?? new Set<string>();
+
+  for (const item of base) {
+    if (chosen.length >= count) break;
+    if (blockedNames.has(item.name)) continue;
+    if (chosen.some((selected) => selected.name === item.name)) continue;
+    chosen.push(item);
+  }
+
+  if (chosen.length >= count) return chosen.slice(0, count);
+
+  const selectedNames = new Set(chosen.map((item) => item.name));
+  const fallbackPool = allRanked
+    .filter((item) => !selectedNames.has(item.name) && !blockedNames.has(item.name))
+    .sort((a, b) => {
+      const regionScoreA = region === "Anywhere" ? 0 : a.region === region ? 0 : 1;
+      const regionScoreB = region === "Anywhere" ? 0 : b.region === region ? 0 : 1;
+      if (regionScoreA !== regionScoreB) return regionScoreA - regionScoreB;
+
+      const selectivityA = getSelectivityWeightForBucket(bucket, a.selectivityTier);
+      const selectivityB = getSelectivityWeightForBucket(bucket, b.selectivityTier);
+      if (selectivityA !== selectivityB) return selectivityA - selectivityB;
+
+      return b.score - a.score;
+    });
+
+  for (const school of fallbackPool) {
+    if (chosen.length >= count) break;
+    chosen.push(school);
+  }
+
+  return chosen.slice(0, count);
+}
+
 function buildWarning(input: FormState): string | null {
   if (
     input.schoolSize === "Small" &&
@@ -260,9 +312,16 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
     const targetPool = ranked.filter((r) => r.bucket === "target");
     const likelyPool = ranked.filter((r) => r.bucket === "likely");
 
-    const reach = pickBalanced(reachPool, formState.location, 4).slice(0, 4);
-    const target = pickBalanced(targetPool, formState.location, 4).slice(0, 4);
-    const likely = pickBalanced(likelyPool, formState.location, 4).slice(0, 4);
+    const reachBase = pickBalanced(reachPool, formState.location, 4).slice(0, 4);
+    const targetBase = pickBalanced(targetPool, formState.location, 4).slice(0, 4);
+    const likelyBase = pickBalanced(likelyPool, formState.location, 4).slice(0, 4);
+
+    const usedNames = new Set<string>();
+    const reach = fillBucketToCount(reachBase, ranked, formState.location, "reach", 4, usedNames);
+    reach.forEach((item) => usedNames.add(item.name));
+    const target = fillBucketToCount(targetBase, ranked, formState.location, "target", 4, usedNames);
+    target.forEach((item) => usedNames.add(item.name));
+    const likely = fillBucketToCount(likelyBase, ranked, formState.location, "likely", 4, usedNames);
 
     return {
       tier,
@@ -368,32 +427,73 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                   <h3 className="text-xl font-black text-slate-950">{bucket.title}</h3>
                   <p className="mt-1 text-sm text-slate-600">{bucket.tone}</p>
                   <div className="mt-4 space-y-3">
-                    {bucket.items.slice(0, 4).map((item) => (
-                      <article key={`${bucket.title}-${item.name}`} className="rounded-2xl border border-blue-100 bg-white p-4">
-                        <div className="flex items-center gap-3">
-                          <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-blue-100 bg-white">
-                            <img src={item.logo} alt="" className="h-6 w-6 object-contain" onError={(e) => { e.currentTarget.style.display = "none"; }} />
-                          </span>
-                          <a href={item.website} target="_blank" rel="noopener noreferrer" className="font-bold text-blue-700 underline-offset-2 transition hover:underline hover:text-blue-800 focus:underline visited:text-violet-700">
-                            {item.name}
-                          </a>
-                        </div>
-                        <p className="mt-1 text-sm text-slate-700">{item.shortReason}</p>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {item.fitBadges.map((badge) => (
-                            <span key={`${item.name}-${badge}`} className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">{badge}</span>
-                          ))}
-                        </div>
-                        <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
-                          <p><span className="font-semibold text-slate-700">Location:</span> {item.state} ({item.region})</p>
-                          <p><span className="font-semibold text-slate-700">COA:</span> {item.costNote}</p>
-                          <p><span className="font-semibold text-slate-700">Acceptance:</span> {item.estimatedAcceptanceRate}</p>
-                          <p><span className="font-semibold text-slate-700">SAT:</span> {item.satRange}</p>
-                          <p className="col-span-2"><span className="font-semibold text-slate-700">GPA Range:</span> {item.gpaRange}</p>
-                        </div>
-                        {item.crossRegionReason && <p className="mt-2 text-xs text-amber-700">{item.crossRegionReason}</p>}
-                      </article>
-                    ))}
+                    {Array.from({ length: 4 }).map((_, index) => {
+                      const item = bucket.items[index];
+                      const isLocked = index >= 2;
+
+                      if (!item) {
+                        return (
+                          <article key={`${bucket.title}-fallback-${index}`} className="rounded-2xl border border-blue-100 bg-white p-4">
+                            <p className="text-sm font-semibold text-slate-700">More recommendations available in a 1-on-1 strategy call.</p>
+                            <a
+                              href={CONSULTATION_URL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={trackCalendlyClick}
+                              className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
+                            >
+                              Book a meeting to unlock more
+                            </a>
+                          </article>
+                        );
+                      }
+
+                      return (
+                        <article key={`${bucket.title}-${item.name}-${index}`} className="relative rounded-2xl border border-blue-100 bg-white p-4">
+                          <div className={isLocked ? "pointer-events-none select-none blur-[3px]" : ""}>
+                            <div className="flex items-center gap-3">
+                              <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-blue-100 bg-white">
+                                <img src={item.logo} alt="" className="h-6 w-6 object-contain" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                              </span>
+                              <a href={item.website} target="_blank" rel="noopener noreferrer" className="font-bold text-blue-700 underline-offset-2 transition hover:underline hover:text-blue-800 focus:underline visited:text-violet-700">
+                                {item.name}
+                              </a>
+                            </div>
+                            <p className="mt-1 text-sm text-slate-700">{item.shortReason}</p>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              {item.fitBadges.map((badge) => (
+                                <span key={`${item.name}-${badge}`} className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">{badge}</span>
+                              ))}
+                            </div>
+                            <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
+                              <p><span className="font-semibold text-slate-700">Location:</span> {item.state} ({item.region})</p>
+                              <p><span className="font-semibold text-slate-700">COA:</span> {item.costNote}</p>
+                              <p><span className="font-semibold text-slate-700">Acceptance:</span> {item.estimatedAcceptanceRate}</p>
+                              <p><span className="font-semibold text-slate-700">SAT:</span> {item.satRange}</p>
+                              <p className="col-span-2"><span className="font-semibold text-slate-700">GPA Range:</span> {item.gpaRange}</p>
+                            </div>
+                            {item.crossRegionReason && <p className="mt-2 text-xs text-amber-700">{item.crossRegionReason}</p>}
+                          </div>
+
+                          {isLocked && (
+                            <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/70 p-4 text-center">
+                              <div>
+                                <p className="text-sm font-semibold text-slate-800">Want the rest of your personalized list?</p>
+                                <a
+                                  href={CONSULTATION_URL}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={trackCalendlyClick}
+                                  className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
+                                >
+                                  Book a meeting to unlock these schools
+                                </a>
+                              </div>
+                            </div>
+                          )}
+                        </article>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
