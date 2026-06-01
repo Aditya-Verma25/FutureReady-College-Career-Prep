@@ -1,12 +1,14 @@
-﻿import { useEffect, useState, type FormEvent } from "react";
+﻿import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
 import SatPage from "./SatPage";
 import CollegeAppsPage from "./CollegeAppsPage";
 import TutoringPage from "./TutoringPage";
 import BlogsHubPage from "./BlogsHubPage";
 import CollegeAdmissionsArticlePage from "./CollegeAdmissionsArticlePage";
+import CollegeListBuilderPage from "./CollegeListBuilderPage";
 import type { BlogPost } from "./BlogsHubPage";
 import EarlyBirdPopup from "./EarlyBirdPopup";
+import SiteFooter from "./SiteFooter";
 
 export default function EdupreneurLandingPage() {
   const consultationUrl =
@@ -314,27 +316,36 @@ export default function EdupreneurLandingPage() {
   ];
 
   const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P. (Student)"];
+  const renderWithFooter = (content: ReactNode) => (
+    <>
+      {content}
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={trackCalendlyClick} />
+    </>
+  );
 
   if (hashPath === "#/sat") {
-    return <SatPage onBack={() => (window.location.hash = "")} />;
+    return renderWithFooter(<SatPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/college-apps") {
-    return <CollegeAppsPage onBack={() => (window.location.hash = "")} />;
+    return renderWithFooter(<CollegeAppsPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/tutoring") {
-    return <TutoringPage onBack={() => (window.location.hash = "")} />;
+    return renderWithFooter(<TutoringPage onBack={() => (window.location.hash = "")} />);
+  }
+  if (hashPath === "#/college-list-builder") {
+    return renderWithFooter(<CollegeListBuilderPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/blogs") {
-    return <BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />;
+    return renderWithFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
   }
   if (hashPath.startsWith("#/blogs/")) {
     const slug = hashPath.replace("#/blogs/", "");
     const post = blogPosts.find((item) => item.slug === slug);
     if (!post) {
-      return <BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />;
+      return renderWithFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
     }
 
-    return (
+    return renderWithFooter(
       <CollegeAdmissionsArticlePage
         post={post}
         onBackHome={() => (window.location.hash = "")}
@@ -392,6 +403,9 @@ export default function EdupreneurLandingPage() {
               </a>
               <a href="#testimonials" className="hover:text-blue-700 transition">
                 Testimonials
+              </a>
+              <a href="#/college-list-builder" className="hover:text-blue-700 transition">
+                College List Builder
               </a>
             <a href="/blog/" className="hover:text-blue-700 transition">
               Blog
@@ -498,11 +512,11 @@ export default function EdupreneurLandingPage() {
             <div className="absolute -inset-6 bg-blue-200/50 blur-3xl rounded-full" />
             <div className="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
-                <div className="rounded-2xl bg-white border border-slate-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
+                <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
                   <p className="text-slate-800 leading-relaxed">
                     Invest in your child's future today. 
                   </p>
-                  <div className="text-right text-xl mt-2">♡</div>
+                  <div className="text-right text-xl mt-2 text-red-500">❤️</div>
                 </div>
 
                 <div className="bg-white/85 backdrop-blur rounded-3xl border border-slate-200 shadow-lg p-6 max-w-md ml-auto">
@@ -818,9 +832,12 @@ export default function EdupreneurLandingPage() {
         }}
         reserveUrl={consultationUrl}
       />
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={trackCalendlyClick} />
     </div>
   );
 }
+
+
 
 
 

@@ -1,0 +1,421 @@
+import { useMemo, useState, type FormEvent } from "react";
+import ReactGA from "react-ga4";
+
+type CollegeListBuilderPageProps = { onBack: () => void };
+type Region = "West Coast" | "East Coast" | "Midwest" | "South";
+type PublicPrivate = "Public" | "Private";
+type SchoolSize = "Small" | "Medium" | "Large";
+type MajorArea =
+  | "Computer Science / Engineering"
+  | "Business"
+  | "Health / Pre-Med"
+  | "Social Sciences"
+  | "Humanities"
+  | "Undecided";
+type CampusVibe =
+  | "Competitive / research-focused"
+  | "Balanced academics and social life"
+  | "Supportive / collaborative"
+  | "Big school spirit";
+type SelectivityTier = "Elite" | "Highly Selective" | "Selective" | "Moderate" | "Accessible";
+type MeritAidStrength = "Strong" | "Moderate" | "Limited";
+type AcademicTier = "Very Strong" | "Strong" | "Solid" | "Developing" | "Unknown";
+type Bucket = "reach" | "target" | "likely";
+
+type FormState = {
+  grade: "9th" | "10th" | "11th" | "12th";
+  gpa: "Below 3.0" | "3.0–3.4" | "3.5–3.7" | "3.8–4.0";
+  testStatus:
+    | "Haven't taken yet"
+    | "Below 1200 SAT / below 25 ACT"
+    | "1200–1350 SAT / 25–30 ACT"
+    | "1360–1450 SAT / 31–33 ACT"
+    | "1460+ SAT / 34+ ACT"
+    | "Test optional";
+  studyArea: MajorArea;
+  location: Region | "Anywhere";
+  schoolSize: SchoolSize | "No preference";
+  budget:
+    | "Need strong merit scholarships"
+    | "In-state/public options preferred"
+    | "Flexible"
+    | "Not sure yet";
+  vibe: CampusVibe | "No preference";
+};
+
+type College = {
+  name: string;
+  region: Region;
+  state: string;
+  publicPrivate: PublicPrivate;
+  size: SchoolSize;
+  strengths: MajorArea[];
+  vibe: CampusVibe[];
+  selectivityTier: SelectivityTier;
+  estimatedAcceptanceRate: string;
+  satRange: string;
+  gpaRange: string;
+  costNote: string;
+  meritAidStrength: MeritAidStrength;
+  shortReason: string;
+  website: string;
+  logo: string;
+};
+
+type RankedCollege = College & {
+  score: number;
+  bucket: Bucket;
+  fitBadges: string[];
+  crossRegionReason?: string;
+};
+
+const CONSULTATION_URL = "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
+
+const COLLEGES: College[] = [
+  { name: "University of Maryland", region: "East Coast", state: "MD", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~45%", satRange: "1340–1510", gpaRange: "4.0+ weighted", costNote: "~$31k in-state / ~$56k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong CS and engineering with major research opportunities.", website: "https://www.umd.edu/", logo: "https://www.google.com/s2/favicons?domain=umd.edu&sz=128" },
+  { name: "Virginia Tech", region: "East Coast", state: "VA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Big school spirit"], selectivityTier: "Selective", estimatedAcceptanceRate: "~57%", satRange: "1240–1430", gpaRange: "3.8–4.0", costNote: "~$31k in-state / ~$53k out-of-state", meritAidStrength: "Moderate", shortReason: "Well-known engineering culture and school spirit.", website: "https://www.vt.edu/", logo: "https://www.google.com/s2/favicons?domain=vt.edu&sz=128" },
+  { name: "Rutgers", region: "East Coast", state: "NJ", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med", "Social Sciences"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~66%", satRange: "1270–1480", gpaRange: "3.7–4.0", costNote: "~$38k in-state / ~$57k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong public option with broad academics.", website: "https://www.rutgers.edu/", logo: "https://www.google.com/s2/favicons?domain=rutgers.edu&sz=128" },
+  { name: "Penn State", region: "East Coast", state: "PA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med"], vibe: ["Big school spirit", "Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~55%", satRange: "1220–1400", gpaRange: "3.6–3.9", costNote: "~$38k in-state / ~$58k out-of-state", meritAidStrength: "Moderate", shortReason: "Large-school resources and strong alumni network.", website: "https://www.psu.edu/", logo: "https://www.google.com/s2/favicons?domain=psu.edu&sz=128" },
+  { name: "UMass Amherst", region: "East Coast", state: "MA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Social Sciences"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~64%", satRange: "1240–1450", gpaRange: "3.7–4.0", costNote: "~$36k in-state / ~$59k out-of-state", meritAidStrength: "Strong", shortReason: "Great value with strong academics, including CS.", website: "https://www.umass.edu/", logo: "https://www.google.com/s2/favicons?domain=umass.edu&sz=128" },
+  { name: "Northeastern", region: "East Coast", state: "MA", publicPrivate: "Private", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~7%", satRange: "1460–1540", gpaRange: "4.1+ weighted", costNote: "~$88k", meritAidStrength: "Limited", shortReason: "Career-focused co-op model with strong CS/business.", website: "https://www.northeastern.edu/", logo: "https://www.google.com/s2/favicons?domain=northeastern.edu&sz=128" },
+  { name: "Boston University", region: "East Coast", state: "MA", publicPrivate: "Private", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med", "Humanities"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~11%", satRange: "1400–1520", gpaRange: "3.9–4.1 weighted", costNote: "~$87k", meritAidStrength: "Moderate", shortReason: "Strong academics with urban opportunities.", website: "https://www.bu.edu/", logo: "https://www.google.com/s2/favicons?domain=bu.edu&sz=128" },
+  { name: "Drexel", region: "East Coast", state: "PA", publicPrivate: "Private", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~79%", satRange: "1200–1420", gpaRange: "3.5–3.9", costNote: "~$79k", meritAidStrength: "Strong", shortReason: "Co-op pathways and practical career outcomes.", website: "https://drexel.edu/", logo: "https://www.google.com/s2/favicons?domain=drexel.edu&sz=128" },
+  { name: "RIT", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Medium", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Supportive / collaborative"], selectivityTier: "Selective", estimatedAcceptanceRate: "~67%", satRange: "1280–1460", gpaRange: "3.7–4.0", costNote: "~$76k", meritAidStrength: "Strong", shortReason: "Tech-heavy campus with strong co-op culture.", website: "https://www.rit.edu/", logo: "https://www.google.com/s2/favicons?domain=rit.edu&sz=128" },
+  { name: "Stony Brook", region: "East Coast", state: "NY", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Health / Pre-Med"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~49%", satRange: "1300–1480", gpaRange: "3.8–4.0", costNote: "~$31k in-state / ~$51k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong STEM value option on the East Coast.", website: "https://www.stonybrook.edu/", logo: "https://www.google.com/s2/favicons?domain=stonybrook.edu&sz=128" },
+  { name: "University of Pittsburgh", region: "East Coast", state: "PA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Health / Pre-Med", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~49%", satRange: "1250–1440", gpaRange: "3.7–4.0", costNote: "~$39k in-state / ~$59k out-of-state", meritAidStrength: "Moderate", shortReason: "Balanced academics with strong health and STEM pathways.", website: "https://www.pitt.edu/", logo: "https://www.google.com/s2/favicons?domain=pitt.edu&sz=128" },
+  { name: "University of Delaware", region: "East Coast", state: "DE", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~72%", satRange: "1160–1350", gpaRange: "3.5–3.9", costNote: "~$34k in-state / ~$56k out-of-state", meritAidStrength: "Strong", shortReason: "Solid public option with strong merit possibilities.", website: "https://www.udel.edu/", logo: "https://www.google.com/s2/favicons?domain=udel.edu&sz=128" },
+  { name: "Temple", region: "East Coast", state: "PA", publicPrivate: "Public", size: "Large", strengths: ["Business", "Health / Pre-Med", "Social Sciences", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~80%", satRange: "1080–1320", gpaRange: "3.3–3.8", costNote: "~$35k in-state / ~$53k out-of-state", meritAidStrength: "Strong", shortReason: "Accessible urban public university with broad options.", website: "https://www.temple.edu/", logo: "https://www.google.com/s2/favicons?domain=temple.edu&sz=128" },
+  { name: "University of Washington", region: "West Coast", state: "WA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Health / Pre-Med"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~48%", satRange: "1220–1480", gpaRange: "3.8–4.0", costNote: "~$33k in-state / ~$62k out-of-state", meritAidStrength: "Limited", shortReason: "Top West Coast research university with strong tech ties.", website: "https://www.washington.edu/", logo: "https://www.google.com/s2/favicons?domain=washington.edu&sz=128" },
+  { name: "UC Irvine", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~26%", satRange: "1250–1500", gpaRange: "3.9–4.0", costNote: "~$43k in-state / ~$73k out-of-state", meritAidStrength: "Limited", shortReason: "Strong STEM and business profile in SoCal.", website: "https://www.uci.edu/", logo: "https://www.google.com/s2/favicons?domain=uci.edu&sz=128" },
+  { name: "UC Davis", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Health / Pre-Med"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~37%", satRange: "1230–1450", gpaRange: "3.9–4.0", costNote: "~$44k in-state / ~$74k out-of-state", meritAidStrength: "Limited", shortReason: "Strong STEM and pre-health environment.", website: "https://www.ucdavis.edu/", logo: "https://www.google.com/s2/favicons?domain=ucdavis.edu&sz=128" },
+  { name: "Cal Poly SLO", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Medium", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~30%", satRange: "1240–1440", gpaRange: "3.9–4.1 weighted", costNote: "~$31k in-state / ~$49k out-of-state", meritAidStrength: "Moderate", shortReason: "Hands-on engineering and CS outcomes.", website: "https://www.calpoly.edu/", logo: "https://www.google.com/s2/favicons?domain=calpoly.edu&sz=128" },
+  { name: "Purdue", region: "Midwest", state: "IN", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~53%", satRange: "1190–1460", gpaRange: "3.6–3.9", costNote: "~$26k in-state / ~$45k out-of-state", meritAidStrength: "Moderate", shortReason: "Nationally known engineering and CS pathways.", website: "https://www.purdue.edu/", logo: "https://www.google.com/s2/favicons?domain=purdue.edu&sz=128" },
+  { name: "UIUC", region: "Midwest", state: "IL", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~45%", satRange: "1340–1530", gpaRange: "3.8–4.0", costNote: "~$37k in-state / ~$57k out-of-state", meritAidStrength: "Limited", shortReason: "Highly ranked CS and engineering programs.", website: "https://illinois.edu/", logo: "https://www.google.com/s2/favicons?domain=illinois.edu&sz=128" },
+  { name: "Ohio State", region: "Midwest", state: "OH", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med"], vibe: ["Big school spirit", "Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~53%", satRange: "1280–1460", gpaRange: "3.7–4.0", costNote: "~$30k in-state / ~$55k out-of-state", meritAidStrength: "Moderate", shortReason: "Large campus resources and strong academics.", website: "https://www.osu.edu/", logo: "https://www.google.com/s2/favicons?domain=osu.edu&sz=128" },
+  { name: "University of Minnesota", region: "Midwest", state: "MN", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Health / Pre-Med"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~75%", satRange: "1310–1480", gpaRange: "3.7–4.0", costNote: "~$33k in-state / ~$54k out-of-state", meritAidStrength: "Moderate", shortReason: "Research-driven public with broad STEM options.", website: "https://twin-cities.umn.edu/", logo: "https://www.google.com/s2/favicons?domain=umn.edu&sz=128" },
+  { name: "NC State", region: "South", state: "NC", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~47%", satRange: "1270–1450", gpaRange: "3.7–4.0", costNote: "~$26k in-state / ~$51k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong technical programs with practical focus.", website: "https://www.ncsu.edu/", logo: "https://www.google.com/s2/favicons?domain=ncsu.edu&sz=128" },
+  { name: "University of Florida", region: "South", state: "FL", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med"], vibe: ["Competitive / research-focused", "Big school spirit"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~24%", satRange: "1330–1490", gpaRange: "4.0+ weighted", costNote: "~$23k in-state / ~$46k out-of-state", meritAidStrength: "Limited", shortReason: "High-value, high-performing public flagship.", website: "https://www.ufl.edu/", logo: "https://www.google.com/s2/favicons?domain=ufl.edu&sz=128" },
+];
+
+function getAcademicTier(input: FormState): AcademicTier {
+  const isUnknown = input.testStatus === "Haven't taken yet" || input.testStatus === "Test optional";
+  if (input.gpa === "3.8–4.0" && input.testStatus === "1460+ SAT / 34+ ACT") return "Very Strong";
+  if (
+    (input.gpa === "3.8–4.0" && input.testStatus === "1360–1450 SAT / 31–33 ACT") ||
+    (input.gpa === "3.5–3.7" && (input.testStatus === "1360–1450 SAT / 31–33 ACT" || input.testStatus === "1460+ SAT / 34+ ACT"))
+  ) return "Strong";
+  if (input.gpa === "3.0–3.4" && input.testStatus === "1200–1350 SAT / 25–30 ACT") return "Solid";
+  if (input.gpa === "Below 3.0" || input.testStatus === "Below 1200 SAT / below 25 ACT") return "Developing";
+  if (isUnknown) return "Unknown";
+  return "Solid";
+}
+
+function bucketFromTier(tier: AcademicTier, schoolTier: SelectivityTier): Bucket {
+  if (tier === "Very Strong") {
+    if (schoolTier === "Elite") return "reach";
+    if (schoolTier === "Highly Selective") return "reach";
+    if (schoolTier === "Selective") return "target";
+    return "likely";
+  }
+  if (tier === "Strong") {
+    if (schoolTier === "Elite" || schoolTier === "Highly Selective") return "reach";
+    if (schoolTier === "Selective") return "target";
+    return "likely";
+  }
+  if (tier === "Solid") {
+    if (schoolTier === "Elite" || schoolTier === "Highly Selective") return "reach";
+    if (schoolTier === "Selective") return "target";
+    if (schoolTier === "Moderate") return "target";
+    return "likely";
+  }
+  if (tier === "Developing") {
+    if (schoolTier === "Accessible") return "likely";
+    if (schoolTier === "Moderate") return "target";
+    return "reach";
+  }
+  if (schoolTier === "Elite" || schoolTier === "Highly Selective") return "reach";
+  if (schoolTier === "Selective") return "target";
+  return "likely";
+}
+
+function majorPenaltyOrBoost(college: College, major: MajorArea): number {
+  if (major === "Undecided") return 10;
+  return college.strengths.includes(major) ? 35 : -25;
+}
+
+function academicFitScore(tier: AcademicTier, college: College): number {
+  const bucket = bucketFromTier(tier, college.selectivityTier);
+  if (bucket === "target") return 25;
+  if (bucket === "reach") return 14;
+  return 18;
+}
+
+function buildBadges(college: College, input: FormState): string[] {
+  const badges = [college.region, college.publicPrivate, `${college.size} Campus`];
+  if (input.studyArea !== "Undecided" && college.strengths.includes(input.studyArea)) {
+    badges.push(`Strong ${input.studyArea}`);
+  }
+  if (college.meritAidStrength === "Strong" || college.meritAidStrength === "Moderate") {
+    badges.push("Merit Aid Potential");
+  }
+  if (college.vibe.includes("Competitive / research-focused")) badges.push("Research-Focused");
+  if (college.vibe.includes("Big school spirit")) badges.push("School Spirit");
+  return badges.slice(0, 6);
+}
+
+function scoreCollege(college: College, input: FormState, tier: AcademicTier): RankedCollege {
+  let score = 0;
+  score += majorPenaltyOrBoost(college, input.studyArea);
+
+  if (input.location === "Anywhere") score += 10;
+  else if (college.region === input.location) score += 25;
+  else score -= 20;
+
+  if (input.budget === "In-state/public options preferred") {
+    score += college.publicPrivate === "Public" ? 20 : -10;
+  }
+  if (input.budget === "Need strong merit scholarships") {
+    if (college.meritAidStrength === "Strong") score += 20;
+    else if (college.meritAidStrength === "Moderate") score += 10;
+  }
+
+  if (input.schoolSize !== "No preference") {
+    score += college.size === input.schoolSize ? 10 : 0;
+  }
+  if (input.vibe !== "No preference") {
+    score += college.vibe.includes(input.vibe) ? 10 : 0;
+  }
+
+  score += academicFitScore(tier, college);
+
+  const bucket = bucketFromTier(tier, college.selectivityTier);
+  const badges = buildBadges(college, input);
+
+  return { ...college, score, bucket, fitBadges: badges };
+}
+
+function pickBalanced(
+  candidates: RankedCollege[],
+  region: FormState["location"],
+  count: number
+): RankedCollege[] {
+  const sorted = [...candidates].sort((a, b) => b.score - a.score);
+  if (region === "Anywhere") return sorted.slice(0, count);
+
+  const inRegion = sorted.filter((s) => s.region === region);
+  const outRegion = sorted.filter((s) => s.region !== region);
+  const minRegional = Math.min(inRegion.length, Math.ceil(count * 0.75));
+  const chosen = [...inRegion.slice(0, minRegional)];
+  const fillPool = [...inRegion.slice(minRegional), ...outRegion];
+
+  for (const school of fillPool) {
+    if (chosen.length >= count) break;
+    if (school.region !== region) {
+      school.crossRegionReason = "Included as an extra strong overall fit beyond your region preference.";
+    }
+    chosen.push(school);
+  }
+  return chosen;
+}
+
+function buildWarning(input: FormState): string | null {
+  if (
+    input.schoolSize === "Small" &&
+    input.budget === "In-state/public options preferred" &&
+    input.studyArea === "Computer Science / Engineering" &&
+    input.location !== "Anywhere"
+  ) {
+    return "Note: Small public universities with strong CS/Engineering programs are less common, so this list may include some medium or large schools that better match your academic/program preferences.";
+  }
+  return null;
+}
+
+function buildSummary(input: FormState, tier: AcademicTier): string {
+  const budgetText =
+    input.budget === "In-state/public options preferred"
+      ? "public-school budget preference"
+      : input.budget === "Need strong merit scholarships"
+      ? "merit-scholarship focus"
+      : "current budget preference";
+  return `Based on your ${input.gpa} GPA, ${input.testStatus} profile (${tier}), ${input.studyArea} interest, ${input.location} preference, and ${budgetText}, this list prioritizes best-fit starter options with balanced reach, target, and likely choices.`;
+}
+
+export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPageProps) {
+  const [submitted, setSubmitted] = useState(false);
+  const [formState, setFormState] = useState<FormState>({
+    grade: "11th",
+    gpa: "3.5–3.7",
+    testStatus: "1200–1350 SAT / 25–30 ACT",
+    studyArea: "Undecided",
+    location: "Anywhere",
+    schoolSize: "No preference",
+    budget: "Not sure yet",
+    vibe: "No preference",
+  });
+
+  const computed = useMemo(() => {
+    const tier = getAcademicTier(formState);
+    const ranked = COLLEGES.map((c) => scoreCollege(c, formState, tier));
+    const reachPool = ranked.filter((r) => r.bucket === "reach");
+    const targetPool = ranked.filter((r) => r.bucket === "target");
+    const likelyPool = ranked.filter((r) => r.bucket === "likely");
+
+    const reach = pickBalanced(reachPool, formState.location, 4).slice(0, 4);
+    const target = pickBalanced(targetPool, formState.location, 4).slice(0, 4);
+    const likely = pickBalanced(likelyPool, formState.location, 4).slice(0, 4);
+
+    return {
+      tier,
+      warning: buildWarning(formState),
+      summary: buildSummary(formState, tier),
+      buckets: [
+        { title: "Possible Reach Schools", tone: "Aspirational options that may require a strong overall application.", items: reach },
+        { title: "Potential Target Schools", tone: "Balanced-fit schools based on your current profile and preferences.", items: target },
+        { title: "Likely / Safer-Fit Options", tone: "Stronger-fit options to help keep your final list practical and balanced.", items: likely },
+      ],
+    };
+  }, [formState]);
+
+  function trackCalendlyClick() {
+    ReactGA.event({ category: "Consultation", action: "Clicked Calendly Button" });
+  }
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitted(true);
+  }
+
+  const selectClassName =
+    "mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-200";
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#f7fbff] via-blue-50 to-indigo-50 text-slate-900">
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <button type="button" onClick={onBack} className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-blue-300">
+          ← Back to Home
+        </button>
+
+        <section className="mt-6 rounded-[2rem] border border-blue-200 bg-gradient-to-r from-white to-blue-50 p-8 shadow-xl md:p-10">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-blue-700">FutureReady Tool</p>
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">Build Your Starter College List</h1>
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
+            Answer a few quick questions and get a personalized starting point for reach, target, and likely schools.
+          </p>
+        </section>
+
+        <section className="mt-6 rounded-[2rem] border border-blue-200 bg-white/95 p-6 shadow-sm md:p-8">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-black text-slate-950">College List Builder</h2>
+            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">Step 1 of 1</span>
+          </div>
+
+          <form onSubmit={handleSubmit} className="grid gap-5 md:grid-cols-2">
+            <label className="text-sm font-semibold text-slate-700">Student grade level
+              <select className={selectClassName} value={formState.grade} onChange={(e) => setFormState((p) => ({ ...p, grade: e.target.value as FormState["grade"] }))}>
+                <option>9th</option><option>10th</option><option>11th</option><option>12th</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700">GPA range
+              <select className={selectClassName} value={formState.gpa} onChange={(e) => setFormState((p) => ({ ...p, gpa: e.target.value as FormState["gpa"] }))}>
+                <option>Below 3.0</option><option>3.0–3.4</option><option>3.5–3.7</option><option>3.8–4.0</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700 md:col-span-2">SAT/ACT status
+              <select className={selectClassName} value={formState.testStatus} onChange={(e) => setFormState((p) => ({ ...p, testStatus: e.target.value as FormState["testStatus"] }))}>
+                <option>Haven't taken yet</option><option>Below 1200 SAT / below 25 ACT</option><option>1200–1350 SAT / 25–30 ACT</option><option>1360–1450 SAT / 31–33 ACT</option><option>1460+ SAT / 34+ ACT</option><option>Test optional</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700">Intended area of study
+              <select className={selectClassName} value={formState.studyArea} onChange={(e) => setFormState((p) => ({ ...p, studyArea: e.target.value as FormState["studyArea"] }))}>
+                <option>Computer Science / Engineering</option><option>Business</option><option>Health / Pre-Med</option><option>Social Sciences</option><option>Humanities</option><option>Undecided</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700">Location preference
+              <select className={selectClassName} value={formState.location} onChange={(e) => setFormState((p) => ({ ...p, location: e.target.value as FormState["location"] }))}>
+                <option>West Coast</option><option>East Coast</option><option>Midwest</option><option>South</option><option>Anywhere</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700">School size preference
+              <select className={selectClassName} value={formState.schoolSize} onChange={(e) => setFormState((p) => ({ ...p, schoolSize: e.target.value as FormState["schoolSize"] }))}>
+                <option>Small</option><option>Medium</option><option>Large</option><option>No preference</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700">Budget / scholarship importance
+              <select className={selectClassName} value={formState.budget} onChange={(e) => setFormState((p) => ({ ...p, budget: e.target.value as FormState["budget"] }))}>
+                <option>Need strong merit scholarships</option><option>In-state/public options preferred</option><option>Flexible</option><option>Not sure yet</option>
+              </select>
+            </label>
+            <label className="text-sm font-semibold text-slate-700 md:col-span-2">Campus vibe
+              <select className={selectClassName} value={formState.vibe} onChange={(e) => setFormState((p) => ({ ...p, vibe: e.target.value as FormState["vibe"] }))}>
+                <option>Competitive / research-focused</option><option>Balanced academics and social life</option><option>Supportive / collaborative</option><option>Big school spirit</option><option>No preference</option>
+              </select>
+            </label>
+            <div className="md:col-span-2">
+              <button type="submit" className="rounded-xl bg-blue-700 px-7 py-3 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition">
+                Generate My Starter List
+              </button>
+            </div>
+          </form>
+        </section>
+
+        {submitted && (
+          <section className="mt-6">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 text-sm text-slate-700">{computed.summary}</div>
+            {computed.warning && <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">{computed.warning}</div>}
+
+            <div className="mt-5 grid gap-5 lg:grid-cols-3">
+              {computed.buckets.map((bucket) => (
+                <div key={bucket.title} className="rounded-[1.5rem] border border-blue-200 bg-gradient-to-b from-white to-blue-50/50 p-6 shadow-sm">
+                  <h3 className="text-xl font-black text-slate-950">{bucket.title}</h3>
+                  <p className="mt-1 text-sm text-slate-600">{bucket.tone}</p>
+                  <div className="mt-4 space-y-3">
+                    {bucket.items.slice(0, 4).map((item) => (
+                      <article key={`${bucket.title}-${item.name}`} className="rounded-2xl border border-blue-100 bg-white p-4">
+                        <div className="flex items-center gap-3">
+                          <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-blue-100 bg-white">
+                            <img src={item.logo} alt="" className="h-6 w-6 object-contain" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                          </span>
+                          <a href={item.website} target="_blank" rel="noopener noreferrer" className="font-bold text-blue-700 underline-offset-2 transition hover:underline hover:text-blue-800 focus:underline visited:text-violet-700">
+                            {item.name}
+                          </a>
+                        </div>
+                        <p className="mt-1 text-sm text-slate-700">{item.shortReason}</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {item.fitBadges.map((badge) => (
+                            <span key={`${item.name}-${badge}`} className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">{badge}</span>
+                          ))}
+                        </div>
+                        <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
+                          <p><span className="font-semibold text-slate-700">Location:</span> {item.state} ({item.region})</p>
+                          <p><span className="font-semibold text-slate-700">COA:</span> {item.costNote}</p>
+                          <p><span className="font-semibold text-slate-700">Acceptance:</span> {item.estimatedAcceptanceRate}</p>
+                          <p><span className="font-semibold text-slate-700">SAT:</span> {item.satRange}</p>
+                          <p className="col-span-2"><span className="font-semibold text-slate-700">GPA Range:</span> {item.gpaRange}</p>
+                        </div>
+                        {item.crossRegionReason && <p className="mt-2 text-xs text-amber-700">{item.crossRegionReason}</p>}
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+              <p className="text-sm text-slate-600">
+                This tool is for brainstorming only and does not predict admissions outcomes. A strong final college list should consider grades, rigor, activities, essays, finances, and personal fit.
+              </p>
+              <p className="mt-2 text-xs text-slate-500">
+                Cost, acceptance rate, SAT, and GPA ranges are approximate and can change year to year.
+              </p>
+              <h4 className="mt-4 text-2xl font-black text-slate-950">Want help refining this into a real college list?</h4>
+              <div className="mt-4 flex flex-wrap items-center gap-4">
+                <a href={CONSULTATION_URL} target="_blank" rel="noopener noreferrer" onClick={trackCalendlyClick} className="inline-flex rounded-xl bg-blue-700 px-6 py-3 text-white font-bold shadow-md hover:bg-blue-800 transition">
+                  Book a Free Consultation
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}
