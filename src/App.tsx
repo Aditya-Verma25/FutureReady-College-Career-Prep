@@ -159,7 +159,7 @@ export default function EdupreneurLandingPage() {
       name: "Purdue",
       shortName: "PU",
       logo: "https://www.google.com/s2/favicons?domain=purdue.edu&sz=128",
-      color: "bg-yellow-100 text-yellow-900 border-yellow-200",
+      color: "bg-slate-100 text-slate-900 border-slate-200",
     },
     {
       name: "UIUC",
@@ -218,8 +218,8 @@ export default function EdupreneurLandingPage() {
     {
       name: "UC Santa Barbara",
       shortName: "UCSB",
-      logo: "https://www.google.com/s2/favicons?domain=ucsb.edu&sz=128",
-      color: "bg-yellow-100 text-yellow-900 border-yellow-200",
+      logo: "data:image/png;base64,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",
+      color: "bg-white text-slate-900 border-slate-200",
     },
     {
       name: "UC Santa Cruz",
@@ -248,49 +248,48 @@ export default function EdupreneurLandingPage() {
     {
       name: "University of Minnesota",
       shortName: "UMN",
-      logo: "https://www.google.com/s2/favicons?domain=umn.edu&sz=128",
-      color: "bg-yellow-100 text-yellow-900 border-yellow-200",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/6/6a/University_of_Minnesota_Logo.svg",
+      color: "bg-slate-100 text-slate-900 border-slate-200",
     },
   ];
 
-  const heroLogoPositions = [
-   "top-4 left-[49%] w-28 rotate-[-5deg]", // Purdue
-    "top-14 left-[58%] w-24 rotate-[3deg]", // UCI
-    "top-8 left-[68%] w-24 rotate-[-2deg]", // Maryland
-    "top-10 right-[19%] w-28 rotate-[2deg]", // UNC
-    "top-20 right-[10%] w-24 rotate-[-1deg]", // UIUC
-    "top-38 right-[6%] w-20 rotate-[4deg]", // UW
-    "bottom-18 left-[59%] w-16 rotate-[2deg]", // UCSB
-    "top-64 right-[18%] w-18 rotate-[2deg]", // UCSC
+  const heroLogoPositionsByShortName: Record<string, string> = {
+    PU: "top-[6%] left-[51%] w-24 rotate-[-6deg]",
+    UIUC: "top-[11%] left-[60%] w-24 rotate-[4deg]",
+    UMD: "top-[8%] right-[25%] w-24 rotate-[-3deg]",
+    UNC: "top-[12%] right-[15%] w-24 rotate-[3deg]",
+    UW: "top-[20%] right-[8%] w-20 rotate-[-2deg]",
+    UCI: "top-[31%] right-[5%] w-20 rotate-[5deg]",
+    VT: "top-[21%] left-[45%] w-16 rotate-[1deg]",
+    OSU: "top-[57%] right-[6%] w-16 rotate-[-3deg]",
+    UMass: "bottom-[15%] right-[9%] w-16 rotate-[2deg]",
+    PSU: "bottom-[17%] right-[16%] w-16 rotate-[-4deg]",
+    UMN: "bottom-[8%] right-[24%] w-16 rotate-[1deg]",
+    UCSB: "bottom-[5%] right-[35%] w-16 rotate-[3deg]",
+    UCSC: "bottom-[15%] left-[66%] w-16 rotate-[1deg]",
+    UCD: "top-[45%] left-[46%] w-16 rotate-[-4deg]",
+    "Cal Poly": "top-[62%] left-[46%] w-16 rotate-[2deg]",
+    SDSU: "bottom-[18%] left-[55%] w-16 rotate-[-1deg]",
+  };
 
-     "bottom-10 left-[69%] w-16 rotate-[-1deg]", // Minnesota
-    "bottom-14 right-[16%] w-16 rotate-[1deg]", // VT
-    "bottom-8 right-[26%] w-16 rotate-[3deg]", // UMass
-    "bottom-28 right-[8%] w-16 rotate-[-2deg]", // UC Davis
-    "top-52 right-[11%] w-18 rotate-[-3deg]", // SDSU
-    "bottom-28 left-[50%] w-16 rotate-[-3deg]", // PSU
-    "top-[57%] left-[45%] w-16 rotate-[1deg]", // Cal Poly
-    "top-[38%] left-[44%] w-16 rotate-[-2deg]", // OSU
-  ];
-
-  const heroLogoPriorityClasses = [
-    "opacity-[0.52] scale-110", // Purdue
-    "opacity-[0.5] scale-105", // UCI
-    "opacity-[0.47] scale-105", // Maryland
-    "opacity-[0.46] scale-105", // UNC
-    "opacity-[0.35]", // UIUC
-    "opacity-[0.32]", // UW
-    "opacity-[0.3]", // UCSB
-    "opacity-[0.28]", // UCSC
-    "opacity-[0.26]", // UC Davis
-    "opacity-[0.24]", // Minnesota
-    "opacity-[0.22]", // VT
-    "opacity-[0.2]", // UMass
-    "opacity-[0.2]", // SDSU
-    "opacity-[0.22]", // PSU
-    "opacity-[0.24]", // Cal Poly
-    "opacity-[0.34]", // OSU
-  ];
+  const heroLogoPriorityByShortName: Record<string, string> = {
+    PU: "opacity-[0.32]",
+    UIUC: "opacity-[0.32]",
+    UMD: "opacity-[0.32]",
+    UNC: "opacity-[0.32]",
+    UW: "opacity-[0.32]",
+    UCI: "opacity-[0.32]",
+    UCD: "opacity-[0.32]",
+    VT: "opacity-[0.32]",
+    UMass: "opacity-[0.32]",
+    PSU: "opacity-[0.32]",
+    UCSB: "opacity-[0.32]",
+    UCSC: "opacity-[0.32]",
+    OSU: "opacity-[0.32]",
+    "Cal Poly": "opacity-[0.32]",
+    SDSU: "opacity-[0.32]",
+    UMN: "opacity-[0.32]",
+  };
 
   const achievements = [
     { value: "1500+", label: "SAT Score" },
@@ -414,17 +413,17 @@ export default function EdupreneurLandingPage() {
 
       <section className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-white">
         <div className="absolute inset-0 pointer-events-none select-none hidden md:block">
-          {colleges.map((college, index) => (
+          {colleges.map((college) => (
             <div
               key={college.name}
-              className={`absolute ${heroLogoPositions[index]} ${heroLogoPriorityClasses[index]}`}
+              className={`absolute ${heroLogoPositionsByShortName[college.shortName] ?? "top-[20%] right-[10%] w-16"} ${heroLogoPriorityByShortName[college.shortName] ?? "opacity-[0.25]"}`}
               aria-label={college.name}
             >
-              <div className={`h-24 w-24 rounded-3xl border ${college.color} shadow-sm flex items-center justify-center overflow-hidden bg-white/80 backdrop-blur-sm`}>
+              <div className={`relative h-24 w-24 rounded-3xl border ${college.color} shadow-sm flex items-center justify-center overflow-hidden bg-white/80 backdrop-blur-sm`}>
                 <img
                   src={college.logo}
                   alt=""
-                  className="h-14 w-14 object-contain opacity-80"
+                  className="relative z-10 h-14 w-14 object-contain opacity-85"
                   onError={(event) => {
                     event.currentTarget.style.display = "none";
                   }}
@@ -434,23 +433,30 @@ export default function EdupreneurLandingPage() {
           ))}
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-16 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-6 pt-24 md:pt-24 pb-28 md:pb-32 grid lg:grid-cols-2 gap-12 items-center">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm mb-7">
               <span className="h-2 w-2 rounded-full bg-green-500" />
               Summer sessions now open
             </div>
 
-            <h2 className="text-5xl md:text-7xl font-black leading-[0.98] tracking-tight text-slate-950">
-              Your Journey.
-              <span className="block">My Guidance.</span>
-              <span className="block text-blue-700">Your Future.</span>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-slate-950 max-w-4xl">
+              <span className="block">
+                <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
+                SAT Prep
+              </span>
+              <span className="block">
+                <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
+                College Apps
+              </span>
+              <span className="block">
+                <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
+                Tutoring
+              </span>
             </h2>
 
-            <div className="mt-4 h-3 w-72 rounded-full bg-blue-200 rotate-[-1deg]" />
-
-            <p className="mt-8 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
-              Personalized SAT prep, college application help, and academic tutoring from a <b>current college student</b> who has been through the same process — and knows how stressful it can feel.
+            <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
+              Personalized guidance from a current UMD CS student who recently went through the same process.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-4">
@@ -485,13 +491,14 @@ export default function EdupreneurLandingPage() {
                 <span className="text-blue-700">♟</span> University of Maryland CS Student
               </div>
             </div>
+
           </div>
 
           <div className="relative">
             <div className="absolute -inset-6 bg-blue-200/50 blur-3xl rounded-full" />
             <div className="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
-                <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
+                <div className="rounded-2xl bg-white border border-slate-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
                   <p className="text-slate-800 leading-relaxed">
                     Invest in your child's future today. 
                   </p>
@@ -512,7 +519,7 @@ export default function EdupreneurLandingPage() {
         </div>
       </section>
 
-      <section id="services" className="scroll-mt-28 px-6 py-16">
+      <section id="services" className="scroll-mt-28 px-6 pt-12 pb-16 md:pt-16">
         <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-xl p-6 md:p-10">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <h2 className="text-3xl md:text-4xl font-black text-slate-950">
