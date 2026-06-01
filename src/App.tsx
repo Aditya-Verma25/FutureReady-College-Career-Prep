@@ -6,12 +6,19 @@ import TutoringPage from "./TutoringPage";
 import BlogsHubPage from "./BlogsHubPage";
 import CollegeAdmissionsArticlePage from "./CollegeAdmissionsArticlePage";
 import type { BlogPost } from "./BlogsHubPage";
+import EarlyBirdPopup from "./EarlyBirdPopup";
 
 export default function EdupreneurLandingPage() {
+  const consultationUrl =
+    "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
+  const popupDismissKey = "frp_early_bird_popup_dismissed_at";
+  const popupDelayMs = 18000;
+  const popupDismissCooldownMs = 24 * 60 * 60 * 1000;
   const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [hashPath, setHashPath] = useState(window.location.hash);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [showEarlyBirdPopup, setShowEarlyBirdPopup] = useState(false);
 
   useEffect(() => {
     ReactGA.initialize("G-2STM34BZQ2");
@@ -39,11 +46,45 @@ export default function EdupreneurLandingPage() {
     loadBlogPosts();
   }, []);
 
+  useEffect(() => {
+    const dismissedAt = localStorage.getItem(popupDismissKey);
+    if (dismissedAt) {
+      const lastDismissed = Number(dismissedAt);
+      if (!Number.isNaN(lastDismissed) && Date.now() - lastDismissed < popupDismissCooldownMs) {
+        return;
+      }
+    }
+
+    const timer = window.setTimeout(() => {
+      setShowEarlyBirdPopup(true);
+    }, popupDelayMs);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!showEarlyBirdPopup) return;
+
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleDismissEarlyBirdPopup();
+      }
+    };
+
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, [showEarlyBirdPopup]);
+
   function trackCalendlyClick() {
     ReactGA.event({
       category: "Consultation",
       action: "Clicked Calendly Button",
     });
+  }
+
+  function handleDismissEarlyBirdPopup() {
+    localStorage.setItem(popupDismissKey, String(Date.now()));
+    setShowEarlyBirdPopup(false);
   }
 
   async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
@@ -305,6 +346,20 @@ export default function EdupreneurLandingPage() {
 
   return (
     <div className="min-h-screen bg-[#f7fbff] text-slate-900 font-sans">
+      <div className="bg-blue-800 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
+          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+          <a
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={trackCalendlyClick}
+            className="ml-2 underline underline-offset-2 hover:text-blue-100"
+          >
+            Reserve Your Spot →
+          </a>
+        </div>
+      </div>
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -747,9 +802,19 @@ export default function EdupreneurLandingPage() {
           </form>
         </div>
       </section>
+      <EarlyBirdPopup
+        isOpen={showEarlyBirdPopup}
+        onClose={handleDismissEarlyBirdPopup}
+        onReserve={() => {
+          trackCalendlyClick();
+          handleDismissEarlyBirdPopup();
+        }}
+        reserveUrl={consultationUrl}
+      />
     </div>
   );
 }
+
 
 
 
