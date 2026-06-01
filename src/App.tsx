@@ -6,6 +6,8 @@ import TutoringPage from "./TutoringPage";
 import BlogsHubPage from "./BlogsHubPage";
 import CollegeAdmissionsArticlePage from "./CollegeAdmissionsArticlePage";
 import CollegeListBuilderPage from "./CollegeListBuilderPage";
+import FutureReadyReportPage from "./FutureReadyReportPage";
+import ReportSuccessPage from "./ReportSuccessPage";
 import type { BlogPost } from "./BlogsHubPage";
 import EarlyBirdPopup from "./EarlyBirdPopup";
 import SiteFooter from "./SiteFooter";
@@ -28,7 +30,10 @@ export default function EdupreneurLandingPage() {
   }, []);
 
   useEffect(() => {
-    const handleHashChange = () => setHashPath(window.location.hash);
+    const handleHashChange = () => {
+      setHashPath(window.location.hash);
+      window.scrollTo({ top: 0, behavior: "auto" });
+    };
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
@@ -335,6 +340,12 @@ export default function EdupreneurLandingPage() {
   if (hashPath === "#/college-list-builder") {
     return renderWithFooter(<CollegeListBuilderPage onBack={() => (window.location.hash = "")} />);
   }
+  if (hashPath === "#/report") {
+    return renderWithFooter(<FutureReadyReportPage onBack={() => (window.location.hash = "")} />);
+  }
+  if (hashPath.startsWith("#/report-success")) {
+    return renderWithFooter(<ReportSuccessPage onBack={() => (window.location.hash = "")} />);
+  }
   if (hashPath === "#/blogs") {
     return renderWithFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
   }
@@ -396,10 +407,7 @@ export default function EdupreneurLandingPage() {
                 Services
               </a>
               <a href="#about" className="hover:text-blue-700 transition">
-                About
-              </a>
-              <a href="#results" className="hover:text-blue-700 transition">
-                Results
+                About & Results
               </a>
               <a href="#testimonials" className="hover:text-blue-700 transition">
                 Testimonials
@@ -455,18 +463,18 @@ export default function EdupreneurLandingPage() {
             </div>
 
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-slate-950 max-w-4xl">
-              <span className="block">
+              <a href="#/sat" className="block hover:text-blue-700 transition">
                 <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
                 SAT Prep
-              </span>
-              <span className="block">
+              </a>
+              <a href="#/college-apps" className="block hover:text-blue-700 transition">
                 <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
                 College Apps
-              </span>
-              <span className="block">
+              </a>
+              <a href="#/tutoring" className="block hover:text-blue-700 transition">
                 <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
                 Tutoring
-              </span>
+              </a>
             </h2>
 
             <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
@@ -823,6 +831,25 @@ export default function EdupreneurLandingPage() {
           </form>
         </div>
       </section>
+      <a
+        href={consultationUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={trackCalendlyClick}
+        className="fixed bottom-5 right-5 z-[60] inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-xl shadow-blue-900/20 transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        aria-label="Book a free consultation"
+      >
+        <span className="text-base leading-none">💬</span>
+        <span>Book Free Consultation</span>
+      </a>
+      <a
+        href="#/report"
+        className="fixed right-2 top-2 z-[70] text-[10px] text-slate-300 transition hover:text-slate-500"
+        aria-label="Demo report page"
+        title="Demo report page"
+      >
+        ★
+      </a>
       <EarlyBirdPopup
         isOpen={showEarlyBirdPopup}
         onClose={handleDismissEarlyBirdPopup}

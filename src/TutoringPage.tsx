@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ReactGA from "react-ga4";
 
 type TutoringPageProps = {
@@ -5,6 +6,10 @@ type TutoringPageProps = {
 };
 
 export default function TutoringPage({ onBack }: TutoringPageProps) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   function trackCalendlyClick() {
     ReactGA.event({
       category: "Consultation",
@@ -13,18 +18,18 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7fbff] text-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#fffdf8] via-amber-50 to-orange-50 text-slate-900">
       <div className="max-w-5xl mx-auto px-6 py-10">
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-blue-300"
+          className="inline-flex cursor-pointer items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800"
         >
           ← Back to Home
         </button>
 
-        <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl md:p-10">
-          <p className="text-sm font-black uppercase tracking-[0.14em] text-blue-700">
+        <div className="mt-6 rounded-[2rem] border border-amber-200 bg-gradient-to-r from-white to-amber-50 p-8 shadow-xl md:p-10">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-amber-700">
             FutureReady Academic Tutoring
           </p>
           <h1 className="mt-3 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
@@ -42,8 +47,8 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
                 Fix gaps in algebra, geometry, precalculus, calculus, and CS fundamentals.
               </p>
             </div>
-            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-              <p className="text-sm font-bold text-blue-700">Homework + Tests</p>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-5">
+              <p className="text-sm font-bold text-amber-700">Homework + Tests</p>
               <p className="mt-2 text-sm text-slate-600">
                 Better systems for assignments, quizzes, and exam preparation.
               </p>
@@ -73,7 +78,7 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={trackCalendlyClick}
-              className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
+              className="rounded-xl bg-amber-700 px-7 py-4 text-white font-bold shadow-lg shadow-amber-700/20 hover:bg-amber-800 transition"
             >
               Book a Free 15-Min Consultation
             </a>

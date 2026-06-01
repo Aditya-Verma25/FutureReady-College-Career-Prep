@@ -32,7 +32,7 @@ export default function CollegeAdmissionsArticlePage({
           <button
             type="button"
             onClick={onBackHome}
-            className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-blue-300"
+            className="inline-flex items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800"
           >
             ← Home
           </button>

@@ -349,7 +349,7 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f7fbff] via-blue-50 to-indigo-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <button type="button" onClick={onBack} className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-blue-300">
+        <button type="button" onClick={onBack} className="inline-flex items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800">
           ← Back to Home
         </button>
 
@@ -434,7 +434,7 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                       if (!item) {
                         return (
                           <article key={`${bucket.title}-fallback-${index}`} className="rounded-2xl border border-blue-100 bg-white p-4">
-                            <p className="text-sm font-semibold text-slate-700">More recommendations available in a 1-on-1 strategy call.</p>
+                            <p className="text-sm font-semibold text-slate-700">Not sure which schools fit you best?</p>
                             <a
                               href={CONSULTATION_URL}
                               target="_blank"
@@ -442,7 +442,7 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                               onClick={trackCalendlyClick}
                               className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
                             >
-                              Book a meeting to unlock more
+                              Let&apos;s Build Your College List
                             </a>
                           </article>
                         );
@@ -466,19 +466,25 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                               ))}
                             </div>
                             <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
-                              <p><span className="font-semibold text-slate-700">Location:</span> {item.state} ({item.region})</p>
-                              <p><span className="font-semibold text-slate-700">COA:</span> {item.costNote}</p>
                               <p><span className="font-semibold text-slate-700">Acceptance:</span> {item.estimatedAcceptanceRate}</p>
                               <p><span className="font-semibold text-slate-700">SAT:</span> {item.satRange}</p>
-                              <p className="col-span-2"><span className="font-semibold text-slate-700">GPA Range:</span> {item.gpaRange}</p>
                             </div>
+                            <details className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+                              <summary className="cursor-pointer font-semibold text-slate-800">More details</summary>
+                              <div className="mt-2 space-y-1">
+                                <p><span className="font-semibold text-slate-700">Location:</span> {item.state} ({item.region})</p>
+                                <p><span className="font-semibold text-slate-700">GPA Range:</span> {item.gpaRange}</p>
+                                <p><span className="font-semibold text-slate-700">Estimated Cost (COA):</span> {item.costNote}</p>
+                                <p><span className="font-semibold text-slate-700">Extended Notes:</span> {item.shortReason}</p>
+                              </div>
+                            </details>
                             {item.crossRegionReason && <p className="mt-2 text-xs text-amber-700">{item.crossRegionReason}</p>}
                           </div>
 
                           {isLocked && (
                             <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/70 p-4 text-center">
                               <div>
-                                <p className="text-sm font-semibold text-slate-800">Want the rest of your personalized list?</p>
+                                <p className="text-sm font-semibold text-slate-800">Not sure which schools fit you best?</p>
                                 <a
                                   href={CONSULTATION_URL}
                                   target="_blank"
@@ -486,7 +492,7 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                                   onClick={trackCalendlyClick}
                                   className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
                                 >
-                                  Book a meeting to unlock these schools
+                                  Let&apos;s Build Your College List
                                 </a>
                               </div>
                             </div>
@@ -506,10 +512,10 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
               <p className="mt-2 text-xs text-slate-500">
                 Cost, acceptance rate, SAT, and GPA ranges are approximate and can change year to year.
               </p>
-              <h4 className="mt-4 text-2xl font-black text-slate-950">Want help refining this into a real college list?</h4>
+              <h4 className="mt-4 text-2xl font-black text-slate-950">Not sure which schools fit you best?</h4>
               <div className="mt-4 flex flex-wrap items-center gap-4">
                 <a href={CONSULTATION_URL} target="_blank" rel="noopener noreferrer" onClick={trackCalendlyClick} className="inline-flex rounded-xl bg-blue-700 px-6 py-3 text-white font-bold shadow-md hover:bg-blue-800 transition">
-                  Book a Free Consultation
+                  Let&apos;s Build Your College List
                 </a>
               </div>
             </div>
