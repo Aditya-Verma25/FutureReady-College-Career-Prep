@@ -48,55 +48,6 @@ export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
 
   return (
     <div className="min-h-screen bg-[#f7fbff] text-slate-900">
-      <div className="bg-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
-          <a
-            href={consultationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-2 underline underline-offset-2 hover:text-blue-100"
-          >
-            Reserve Your Spot →
-          </a>
-        </div>
-      </div>
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center">
-              <img src="/logo.png" alt="FutureReady logo" className="h-16 w-16 object-contain" />
-            </div>
-            <div>
-              <h1 className="text-xl font-black tracking-tight text-slate-950">
-                FutureReady College & Career Prep
-              </h1>
-              <p className="text-xs text-slate-500 font-medium">
-                SAT Prep • College Apps • Tutoring
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-5 lg:gap-8 ml-auto">
-            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-              <a href="#services" className="hover:text-blue-700 transition">Services</a>
-              <a href="#about" className="hover:text-blue-700 transition">About & Results</a>
-              <a href="#testimonials" className="hover:text-blue-700 transition">Testimonials</a>
-              <a href="#/college-list-builder" className="hover:text-blue-700 transition">College List Builder</a>
-              <a href="/blog/" className="hover:text-blue-700 transition">Blog</a>
-            </div>
-
-            <a
-              href={consultationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
-            >
-              Book a Free Consultation
-            </a>
-          </div>
-        </div>
-      </nav>
       <div className="max-w-7xl mx-auto px-6 py-10">
         <button
           type="button"
