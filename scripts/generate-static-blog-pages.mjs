@@ -205,17 +205,35 @@ function articleHtml(post) {
   const linkedIn = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
   const share = `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(post.title)}`;
 
-  const sections = post.sections
-    .map(
-      (section) => `
+  const sections = (post.sections || [])
+    .map((section) => {
+      if (section.points && Array.isArray(section.points)) {
+        return `
       <section>
         <h2>${escapeHtml(section.heading)}</h2>
         <ul>
           ${section.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
         </ul>
       </section>
-    `,
-    )
+    `;
+      }
+
+      if (section.paragraph) {
+        return `
+      <section>
+        <h2>${escapeHtml(section.heading)}</h2>
+        <p>${escapeHtml(section.paragraph)}</p>
+      </section>
+    `;
+      }
+
+      return `
+      <section>
+        <h2>${escapeHtml(section.heading)}</h2>
+        <p></p>
+      </section>
+    `;
+    })
     .join("\n");
 
   const jsonLd = {
