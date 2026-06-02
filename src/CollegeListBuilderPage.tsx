@@ -71,6 +71,107 @@ type RankedCollege = College & {
 
 const CONSULTATION_URL = "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
 
+type ResultsConversionSectionProps = {
+  consultationUrl: string;
+  onConsultationClick: () => void;
+};
+
+function ResultsConversionSection({ consultationUrl, onConsultationClick }: ResultsConversionSectionProps) {
+  const valueCards = [
+    {
+      title: "Understand why each school fits",
+      description:
+        "Go beyond reach, target, and likely labels. We'll look at academic fit, major strength, admissions competitiveness, location, cost, campus culture, and how each school supports your goals.",
+    },
+    {
+      title: "Build a smarter application strategy",
+      description:
+        "A good list is not just about adding famous schools. It's about creating the right mix of ambition, realism, affordability, and opportunity - while making sure every application has a purpose.",
+    },
+    {
+      title: "Turn the list into an action plan",
+      description:
+        "From SAT prep to essays, deadlines, activities, and school-specific positioning, FutureReady helps you understand what to do next instead of leaving you with a list and no direction.",
+    },
+  ];
+
+  const unlockItems = [
+    "Full personalized college list review",
+    "Reach / target / likely balance analysis",
+    "Major and career alignment discussion",
+    "SAT or test-optional strategy",
+    "Essay and application positioning guidance",
+    "Cost, value, and scholarship considerations",
+    "Step-by-step admissions roadmap",
+    "Access to future planning tools and personalized resources",
+  ];
+
+  return (
+    <section id="results-conversion-section" className="mt-8 rounded-[2rem] border border-slate-300 bg-white px-5 py-6 shadow-xl shadow-slate-200/70 ring-1 ring-slate-200 md:px-7 md:py-10">
+      <div className="mb-6 h-2 w-28 rounded-full bg-slate-900" />
+      <div className="mx-auto max-w-6xl">
+        <h3 className="text-3xl font-black leading-tight text-slate-950 md:text-4xl">
+          Your list is a starting point. The strategy behind it is what matters.
+        </h3>
+        <p className="mt-4 text-lg leading-relaxed text-slate-600">
+          The tool gives you a quick preview of schools that may fit your profile - but a strong college plan also needs admissions positioning, essay strategy, SAT planning, cost awareness, and a balanced application roadmap.
+        </p>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {valueCards.map((card) => (
+            <article key={card.title} className="rounded-3xl border border-blue-100 bg-blue-50/40 p-5">
+              <h4 className="text-xl font-black text-slate-900">{card.title}</h4>
+              <p className="mt-3 text-sm leading-relaxed text-slate-700">{card.description}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10 rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <h4 className="text-2xl font-black text-slate-950">What you unlock when we work together</h4>
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {unlockItems.map((item) => (
+              <p key={item} className="flex items-start gap-3 text-sm font-medium text-slate-700">
+                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-black text-blue-700">
+                  ✓
+                </span>
+                <span>{item}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 rounded-3xl border border-blue-200 bg-gradient-to-r from-blue-700 to-blue-600 p-6 text-white shadow-lg md:p-8">
+          <h4 className="text-2xl font-black md:text-3xl">Want help turning this into a real college plan?</h4>
+          <p className="mt-3 max-w-3xl text-blue-100">
+            Book a free consultation and we'll walk through your goals, current profile, school interests, and next steps. No pressure - just a clear conversation about how to make your college process less confusing and more strategic.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href={consultationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onConsultationClick}
+              className="inline-flex rounded-xl bg-white px-6 py-3 text-sm font-black text-blue-700 shadow-md transition hover:bg-blue-50"
+            >
+              Book a Free Consultation
+            </a>
+            <a
+              href="#services"
+              className="inline-flex rounded-xl border border-blue-100 bg-blue-800/50 px-6 py-3 text-sm font-bold text-white transition hover:bg-blue-800/70"
+            >
+              Explore Services
+            </a>
+          </div>
+          <p className="mt-4 text-sm text-blue-100">
+            Built by a current college student who recently went through the process - with experience in tutoring, mentoring, SAT prep, and admissions planning.
+          </p>
+          <p className="mt-2 text-xs text-blue-200">Free consultation spots are limited during summer application season.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const COLLEGES: College[] = [
   { name: "University of Maryland", region: "East Coast", state: "MD", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~45%", satRange: "1340–1510", gpaRange: "4.0+ weighted", costNote: "~$31k in-state / ~$56k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong CS and engineering with major research opportunities.", website: "https://www.umd.edu/", logo: "https://www.google.com/s2/favicons?domain=umd.edu&sz=128" },
   { name: "Virginia Tech", region: "East Coast", state: "VA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Big school spirit"], selectivityTier: "Selective", estimatedAcceptanceRate: "~57%", satRange: "1240–1430", gpaRange: "3.8–4.0", costNote: "~$31k in-state / ~$53k out-of-state", meritAidStrength: "Moderate", shortReason: "Well-known engineering culture and school spirit.", website: "https://www.vt.edu/", logo: "https://www.google.com/s2/favicons?domain=vt.edu&sz=128" },
@@ -338,6 +439,11 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
   function trackCalendlyClick() {
     ReactGA.event({ category: "Consultation", action: "Clicked Calendly Button" });
   }
+  function scrollToConversionSection() {
+    const target = document.getElementById("results-conversion-section");
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitted(true);
@@ -364,7 +470,12 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
       </div>
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            aria-label="Go to FutureReady home page"
+          >
             <div className="flex items-center justify-center">
               <img src="/logo.png" alt="FutureReady logo" className="h-16 w-16 object-contain" />
             </div>
@@ -376,7 +487,7 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                 SAT Prep • College Apps • Tutoring
               </p>
             </div>
-          </div>
+          </button>
 
           <div className="flex items-center gap-5 lg:gap-8 ml-auto">
             <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
@@ -469,7 +580,6 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
 
         {submitted && (
           <section className="mt-6">
-            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 text-sm text-slate-700">{computed.summary}</div>
             {computed.warning && <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">{computed.warning}</div>}
 
             <div className="mt-5 grid gap-5 lg:grid-cols-3">
@@ -477,6 +587,12 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                 <div key={bucket.title} className="rounded-[1.5rem] border border-blue-200 bg-gradient-to-b from-white to-blue-50/50 p-6 shadow-sm">
                   <h3 className="text-xl font-black text-slate-950">{bucket.title}</h3>
                   <p className="mt-1 text-sm text-slate-600">{bucket.tone}</p>
+                  <div className="mt-3 rounded-xl border border-blue-200 bg-blue-100/70 px-3 py-2 text-xs font-semibold text-blue-800 shadow-sm ring-1 ring-blue-200/60">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-2 w-2 animate-pulse rounded-full bg-blue-600" />
+                      Preview shown - full strategy available through a free consultation.
+                    </span>
+                  </div>
                   <div className="mt-4 space-y-3">
                     {Array.from({ length: 4 }).map((_, index) => {
                       const item = bucket.items[index];
@@ -486,15 +602,13 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                         return (
                           <article key={`${bucket.title}-fallback-${index}`} className="rounded-2xl border border-blue-100 bg-white p-4">
                             <p className="text-sm font-semibold text-slate-700">Not sure which schools fit you best?</p>
-                            <a
-                              href={CONSULTATION_URL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={trackCalendlyClick}
+                            <button
+                              type="button"
+                              onClick={scrollToConversionSection}
                               className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
                             >
                               Let&apos;s Build Your College List
-                            </a>
+                            </button>
                           </article>
                         );
                       }
@@ -536,15 +650,13 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                             <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/70 p-4 text-center">
                               <div>
                                 <p className="text-sm font-semibold text-slate-800">Not sure which schools fit you best?</p>
-                                <a
-                                  href={CONSULTATION_URL}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={trackCalendlyClick}
+                                <button
+                                  type="button"
+                                  onClick={scrollToConversionSection}
                                   className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
                                 >
                                   Let&apos;s Build Your College List
-                                </a>
+                                </button>
                               </div>
                             </div>
                           )}
@@ -556,6 +668,8 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
               ))}
             </div>
 
+            <ResultsConversionSection consultationUrl={CONSULTATION_URL} onConsultationClick={trackCalendlyClick} />
+
             <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
               <p className="text-sm text-slate-600">
                 This tool is for brainstorming only and does not predict admissions outcomes. A strong final college list should consider grades, rigor, activities, essays, finances, and personal fit.
@@ -563,12 +677,6 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
               <p className="mt-2 text-xs text-slate-500">
                 Cost, acceptance rate, SAT, and GPA ranges are approximate and can change year to year.
               </p>
-              <h4 className="mt-4 text-2xl font-black text-slate-950">Not sure which schools fit you best?</h4>
-              <div className="mt-4 flex flex-wrap items-center gap-4">
-                <a href={CONSULTATION_URL} target="_blank" rel="noopener noreferrer" onClick={trackCalendlyClick} className="inline-flex rounded-xl bg-blue-700 px-6 py-3 text-white font-bold shadow-md hover:bg-blue-800 transition">
-                  Let&apos;s Build Your College List
-                </a>
-              </div>
             </div>
           </section>
         )}

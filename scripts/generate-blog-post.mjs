@@ -47,6 +47,8 @@ const topics = [
     title: "How To Build A Balanced College List (Reach, Target, Likely)",
     excerpt:
       "A step-by-step way for students to build a realistic and competitive college list.",
+    imageUrl: "https://milkenroar.com/wp-content/uploads/2022/06/Untitled-design-900x655.jpg",
+    imageAttribution: "Image source: Milken Roar",
     query: "college campus students admission",
     sections: [
       {
@@ -170,7 +172,7 @@ async function main() {
     counter += 1;
   }
 
-  const imageUrl = await fetchWikimediaImage(selectedTopic.query);
+  const imageUrl = selectedTopic.imageUrl ?? (await fetchWikimediaImage(selectedTopic.query));
 
   const newPost = {
     slug,
@@ -180,7 +182,7 @@ async function main() {
     publishedAt: date,
     readTimeMinutes: 6,
     imageUrl,
-    imageAttribution: "Photo via Wikimedia Commons (open license)",
+    imageAttribution: selectedTopic.imageAttribution ?? "Photo via Wikimedia Commons (open license)",
     sections: selectedTopic.sections,
     cta: selectedTopic.cta,
     generatorKey: selectedTopic.key

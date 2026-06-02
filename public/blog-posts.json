@@ -6,8 +6,8 @@
     "topic": "College Admissions",
     "publishedAt": "2026-05-29",
     "readTimeMinutes": 6,
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Sarahlawrence_college_logo.png",
-    "imageAttribution": "Photo via Wikimedia Commons (open license)",
+    "imageUrl": "https://milkenroar.com/wp-content/uploads/2022/06/Untitled-design-900x655.jpg",
+    "imageAttribution": "Image source: Milken Roar",
     "sections": [
       {
         "heading": "Know Your Academic Profile First",
@@ -120,5 +120,116 @@
       }
     ],
     "cta": "You do not need to be perfect. You need consistency, strategy, and strong execution."
+  },
+  {
+    "slug": "how-to-choose-high-school-activities-that-strengthen-college-apps-2026-04-26",
+    "title": "How To Choose High School Activities That Strengthen College Applications",
+    "excerpt": "A practical way to pick activities that show direction, leadership, and impact without overloading your schedule.",
+    "topic": "College Admissions",
+    "publishedAt": "2026-04-26",
+    "readTimeMinutes": 6,
+    "imageUrl": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=80",
+    "imageAttribution": "Photo source provided by site owner",
+    "sections": [
+      {
+        "heading": "Start With Interest, Not Resume Panic",
+        "points": [
+          "Pick 2-3 areas you actually care about and can stick with long-term.",
+          "Avoid joining too many clubs just to look busy.",
+          "Choose activities where you can contribute meaningfully."
+        ]
+      },
+      {
+        "heading": "Build Depth And Visible Impact",
+        "points": [
+          "Track outcomes like events led, people helped, or projects completed.",
+          "Look for leadership through initiative, not just official titles.",
+          "Stay consistent across semesters to show commitment."
+        ]
+      },
+      {
+        "heading": "Connect Activities To Your Future Story",
+        "points": [
+          "Tie your involvement to academic interests and long-term goals.",
+          "Use your activities to show problem-solving and growth.",
+          "Keep notes now so your future application writing is easier."
+        ]
+      }
+    ],
+    "cta": "Strong activities are about depth, initiative, and impact - not just long lists."
+  },
+  {
+    "slug": "sat-vs-test-optional-how-to-decide-2026-04-20",
+    "title": "SAT Vs Test-Optional: How Students Should Decide",
+    "excerpt": "A simple framework to decide whether submitting SAT scores improves your college application.",
+    "topic": "SAT Prep",
+    "publishedAt": "2026-04-20",
+    "readTimeMinutes": 5,
+    "imageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+    "imageAttribution": "Photo source provided by site owner",
+    "sections": [
+      {
+        "heading": "Compare To School Score Ranges",
+        "points": [
+          "Check the middle 50% SAT range for each college on your list.",
+          "If your score is at or above the midpoint, submission usually helps.",
+          "If far below the range, test-optional can be the better strategy."
+        ]
+      },
+      {
+        "heading": "Factor In The Rest Of Your Profile",
+        "points": [
+          "Strong rigor, grades, and activities can support a no-score application.",
+          "For competitive STEM paths, strong math evidence can still matter.",
+          "Decide school-by-school instead of one blanket choice."
+        ]
+      },
+      {
+        "heading": "Set A Final Decision Deadline",
+        "points": [
+          "Choose by early fall of senior year to avoid last-minute confusion.",
+          "Leave room for one final retake if needed.",
+          "Focus your energy on essays and applications once decided."
+        ]
+      }
+    ],
+    "cta": "Test-optional is a strategy choice, not a shortcut."
+  },
+  {
+    "slug": "summer-college-planning-checklist-for-rising-seniors-2026-04-14",
+    "title": "Summer College Planning Checklist For Rising Seniors",
+    "excerpt": "A focused summer plan that helps students enter senior year with momentum, clarity, and less stress.",
+    "topic": "College Admissions",
+    "publishedAt": "2026-04-14",
+    "readTimeMinutes": 7,
+    "imageUrl": "https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1400&q=80",
+    "imageAttribution": "Photo source provided by site owner",
+    "sections": [
+      {
+        "heading": "Finalize Your Core College List",
+        "points": [
+          "Build a balanced set of reach, target, and likely schools.",
+          "Verify majors, costs, and application requirements early.",
+          "Remove schools you would not realistically attend."
+        ]
+      },
+      {
+        "heading": "Start Essay And Activities Drafting",
+        "points": [
+          "Draft your main personal statement before school starts.",
+          "Create strong activity descriptions with action and outcomes.",
+          "Identify supplemental prompts likely to repeat."
+        ]
+      },
+      {
+        "heading": "Set Systems For Senior Fall",
+        "points": [
+          "Create one deadline tracker for all schools.",
+          "Confirm recommendation plans with teachers before August ends.",
+          "Block weekly application time so progress stays consistent."
+        ]
+      }
+    ],
+    "cta": "A structured summer can make senior fall far less overwhelming."
   }
 ]

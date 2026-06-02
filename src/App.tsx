@@ -23,6 +23,7 @@ export default function EdupreneurLandingPage() {
   const [hashPath, setHashPath] = useState(window.location.hash);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [showEarlyBirdPopup, setShowEarlyBirdPopup] = useState(false);
+  const [pendingSectionScroll, setPendingSectionScroll] = useState<"services" | "about" | "testimonials" | null>(null);
 
   useEffect(() => {
     ReactGA.initialize("G-2STM34BZQ2");
@@ -31,12 +32,35 @@ export default function EdupreneurLandingPage() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      setHashPath(window.location.hash);
-      window.scrollTo({ top: 0, behavior: "auto" });
+      const nextHash = window.location.hash;
+      setHashPath(nextHash);
+      if (!nextHash || nextHash === "#" || nextHash.startsWith("#/")) {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
     };
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
+
+  useEffect(() => {
+    const sectionHashes = new Set(["#services", "#about", "#testimonials"]);
+    if (!sectionHashes.has(hashPath)) return;
+
+    const sectionId = hashPath.slice(1);
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [hashPath]);
+
+  useEffect(() => {
+    if (!pendingSectionScroll) return;
+    if (hashPath && hashPath.startsWith("#/")) return;
+
+    const target = document.getElementById(pendingSectionScroll);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    setPendingSectionScroll(null);
+  }, [hashPath, pendingSectionScroll]);
 
   useEffect(() => {
     async function loadBlogPosts() {
@@ -87,6 +111,28 @@ export default function EdupreneurLandingPage() {
       category: "Consultation",
       action: "Clicked Calendly Button",
     });
+  }
+
+  function handleBrandClick() {
+    if (!window.location.hash || window.location.hash === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    window.location.hash = "";
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function handleNavSectionClick(sectionId: "services" | "about" | "testimonials") {
+    const isSubpage = !!window.location.hash && window.location.hash.startsWith("#/");
+    if (!isSubpage) {
+      const target = document.getElementById(sectionId);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    setPendingSectionScroll(sectionId);
+    window.location.hash = "";
   }
 
   function handleDismissEarlyBirdPopup() {
@@ -320,7 +366,84 @@ export default function EdupreneurLandingPage() {
     "What stood out most was how supportive and organized he is. Weekly check-ins kept me on track without feeling overwhelmed.",
   ];
 
-  const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P. (Student)"];
+  const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P."];
+  const renderWithHeaderAndFooter = (content: ReactNode) => (
+    <>
+      <div className="bg-blue-800 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
+          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+          <a
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={trackCalendlyClick}
+            className="ml-2 underline underline-offset-2 hover:text-blue-100"
+          >
+            Reserve Your Spot →
+          </a>
+        </div>
+      </div>
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={handleBrandClick}
+            className="flex items-center gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            aria-label="Go to FutureReady home page"
+          >
+            <div className="flex items-center justify-center">
+              <img
+                src="/logo.png"
+                alt="FutureReady logo"
+                className="h-16 w-16 object-contain"
+              />
+            </div>
+            <div>
+              <h1 className="text-xl font-black tracking-tight text-slate-950">
+                FutureReady College & Career Prep
+              </h1>
+              <p className="text-xs text-slate-500 font-medium">
+                SAT Prep • College Apps • Tutoring
+              </p>
+            </div>
+          </button>
+
+          <div className="flex items-center gap-5 lg:gap-8 ml-auto">
+            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+              <button type="button" onClick={() => handleNavSectionClick("services")} className="hover:text-blue-700 transition">
+                Services
+              </button>
+              <button type="button" onClick={() => handleNavSectionClick("about")} className="hover:text-blue-700 transition">
+                About & Results
+              </button>
+              <button type="button" onClick={() => handleNavSectionClick("testimonials")} className="hover:text-blue-700 transition">
+                Testimonials
+              </button>
+              <a href="#/college-list-builder" className="hover:text-blue-700 transition">
+                College List Builder
+              </a>
+              <a href="/blog/" className="hover:text-blue-700 transition">
+                Blog
+              </a>
+            </div>
+
+            <a
+              href={consultationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={trackCalendlyClick}
+              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
+            >
+              Book a Free Consultation
+            </a>
+          </div>
+        </div>
+      </nav>
+      {content}
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={trackCalendlyClick} />
+    </>
+  );
+
   const renderWithFooter = (content: ReactNode) => (
     <>
       {content}
@@ -329,34 +452,34 @@ export default function EdupreneurLandingPage() {
   );
 
   if (hashPath === "#/sat") {
-    return renderWithFooter(<SatPage onBack={() => (window.location.hash = "")} />);
+    return renderWithHeaderAndFooter(<SatPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/college-apps") {
-    return renderWithFooter(<CollegeAppsPage onBack={() => (window.location.hash = "")} />);
+    return renderWithHeaderAndFooter(<CollegeAppsPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/tutoring") {
-    return renderWithFooter(<TutoringPage onBack={() => (window.location.hash = "")} />);
+    return renderWithHeaderAndFooter(<TutoringPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/college-list-builder") {
     return renderWithFooter(<CollegeListBuilderPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/report") {
-    return renderWithFooter(<FutureReadyReportPage onBack={() => (window.location.hash = "")} />);
+    return renderWithHeaderAndFooter(<FutureReadyReportPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath.startsWith("#/report-success")) {
-    return renderWithFooter(<ReportSuccessPage onBack={() => (window.location.hash = "")} />);
+    return renderWithHeaderAndFooter(<ReportSuccessPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/blogs") {
-    return renderWithFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
+    return renderWithHeaderAndFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
   }
   if (hashPath.startsWith("#/blogs/")) {
     const slug = hashPath.replace("#/blogs/", "");
     const post = blogPosts.find((item) => item.slug === slug);
     if (!post) {
-      return renderWithFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
+      return renderWithHeaderAndFooter(<BlogsHubPage onBack={() => (window.location.hash = "")} posts={blogPosts} />);
     }
 
-    return renderWithFooter(
+    return renderWithHeaderAndFooter(
       <CollegeAdmissionsArticlePage
         post={post}
         onBackHome={() => (window.location.hash = "")}
@@ -383,7 +506,12 @@ export default function EdupreneurLandingPage() {
       </div>
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleBrandClick}
+            className="flex items-center gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            aria-label="Go to FutureReady home page"
+          >
             <div className="flex items-center justify-center">
               <img
                 src="/logo.png"
@@ -399,19 +527,19 @@ export default function EdupreneurLandingPage() {
                 SAT Prep • College Apps • Tutoring
               </p>
             </div>
-          </div>
+          </button>
 
           <div className="flex items-center gap-5 lg:gap-8 ml-auto">
             <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-              <a href="#services" className="hover:text-blue-700 transition">
+              <button type="button" onClick={() => handleNavSectionClick("services")} className="hover:text-blue-700 transition">
                 Services
-              </a>
-              <a href="#about" className="hover:text-blue-700 transition">
+              </button>
+              <button type="button" onClick={() => handleNavSectionClick("about")} className="hover:text-blue-700 transition">
                 About & Results
-              </a>
-              <a href="#testimonials" className="hover:text-blue-700 transition">
+              </button>
+              <button type="button" onClick={() => handleNavSectionClick("testimonials")} className="hover:text-blue-700 transition">
                 Testimonials
-              </a>
+              </button>
               <a href="#/college-list-builder" className="hover:text-blue-700 transition">
                 College List Builder
               </a>
@@ -578,7 +706,7 @@ export default function EdupreneurLandingPage() {
                 </div>
                 <a
                   href={service.title === "SAT Prep" ? "#/sat" : service.title === "College Application Help" ? "#/college-apps" : service.title === "Academic Tutoring" ? "#/tutoring" : "#contact"}
-                  className="font-bold hover:underline">
+                  className="font-bold underline underline-offset-2 hover:no-underline">
                   Learn More →
                 </a>
               </div>

@@ -1,3 +1,5 @@
+import { useMemo, useState } from "react";
+
 export type BlogPost = {
   slug: string;
   title: string;
@@ -32,6 +34,17 @@ function formatDate(isoDate: string) {
 export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
   const consultationUrl =
     "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
+  const [selectedTopic, setSelectedTopic] = useState<string>("All");
+
+  const topicOptions = useMemo(() => {
+    const topics = Array.from(new Set(posts.map((post) => post.topic)));
+    return ["All", ...topics];
+  }, [posts]);
+
+  const visiblePosts = useMemo(() => {
+    if (selectedTopic === "All") return posts;
+    return posts.filter((post) => post.topic === selectedTopic);
+  }, [posts, selectedTopic]);
 
   return (
     <div className="min-h-screen bg-[#f7fbff] text-slate-900">
@@ -84,7 +97,7 @@ export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
           </div>
         </div>
       </nav>
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <button
           type="button"
           onClick={onBack}
@@ -105,8 +118,31 @@ export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
             activities, essays, and admissions strategy.
           </p>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {posts.map((post) => {
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="flex flex-wrap items-center gap-3">
+            <p className="text-sm font-bold text-slate-700">Sort by:</p>
+            {topicOptions.map((topic) => {
+              const active = topic === selectedTopic;
+              return (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => setSelectedTopic(topic)}
+                  className={`rounded-full px-4 py-2 text-xs font-bold transition ${
+                    active
+                      ? "bg-blue-700 text-white shadow-sm"
+                      : "border border-slate-200 bg-white text-slate-700 hover:border-blue-300"
+                  }`}
+                >
+                  {topic}
+                </button>
+              );
+            })}
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {visiblePosts.map((post) => {
               const articleUrl = `${siteBaseUrl}/#/blogs/${post.slug}`;
               const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
               const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(post.title)}`;
@@ -164,6 +200,9 @@ export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
               );
             })}
           </div>
+          {visiblePosts.length === 0 && (
+            <p className="mt-6 text-sm text-slate-600">No blog posts found for this category yet.</p>
+          )}
         </div>
       </div>
     </div>

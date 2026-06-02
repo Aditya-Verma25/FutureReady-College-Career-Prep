@@ -46,6 +46,10 @@ export default function CollegeAdmissionsArticlePage({
         </div>
 
         <article className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl md:p-10">
+          <div className="mb-5 flex items-center gap-3 rounded-2xl border border-blue-100 bg-blue-50/60 px-4 py-3">
+            <img src="/logo.png" alt="FutureReady logo" className="h-10 w-10 object-contain" />
+            <p className="text-sm font-bold text-slate-800">FutureReady College & Career Prep</p>
+          </div>
           <p className="text-sm font-black uppercase tracking-[0.14em] text-blue-700">
             {post.topic}
           </p>

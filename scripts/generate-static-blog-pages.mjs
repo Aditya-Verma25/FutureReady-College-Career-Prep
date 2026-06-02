@@ -30,13 +30,30 @@ function baseStyles() {
   return `
     :root { color-scheme: light; }
     body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#f7fbff; color:#0f172a; }
-    .wrap { max-width: 920px; margin: 0 auto; padding: 32px 24px; }
+    .topbar { background:#1e40af; color:#fff; text-align:center; font-size:13px; font-weight:700; padding:8px 16px; }
+    .topbar a { color:#fff; text-decoration:underline; text-underline-offset:2px; margin-left:6px; }
+    .nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(15,23,42,.05); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; padding: 16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:12px; color:#020617; text-decoration:none; }
+    .brand img { height:56px; width:56px; object-fit:contain; }
+    .brand h1 { margin:0; font-size:20px; font-weight:900; letter-spacing:-.02em; }
+    .brand p { margin:0; font-size:12px; color:#64748b; font-weight:600; }
+    .nav-links { display:flex; gap:24px; font-size:14px; font-weight:700; }
+    .nav-links a { color:#475569; text-decoration:none; }
+    .nav-links a:hover { color:#1d4ed8; }
+    .cta { display:inline-flex; border-radius:12px; padding:10px 14px; font-size:14px; font-weight:800; text-decoration:none; background:#1d4ed8; color:#fff; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
     .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 28px; box-shadow: 0 8px 24px rgba(15,23,42,.06); }
     .btn { display:inline-block; border-radius: 12px; padding: 10px 14px; font-weight:700; text-decoration:none; }
     .btn-primary { background:#1d4ed8; color:#fff; }
     .btn-secondary { background:#fff; color:#334155; border:1px solid #e2e8f0; }
     .meta { color:#64748b; font-size: 13px; }
-    .grid { display:grid; gap:16px; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); }
+    .toolbar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin: 18px 0 0; padding: 12px; border:1px solid #e2e8f0; border-radius:16px; background:#f8fafc; }
+    .search { flex: 1 1 260px; min-width: 220px; border:1px solid #cbd5e1; border-radius:12px; padding:12px 14px; font-size:14px; background:#fff; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .chip { border:1px solid #e2e8f0; background:#fff; color:#334155; border-radius:999px; padding:8px 12px; font-size:12px; font-weight:800; cursor:pointer; }
+    .chip.active { background:#1d4ed8; border-color:#1d4ed8; color:#fff; }
+    .grid { display:grid; gap:16px; grid-template-columns: repeat(1,minmax(0,1fr)); margin-top: 18px; }
     .post-card { border:1px solid #e2e8f0; border-radius:18px; overflow:hidden; background:#f8fafc; }
     .post-card img { width:100%; height:170px; object-fit:cover; display:block; }
     .post-card .content { padding:14px; }
@@ -49,7 +66,37 @@ function baseStyles() {
     .hero { width:100%; height:320px; object-fit:cover; border-radius:14px; border:1px solid #e2e8f0; margin-top:16px; }
     .top-actions { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
     .share { display:flex; gap:8px; flex-wrap:wrap; margin-top:20px; }
+    @media (min-width: 768px) { .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+    @media (min-width: 1200px) { .grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+    @media (max-width: 980px) { .nav-links { display:none; } .cta { display:none; } }
   `;
+}
+
+function sharedHeader() {
+  return `
+  <div class="topbar">
+    Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+    <a href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer">Reserve Your Spot -></a>
+  </div>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <img src="/logo.png" alt="FutureReady logo" />
+        <div>
+          <h1>FutureReady College & Career Prep</h1>
+          <p>SAT Prep • College Apps • Tutoring</p>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="/#services">Services</a>
+        <a href="/#about">About & Results</a>
+        <a href="/#testimonials">Testimonials</a>
+        <a href="/#/college-list-builder">College List Builder</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <a class="cta" href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer">Book a Free Consultation</a>
+    </div>
+  </header>`;
 }
 
 function blogIndexHtml(posts) {
@@ -63,7 +110,7 @@ function blogIndexHtml(posts) {
         `${SITE_URL}${url}`,
       )}&text=${encodeURIComponent(post.title)}`;
       return `
-        <article class="post-card">
+        <article class="post-card" data-topic="${escapeHtml(post.topic)}" data-title="${escapeHtml(post.title).toLowerCase()}" data-excerpt="${escapeHtml(post.excerpt).toLowerCase()}">
           <img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy" />
           <div class="content">
             <p class="tag">${escapeHtml(post.topic)}</p>
@@ -97,19 +144,57 @@ function blogIndexHtml(posts) {
   <style>${baseStyles()}</style>
 </head>
 <body>
+  ${sharedHeader()}
   <main class="wrap">
     <div class="top-actions">
-      <a class="btn btn-secondary" href="/">← Back to Home</a>
+      <a class="btn btn-primary" href="/"><- Back to Home</a>
     </div>
     <section class="card">
       <p class="tag">FutureReady Blog</p>
       <h1>SAT + College Admissions Insights</h1>
       <p>Practical, student-friendly strategies for SAT prep, essays, activities, and college planning.</p>
-      <div class="grid">
+      <div class="toolbar">
+        <input id="blog-search" class="search" type="search" placeholder="Search blog posts..." />
+        <div id="topic-chips" class="chips">
+          <button class="chip active" data-topic="All">All</button>
+          <button class="chip" data-topic="SAT Prep">SAT Prep</button>
+          <button class="chip" data-topic="College Admissions">College Admissions</button>
+        </div>
+      </div>
+      <div class="grid" id="blog-grid">
         ${cards}
       </div>
     </section>
   </main>
+  <script>
+    (function () {
+      const search = document.getElementById("blog-search");
+      const chips = Array.from(document.querySelectorAll(".chip"));
+      const cards = Array.from(document.querySelectorAll(".post-card"));
+      let activeTopic = "All";
+      function applyFilters() {
+        const q = (search.value || "").trim().toLowerCase();
+        cards.forEach((card) => {
+          const topic = card.getAttribute("data-topic") || "";
+          const title = card.getAttribute("data-title") || "";
+          const excerpt = card.getAttribute("data-excerpt") || "";
+          const topicMatch = activeTopic === "All" || topic === activeTopic;
+          const textMatch = !q || title.includes(q) || excerpt.includes(q);
+          card.style.display = topicMatch && textMatch ? "" : "none";
+        });
+      }
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          activeTopic = chip.getAttribute("data-topic") || "All";
+          chips.forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          applyFilters();
+        });
+      });
+      search.addEventListener("input", applyFilters);
+      applyFilters();
+    })();
+  </script>
 </body>
 </html>`;
 }
@@ -171,9 +256,10 @@ function articleHtml(post) {
   <style>${baseStyles()}</style>
 </head>
 <body>
+  ${sharedHeader()}
   <main class="wrap">
     <div class="top-actions">
-      <a class="btn btn-secondary" href="/">← Home</a>
+      <a class="btn btn-primary" href="/"><- Home</a>
       <a class="btn btn-secondary" href="/blog/">Back to Blog Hub</a>
     </div>
     <article class="card">
