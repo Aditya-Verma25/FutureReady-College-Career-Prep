@@ -118,9 +118,10 @@ function blogIndexHtml(posts) {
             <p>${escapeHtml(post.excerpt)}</p>
             <p class="meta">${escapeHtml(formatDate(post.publishedAt))} • ${post.readTimeMinutes} min read</p>
             <div class="share">
-              <a class="btn btn-primary" href="${url}">Read</a>
-              <a class="btn btn-secondary" href="${linkedIn}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              <a class="btn btn-secondary" href="${share}" target="_blank" rel="noopener noreferrer">Share</a>
+                <a class="btn btn-primary" href="${url}">Read</a>
+                <button class="btn btn-secondary" onclick="copyLink('${encodeURIComponent(
+                  `${SITE_URL}${url}`,
+                )}')">Copy link</button>
             </div>
           </div>
         </article>
@@ -290,11 +291,40 @@ function articleHtml(post) {
       ${sections}
       ${post.cta ? `<section><h2>Key Takeaway</h2><p>${escapeHtml(post.cta)}</p></section>` : ""}
       <div class="share">
-        <a class="btn btn-primary" href="${linkedIn}" target="_blank" rel="noopener noreferrer">Share on LinkedIn</a>
-        <a class="btn btn-secondary" href="${share}" target="_blank" rel="noopener noreferrer">Share Link</a>
+        <button class="btn btn-primary" onclick="copyLink('${encodeURIComponent(articleUrl)}')">Copy link</button>
       </div>
     </article>
   </main>
+  <div id="copy-toast" style="display:none; position: fixed; right: 20px; bottom: 20px; background:#111827; color:#fff; padding:10px 14px; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,.4); font-weight:700;">Link copied</div>
+  <script>
+    function copyLink(encodedUrl) {
+      try {
+        const url = decodeURIComponent(encodedUrl);
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() => showToast('Link copied'));
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = url;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          textarea.remove();
+          showToast('Link copied');
+        }
+      } catch (e) {
+        showToast('Copy failed');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('copy-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => (t.style.display = 'none'), 1800);
+    }
+  </script>
 </body>
 </html>`;
 }

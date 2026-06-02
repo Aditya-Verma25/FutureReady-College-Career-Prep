@@ -117,10 +117,39 @@
     
       <section><h2>Key Takeaway</h2><p>Treat test-optional as a careful strategy: analyze data, consider program needs, and document school-by-school decisions.</p></section>
       <div class="share">
-        <a class="btn btn-primary" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ffuturereadyprep.org%2Fblog%2Fsat-vs-test-optional-how-to-decide-2026-04-20%2F" target="_blank" rel="noopener noreferrer">Share on LinkedIn</a>
-        <a class="btn btn-secondary" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ffuturereadyprep.org%2Fblog%2Fsat-vs-test-optional-how-to-decide-2026-04-20%2F&text=SAT%20Vs%20Test-Optional%3A%20How%20Students%20Should%20Decide" target="_blank" rel="noopener noreferrer">Share Link</a>
+        <button class="btn btn-primary" onclick="copyLink('https%3A%2F%2Ffuturereadyprep.org%2Fblog%2Fsat-vs-test-optional-how-to-decide-2026-04-20%2F')">Copy link</button>
       </div>
     </article>
   </main>
+  <div id="copy-toast" style="display:none; position: fixed; right: 20px; bottom: 20px; background:#111827; color:#fff; padding:10px 14px; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,.4); font-weight:700;">Link copied</div>
+  <script>
+    function copyLink(encodedUrl) {
+      try {
+        const url = decodeURIComponent(encodedUrl);
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() => showToast('Link copied'));
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = url;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          textarea.remove();
+          showToast('Link copied');
+        }
+      } catch (e) {
+        showToast('Copy failed');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('copy-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => (t.style.display = 'none'), 1800);
+    }
+  </script>
 </body>
 </html>
