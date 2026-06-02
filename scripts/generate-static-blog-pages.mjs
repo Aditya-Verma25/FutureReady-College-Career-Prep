@@ -118,10 +118,10 @@ function blogIndexHtml(posts) {
             <p>${escapeHtml(post.excerpt)}</p>
             <p class="meta">${escapeHtml(formatDate(post.publishedAt))} • ${post.readTimeMinutes} min read</p>
             <div class="share">
+              <a class="btn btn-primary" href="${url}" title="Read article">Read</a>
               <button class="btn btn-primary" title="Copy link" aria-label="Copy link" onclick="copyLink('${encodeURIComponent(
                 `${SITE_URL}${url}`,
               )}')">Copy link</button>
-              <a class="btn btn-secondary" href="${url}" title="Read article">Read</a>
             </div>
           </div>
         </article>
