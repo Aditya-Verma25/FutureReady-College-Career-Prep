@@ -2,7 +2,7 @@
   {
     "slug": "activities-that-matter-how-to-show-impact-not-just-participation-2026-06-02",
     "title": "Activities That Matter: How To Show Impact, Not Just Participation",
-    "excerpt": "How students can turn clubs and projects into stronger admissions stories.",
+    "excerpt": "How students can turn clubs and projects into stronger admissions stories. Practical examples and simple tracking techniques make it easier to show measurable impact in applications.",
     "topic": "College Admissions",
     "publishedAt": "2026-06-02",
     "readTimeMinutes": 6,
@@ -14,7 +14,8 @@
         "points": [
           "Choose fewer activities and go deeper in each.",
           "Stay long enough to produce measurable outcomes.",
-          "Build a consistent theme across your top commitments."
+          "Build a consistent theme across your top commitments.",
+          "Plan at least one concrete deliverable (event, project, or product) each year to demonstrate progress."
         ]
       },
       {
@@ -34,13 +35,13 @@
         ]
       }
     ],
-    "cta": "Admissions readers remember impact and initiative more than long activity lists.",
+    "cta": "Admissions readers remember impact and initiative more than long activity lists. Focus on clear outcomes and be ready to tell the story of what you changed.",
     "generatorKey": "activities-impact"
   },
   {
     "slug": "how-to-build-a-balanced-college-list-reach-target-likely-2026-05-29",
     "title": "How To Build A Balanced College List (Reach, Target, Likely)",
-    "excerpt": "A step-by-step way for students to build a realistic and competitive college list.",
+    "excerpt": "A step-by-step way for students to build a realistic and competitive college list. This guide helps prioritize fit, affordability, and long-term goals alongside selectivity.",
     "topic": "College Admissions",
     "publishedAt": "2026-05-29",
     "readTimeMinutes": 6,
@@ -52,7 +53,8 @@
         "points": [
           "List your GPA trend, rigor, SAT/ACT range, and key activities.",
           "Compare yourself to each college's middle 50% data.",
-          "Do not build your list using prestige alone."
+          "Do not build your list using prestige alone.",
+          "Talk to recent admits or use online admit data to sanity-check your assumptions."
         ]
       },
       {
@@ -72,13 +74,13 @@
         ]
       }
     ],
-    "cta": "A good college list is balanced, affordable, and aligned with your real goals.",
+    "cta": "A good college list is balanced, affordable, and aligned with your real goals. Revisit and refine your list as you gather new information.",
     "generatorKey": "college-list-strategy"
   },
   {
     "slug": "how-to-build-a-weekly-sat-study-plan-that-actually-works-2026-05-27",
     "title": "How To Build A Weekly SAT Study Plan That Actually Works",
-    "excerpt": "A practical SAT plan students can stick to without burning out or wasting hours.",
+    "excerpt": "A practical SAT plan students can stick to without burning out or wasting hours. The right weekly structure reduces stress and yields measurable gains over time.",
     "topic": "SAT Prep",
     "publishedAt": "2026-05-27",
     "readTimeMinutes": 6,
@@ -90,7 +92,8 @@
         "points": [
           "Take one timed diagnostic before planning anything.",
           "Split errors by type: concept gaps, careless mistakes, or timing.",
-          "Prioritize the top 2 score blockers first."
+          "Prioritize the top 2 score blockers first.",
+          "Set realistic mini-goals each week and celebrate small wins to maintain momentum."
         ]
       },
       {
@@ -111,13 +114,13 @@
         ]
       }
     ],
-    "cta": "SAT scores improve fastest when your plan is specific, consistent, and review-heavy.",
+    "cta": "SAT scores improve fastest when your plan is specific, consistent, and review-heavy. Regularly re-evaluate practice focus as weak areas improve.",
     "generatorKey": "sat-study-plan"
   },
   {
     "slug": "college-admissions-roadmap-9th-12th-grade",
     "title": "The 9th-12th Grade College Admissions Roadmap",
-    "excerpt": "A practical year-by-year guide to help students stay ahead in college admissions without burning out.",
+    "excerpt": "A practical year-by-year guide to help students stay ahead in college admissions without burning out. Each year's advice focuses on sustainable actions that build toward a strong application.",
     "topic": "College Admissions",
     "publishedAt": "2026-05-27",
     "readTimeMinutes": 7,
@@ -126,10 +129,11 @@
     "sections": [
       {
         "heading": "9th Grade: Build Your Foundation",
-        "points": [
+          "points": [
           "Prioritize strong grades and study habits from day one.",
           "Join 1-2 activities you actually care about instead of doing everything.",
-          "Start an achievements tracker for awards, projects, and impact."
+          "Start an achievements tracker for awards, projects, and impact.",
+          "Experiment and reflect — ninth grade is for discovery, not final decisions."
         ]
       },
       {
@@ -157,12 +161,12 @@
         ]
       }
     ],
-    "cta": "You do not need to be perfect. You need consistency, strategy, and strong execution."
+    "cta": "You do not need to be perfect. You need consistency, strategy, and strong execution. Small improvements each year compound into a compelling application."
   },
   {
     "slug": "how-to-choose-high-school-activities-that-strengthen-college-apps-2026-04-26",
     "title": "How To Choose High School Activities That Strengthen College Applications",
-    "excerpt": "A practical way to pick activities that show direction, leadership, and impact without overloading your schedule.",
+    "excerpt": "A practical way to pick activities that show direction, leadership, and impact without overloading your schedule. This approach helps you build a meaningful profile that supports your essays and recommendations.",
     "topic": "College Admissions",
     "publishedAt": "2026-04-26",
     "readTimeMinutes": 6,
@@ -174,7 +178,8 @@
         "points": [
           "Pick 2-3 areas you actually care about and can stick with long-term.",
           "Avoid joining too many clubs just to look busy.",
-          "Choose activities where you can contribute meaningfully."
+          "Choose activities where you can contribute meaningfully.",
+          "Try small leadership experiments (run an event, start a project) before seeking official titles."
         ]
       },
       {
@@ -194,12 +199,12 @@
         ]
       }
     ],
-    "cta": "Strong activities are about depth, initiative, and impact - not just long lists."
+    "cta": "Strong activities are about depth, initiative, and impact - not just long lists. Keep a simple evidence folder so application writing is faster and more specific."
   },
   {
     "slug": "sat-vs-test-optional-how-to-decide-2026-04-20",
     "title": "SAT Vs Test-Optional: How Students Should Decide",
-    "excerpt": "A simple framework to decide whether submitting SAT scores improves your college application.",
+    "excerpt": "A simple framework to decide whether submitting SAT scores improves your college application. It helps you weigh score ranges, program expectations, and overall profile balance.",
     "topic": "SAT Prep",
     "publishedAt": "2026-04-20",
     "readTimeMinutes": 5,
@@ -211,7 +216,8 @@
         "points": [
           "Check the middle 50% SAT range for each college on your list.",
           "If your score is at or above the midpoint, submission usually helps.",
-          "If far below the range, test-optional can be the better strategy."
+          "If far below the range, test-optional can be the better strategy.",
+          "Consider program- or major-specific expectations (STEM programs may weigh math performance more)."
         ]
       },
       {
@@ -231,12 +237,12 @@
         ]
       }
     ],
-    "cta": "Test-optional is a strategy choice, not a shortcut."
+    "cta": "Test-optional is a strategy choice, not a shortcut. Make school-by-school decisions and document the reasoning."
   },
   {
     "slug": "summer-college-planning-checklist-for-rising-seniors-2026-04-14",
     "title": "Summer College Planning Checklist For Rising Seniors",
-    "excerpt": "A focused summer plan that helps students enter senior year with momentum, clarity, and less stress.",
+    "excerpt": "A focused summer plan that helps students enter senior year with momentum, clarity, and less stress. A few planned weeks of work can turn a chaotic fall into a manageable season.",
     "topic": "College Admissions",
     "publishedAt": "2026-04-14",
     "readTimeMinutes": 7,
@@ -248,7 +254,8 @@
         "points": [
           "Build a balanced set of reach, target, and likely schools.",
           "Verify majors, costs, and application requirements early.",
-          "Remove schools you would not realistically attend."
+          "Remove schools you would not realistically attend.",
+          "Plan at least one campus visit or virtual information session to confirm fit."
         ]
       },
       {
@@ -268,6 +275,6 @@
         ]
       }
     ],
-    "cta": "A structured summer can make senior fall far less overwhelming."
+    "cta": "A structured summer can make senior fall far less overwhelming. Use the time to build systems that support early completion and higher-quality essays."
   }
 ]
