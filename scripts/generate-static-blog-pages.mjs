@@ -118,10 +118,10 @@ function blogIndexHtml(posts) {
             <p>${escapeHtml(post.excerpt)}</p>
             <p class="meta">${escapeHtml(formatDate(post.publishedAt))} • ${post.readTimeMinutes} min read</p>
             <div class="share">
-                <a class="btn btn-primary" href="${url}">Read</a>
-                <button class="btn btn-secondary" onclick="copyLink('${encodeURIComponent(
-                  `${SITE_URL}${url}`,
-                )}')">Copy link</button>
+              <button class="btn btn-primary" title="Copy link" aria-label="Copy link" onclick="copyLink('${encodeURIComponent(
+                `${SITE_URL}${url}`,
+              )}')">Copy link</button>
+              <a class="btn btn-secondary" href="${url}" title="Read article">Read</a>
             </div>
           </div>
         </article>
@@ -295,7 +295,7 @@ function articleHtml(post) {
       </div>
     </article>
   </main>
-  <div id="copy-toast" style="display:none; position: fixed; right: 20px; bottom: 20px; background:#111827; color:#fff; padding:10px 14px; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,.4); font-weight:700;">Link copied</div>
+  <div id="copy-toast" style="display:none; position: fixed; right: 20px; bottom: 20px; background:#111827; color:#fff; padding:10px 14px; border-radius:8px; font-weight:700;">Link copied</div>
   <script>
     function copyLink(encodedUrl) {
       try {
