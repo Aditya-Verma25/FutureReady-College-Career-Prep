@@ -76,7 +76,7 @@ function sharedHeader() {
   return `
   <div class="topbar">
     Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
-    <a href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer">Reserve Your Spot -></a>
+    <a href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer" onclick="window.gtag?.('event','consultation_click',{location:'topbar'})">Reserve Your Spot -></a>
   </div>
   <header class="nav">
     <div class="nav-inner">
@@ -94,7 +94,7 @@ function sharedHeader() {
         <a href="/#/college-list-builder">College List Builder</a>
         <a href="/blog/">Blog</a>
       </nav>
-      <a class="cta" href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer">Book a Free Consultation</a>
+      <a class="cta" href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer" onclick="window.gtag?.('event','consultation_click',{location:'navbar'})">Book a Free Consultation</a>
     </div>
   </header>`;
 }

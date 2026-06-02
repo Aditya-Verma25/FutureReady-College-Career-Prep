@@ -1,5 +1,5 @@
 import { useMemo, useState, type FormEvent } from "react";
-import ReactGA from "react-ga4";
+import { trackConsultationClick, trackCollegeBuilderSubmit } from "./lib/analytics";
 
 type CollegeListBuilderPageProps = { onBack: () => void };
 type Region = "West Coast" | "East Coast" | "Midwest" | "South";
@@ -196,7 +196,89 @@ const COLLEGES: College[] = [
   { name: "University of Minnesota", region: "Midwest", state: "MN", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Health / Pre-Med"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~75%", satRange: "1310–1480", gpaRange: "3.7–4.0", costNote: "~$33k in-state / ~$54k out-of-state", meritAidStrength: "Moderate", shortReason: "Research-driven public with broad STEM options.", website: "https://twin-cities.umn.edu/", logo: "https://www.google.com/s2/favicons?domain=umn.edu&sz=128" },
   { name: "NC State", region: "South", state: "NC", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~47%", satRange: "1270–1450", gpaRange: "3.7–4.0", costNote: "~$26k in-state / ~$51k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong technical programs with practical focus.", website: "https://www.ncsu.edu/", logo: "https://www.google.com/s2/favicons?domain=ncsu.edu&sz=128" },
   { name: "University of Florida", region: "South", state: "FL", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business", "Health / Pre-Med"], vibe: ["Competitive / research-focused", "Big school spirit"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~24%", satRange: "1330–1490", gpaRange: "4.0+ weighted", costNote: "~$23k in-state / ~$46k out-of-state", meritAidStrength: "Limited", shortReason: "High-value, high-performing public flagship.", website: "https://www.ufl.edu/", logo: "https://www.google.com/s2/favicons?domain=ufl.edu&sz=128" },
+  { name: "Harvard University", region: "East Coast", state: "MA", publicPrivate: "Private", size: "Small", strengths: ["Computer Science / Engineering", "Humanities", "Social Sciences"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~4%", satRange: "1500–1580", gpaRange: "4.3+ weighted", costNote: "~$80k", meritAidStrength: "Limited", shortReason: "World-class research university with deep resources across fields.", website: "https://www.harvard.edu/", logo: "https://www.google.com/s2/favicons?domain=harvard.edu&sz=128" },
+  { name: "Yale University", region: "East Coast", state: "CT", publicPrivate: "Private", size: "Small", strengths: ["Humanities", "Social Sciences", "Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~5%", satRange: "1480–1570", gpaRange: "4.2+ weighted", costNote: "~$80k", meritAidStrength: "Limited", shortReason: "Strong liberal arts and research emphasis with talented faculty.", website: "https://www.yale.edu/", logo: "https://www.google.com/s2/favicons?domain=yale.edu&sz=128" },
+  { name: "Princeton University", region: "East Coast", state: "NJ", publicPrivate: "Private", size: "Small", strengths: ["Computer Science / Engineering", "Humanities"], vibe: ["Competitive / research-focused", "Supportive / collaborative"], selectivityTier: "Elite", estimatedAcceptanceRate: "~4%", satRange: "1500–1570", gpaRange: "4.2+ weighted", costNote: "~$80k", meritAidStrength: "Limited", shortReason: "Undergraduate-focused research university with strong advising.", website: "https://www.princeton.edu/", logo: "https://www.google.com/s2/favicons?domain=princeton.edu&sz=128" },
+  { name: "Stanford University", region: "West Coast", state: "CA", publicPrivate: "Private", size: "Medium", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Elite", estimatedAcceptanceRate: "~4%", satRange: "1500–1580", gpaRange: "4.3+ weighted", costNote: "~$82k", meritAidStrength: "Limited", shortReason: "Leading tech and entrepreneurship network near Silicon Valley.", website: "https://www.stanford.edu/", logo: "https://www.google.com/s2/favicons?domain=stanford.edu&sz=128" },
+  { name: "MIT", region: "East Coast", state: "MA", publicPrivate: "Private", size: "Small", strengths: ["Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~5%", satRange: "1510–1580", gpaRange: "4.3+ weighted", costNote: "~$82k", meritAidStrength: "Limited", shortReason: "Top STEM-focused research and innovation university.", website: "https://www.mit.edu/", logo: "https://www.google.com/s2/favicons?domain=mit.edu&sz=128" },
+  { name: "UC Berkeley", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Social Sciences"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~13%", satRange: "1360–1540", gpaRange: "3.9–4.3 weighted", costNote: "~$30k in-state / ~$60k out-of-state", meritAidStrength: "Limited", shortReason: "Top public university with elite STEM and humanities programs.", website: "https://www.berkeley.edu/", logo: "https://www.google.com/s2/favicons?domain=berkeley.edu&sz=128" },
+  { name: "UCLA", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~12%", satRange: "1350–1530", gpaRange: "3.9–4.2 weighted", costNote: "~$31k in-state / ~$60k out-of-state", meritAidStrength: "Limited", shortReason: "Strong public research university in Los Angeles with broad majors.", website: "https://www.ucla.edu/", logo: "https://www.google.com/s2/favicons?domain=ucla.edu&sz=128" },
+  { name: "University of Southern California", region: "West Coast", state: "CA", publicPrivate: "Private", size: "Large", strengths: ["Business", "Computer Science / Engineering"], vibe: ["Big school spirit", "Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~13%", satRange: "1370–1540", gpaRange: "3.9–4.2 weighted", costNote: "~$85k", meritAidStrength: "Moderate", shortReason: "Strong career outcomes and industry connections in LA.", website: "https://www.usc.edu/", logo: "https://www.google.com/s2/favicons?domain=usc.edu&sz=128" },
+  { name: "Caltech", region: "West Coast", state: "CA", publicPrivate: "Private", size: "Small", strengths: ["Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~4%", satRange: "1530–1580", gpaRange: "4.3+ weighted", costNote: "~$82k", meritAidStrength: "Limited", shortReason: "World-leading STEM focus with tiny class sizes.", website: "https://www.caltech.edu/", logo: "https://www.google.com/s2/favicons?domain=caltech.edu&sz=128" },
+  { name: "University of Michigan", region: "Midwest", state: "MI", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused", "Big school spirit"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~23%", satRange: "1380–1540", gpaRange: "3.9–4.2 weighted", costNote: "~$28k in-state / ~$55k out-of-state", meritAidStrength: "Moderate", shortReason: "Top public research university with strong engineering and business.", website: "https://umich.edu/", logo: "https://www.google.com/s2/favicons?domain=umich.edu&sz=128" },
+  { name: "University of Texas at Austin", region: "South", state: "TX", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Big school spirit", "Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~28%", satRange: "1310–1500", gpaRange: "3.7–4.1", costNote: "~$27k in-state / ~$55k out-of-state", meritAidStrength: "Limited", shortReason: "Flagship public with strong STEM and business programs.", website: "https://www.utexas.edu/", logo: "https://www.google.com/s2/favicons?domain=utexas.edu&sz=128" },
+  { name: "University of North Carolina at Chapel Hill", region: "South", state: "NC", publicPrivate: "Public", size: "Large", strengths: ["Social Sciences", "Business", "Health / Pre-Med"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~21%", satRange: "1310–1500", gpaRange: "3.8–4.1", costNote: "~$25k in-state / ~$53k out-of-state", meritAidStrength: "Limited", shortReason: "Strong public university with notable health and social sciences programs.", website: "https://www.unc.edu/", logo: "https://www.google.com/s2/favicons?domain=unc.edu&sz=128" },
+  { name: "Duke University", region: "South", state: "NC", publicPrivate: "Private", size: "Small", strengths: ["Computer Science / Engineering", "Humanities", "Business"], vibe: ["Competitive / research-focused", "Balanced academics and social life"], selectivityTier: "Elite", estimatedAcceptanceRate: "~6%", satRange: "1480–1570", gpaRange: "4.2+ weighted", costNote: "~$82k", meritAidStrength: "Limited", shortReason: "Top private research university with strong programs across disciplines.", website: "https://www.duke.edu/", logo: "https://www.google.com/s2/favicons?domain=duke.edu&sz=128" },
+  { name: "Vanderbilt University", region: "South", state: "TN", publicPrivate: "Private", size: "Medium", strengths: ["Humanities", "Social Sciences", "Computer Science / Engineering"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~8%", satRange: "1450–1550", gpaRange: "4.1+ weighted", costNote: "~$80k", meritAidStrength: "Moderate", shortReason: "Strong academics with a supportive residential culture.", website: "https://www.vanderbilt.edu/", logo: "https://www.google.com/s2/favicons?domain=vanderbilt.edu&sz=128" },
+  { name: "Emory University", region: "South", state: "GA", publicPrivate: "Private", size: "Medium", strengths: ["Health / Pre-Med", "Humanities"], vibe: ["Supportive / collaborative"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~15%", satRange: "1360–1510", gpaRange: "3.9–4.2", costNote: "~$78k", meritAidStrength: "Moderate", shortReason: "Well-regarded medical and liberal arts preparation.", website: "https://www.emory.edu/", logo: "https://www.google.com/s2/favicons?domain=emory.edu&sz=128" },
+  { name: "Rice University", region: "South", state: "TX", publicPrivate: "Private", size: "Small", strengths: ["Computer Science / Engineering", "Humanities"], vibe: ["Supportive / collaborative"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~9%", satRange: "1480–1560", gpaRange: "4.1+ weighted", costNote: "~$78k", meritAidStrength: "Moderate", shortReason: "Strong STEM and research with small cohorts.", website: "https://www.rice.edu/", logo: "https://www.google.com/s2/favicons?domain=rice.edu&sz=128" },
+  { name: "University of Virginia", region: "East Coast", state: "VA", publicPrivate: "Public", size: "Large", strengths: ["Social Sciences", "Business", "Computer Science / Engineering"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~17%", satRange: "1340–1510", gpaRange: "3.9–4.2", costNote: "~$28k in-state / ~$56k out-of-state", meritAidStrength: "Limited", shortReason: "Top public university with strong liberal arts and STEM.", website: "https://www.virginia.edu/", logo: "https://www.google.com/s2/favicons?domain=virginia.edu&sz=128" },
+  { name: "University of Chicago", region: "Midwest", state: "IL", publicPrivate: "Private", size: "Small", strengths: ["Social Sciences", "Humanities", "Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~6%", satRange: "1500–1560", gpaRange: "4.2+ weighted", costNote: "~$82k", meritAidStrength: "Moderate", shortReason: "Strong quantitative and research focus across disciplines.", website: "https://www.uchicago.edu/", logo: "https://www.google.com/s2/favicons?domain=uchicago.edu&sz=128" },
+  { name: "Northwestern University", region: "Midwest", state: "IL", publicPrivate: "Private", size: "Medium", strengths: ["Computer Science / Engineering", "Business", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~8%", satRange: "1460–1560", gpaRange: "4.1+ weighted", costNote: "~$80k", meritAidStrength: "Limited", shortReason: "Strong interdisciplinary programs and industry links.", website: "https://www.northwestern.edu/", logo: "https://www.google.com/s2/favicons?domain=northwestern.edu&sz=128" },
+  { name: "Johns Hopkins University", region: "East Coast", state: "MD", publicPrivate: "Private", size: "Small", strengths: ["Health / Pre-Med", "Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~9%", satRange: "1480–1560", gpaRange: "4.1+ weighted", costNote: "~$82k", meritAidStrength: "Limited", shortReason: "Top-tier research university with strong pre-med pathways.", website: "https://www.jhu.edu/", logo: "https://www.google.com/s2/favicons?domain=jhu.edu&sz=128" },
+  { name: "University of Wisconsin-Madison", region: "Midwest", state: "WI", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Social Sciences"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~52%", satRange: "1240–1460", gpaRange: "3.6–4.0", costNote: "~$25k in-state / ~$50k out-of-state", meritAidStrength: "Moderate", shortReason: "Large research university with wide academic offerings.", website: "https://www.wisc.edu/", logo: "https://www.google.com/s2/favicons?domain=wisc.edu&sz=128" },
+  { name: "Michigan State University", region: "Midwest", state: "MI", publicPrivate: "Public", size: "Large", strengths: ["Business", "Health / Pre-Med"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~77%", satRange: "1110–1320", gpaRange: "3.5–3.9", costNote: "~$24k in-state / ~$46k out-of-state", meritAidStrength: "Moderate", shortReason: "Broad-access public with strong professional programs.", website: "https://msu.edu/", logo: "https://www.google.com/s2/favicons?domain=msu.edu&sz=128" },
+  { name: "Ohio University", region: "Midwest", state: "OH", publicPrivate: "Public", size: "Medium", strengths: ["Humanities", "Social Sciences"], vibe: ["Supportive / collaborative"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~88%", satRange: "1000–1250", gpaRange: "3.2–3.8", costNote: "~$24k in-state / ~$42k out-of-state", meritAidStrength: "Strong", shortReason: "Regional public with strong scholarship programs.", website: "https://www.ohio.edu/", logo: "https://www.google.com/s2/favicons?domain=ohio.edu&sz=128" },
+  { name: "University of Maryland, College Park", region: "East Coast", state: "MD", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~40%", satRange: "1340–1510", gpaRange: "3.9–4.2", costNote: "~$31k in-state / ~$56k out-of-state", meritAidStrength: "Moderate", shortReason: "Large research institution strong in tech and applied fields.", website: "https://www.umd.edu/", logo: "https://www.google.com/s2/favicons?domain=umd.edu&sz=128" },
+  { name: "Arizona State University", region: "West Coast", state: "AZ", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~85%", satRange: "1080–1310", gpaRange: "3.2–3.8", costNote: "~$26k in-state / ~$42k out-of-state", meritAidStrength: "Strong", shortReason: "Wide-access public with expanded program offerings and innovation initiatives.", website: "https://www.asu.edu/", logo: "https://www.google.com/s2/favicons?domain=asu.edu&sz=128" },
+  { name: "Georgia Institute of Technology", region: "South", state: "GA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~21%", satRange: "1400–1540", gpaRange: "3.9–4.2", costNote: "~$28k in-state / ~$48k out-of-state", meritAidStrength: "Limited", shortReason: "Top public tech university with strong engineering programs.", website: "https://www.gatech.edu/", logo: "https://www.google.com/s2/favicons?domain=gatech.edu&sz=128" },
+  { name: "Pennsylvania State University, University Park", region: "East Coast", state: "PA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~55%", satRange: "1220–1400", gpaRange: "3.6–3.9", costNote: "~$38k in-state / ~$58k out-of-state", meritAidStrength: "Moderate", shortReason: "Large flagship public with broad program strengths and alumni network.", website: "https://www.psu.edu/", logo: "https://www.google.com/s2/favicons?domain=psu.edu&sz=128" },
+  { name: "Syracuse University", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Medium", strengths: ["Business", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~60%", satRange: "1200–1400", gpaRange: "3.6–4.0", costNote: "~$75k", meritAidStrength: "Moderate", shortReason: "Strong communication and business programs with urban engagement.", website: "https://www.syracuse.edu/", logo: "https://www.google.com/s2/favicons?domain=syracuse.edu&sz=128" },
+  { name: "Tulane University", region: "South", state: "LA", publicPrivate: "Private", size: "Medium", strengths: ["Social Sciences", "Health / Pre-Med"], vibe: ["Supportive / collaborative"], selectivityTier: "Selective", estimatedAcceptanceRate: "~12%", satRange: "1360–1520", gpaRange: "3.9–4.2", costNote: "~$78k", meritAidStrength: "Moderate", shortReason: "Strong pre-med and social science programs with urban research.", website: "https://tulane.edu/", logo: "https://www.google.com/s2/favicons?domain=tulane.edu&sz=128" },
+  { name: "Southern Methodist University", region: "South", state: "TX", publicPrivate: "Private", size: "Medium", strengths: ["Business", "Computer Science / Engineering"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~43%", satRange: "1270–1450", gpaRange: "3.7–4.1", costNote: "~$75k", meritAidStrength: "Moderate", shortReason: "Strong business and regional industry connections.", website: "https://www.smu.edu/", logo: "https://www.google.com/s2/favicons?domain=smu.edu&sz=128" },
+  { name: "Baylor University", region: "South", state: "TX", publicPrivate: "Private", size: "Large", strengths: ["Business", "Health / Pre-Med"], vibe: ["Big school spirit"], selectivityTier: "Selective", estimatedAcceptanceRate: "~38%", satRange: "1180–1350", gpaRange: "3.6–4.0", costNote: "~$65k", meritAidStrength: "Moderate", shortReason: "Strong regional program offerings and growing research.", website: "https://www.baylor.edu/", logo: "https://www.google.com/s2/favicons?domain=baylor.edu&sz=128" },
+  { name: "San Diego State University", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~34%", satRange: "1150–1350", gpaRange: "3.5–3.9", costNote: "~$28k in-state / ~$48k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong regional public with practical career focus.", website: "https://www.sdsu.edu/", logo: "https://www.google.com/s2/favicons?domain=sdsu.edu&sz=128" },
+  { name: "UC Santa Barbara", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Social Sciences", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~27%", satRange: "1250–1450", gpaRange: "3.8–4.1", costNote: "~$30k in-state / ~$58k out-of-state", meritAidStrength: "Limited", shortReason: "Strong research university with notable humanities and social science programs.", website: "https://www.ucsb.edu/", logo: "https://www.google.com/s2/favicons?domain=ucsb.edu&sz=128" },
+  { name: "UC Santa Cruz", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Medium", strengths: ["Computer Science / Engineering", "Social Sciences"], vibe: ["Supportive / collaborative"], selectivityTier: "Selective", estimatedAcceptanceRate: "~45%", satRange: "1150–1370", gpaRange: "3.6–4.0", costNote: "~$29k in-state / ~$55k out-of-state", meritAidStrength: "Moderate", shortReason: "Good CS programs with collaborative research culture.", website: "https://www.ucsc.edu/", logo: "https://www.google.com/s2/favicons?domain=ucsc.edu&sz=128" },
+  { name: "Cal State Long Beach", region: "West Coast", state: "CA", publicPrivate: "Public", size: "Large", strengths: ["Business", "Social Sciences"], vibe: ["Balanced academics and social life"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~55%", satRange: "1000–1280", gpaRange: "3.2–3.8", costNote: "~$18k in-state / ~$35k out-of-state", meritAidStrength: "Strong", shortReason: "Large, accessible public with strong regional programs.", website: "https://www.csulb.edu/", logo: "https://www.google.com/s2/favicons?domain=csulb.edu&sz=128" },
+  { name: "University of Arizona", region: "West Coast", state: "AZ", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~85%", satRange: "1080–1310", gpaRange: "3.3–3.8", costNote: "~$28k in-state / ~$44k out-of-state", meritAidStrength: "Moderate", shortReason: "Large public research university with broad program offerings.", website: "https://www.arizona.edu/", logo: "https://www.google.com/s2/favicons?domain=arizona.edu&sz=128" },
+  { name: "University of Colorado Boulder", region: "West Coast", state: "CO", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Social Sciences"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~78%", satRange: "1200–1400", gpaRange: "3.5–3.9", costNote: "~$28k in-state / ~$50k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong engineering and outdoor campus culture.", website: "https://www.colorado.edu/", logo: "https://www.google.com/s2/favicons?domain=colorado.edu&sz=128" },
+  { name: "Colorado School of Mines", region: "West Coast", state: "CO", publicPrivate: "Public", size: "Small", strengths: ["Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~30%", satRange: "1280–1480", gpaRange: "3.8–4.2", costNote: "~$30k in-state / ~$55k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong engineering focus with high outcomes.", website: "https://www.mines.edu/", logo: "https://www.google.com/s2/favicons?domain=mines.edu&sz=128" },
+  { name: "Oregon State University", region: "West Coast", state: "OR", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Supportive / collaborative"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~82%", satRange: "1050–1290", gpaRange: "3.2–3.8", costNote: "~$26k in-state / ~$45k out-of-state", meritAidStrength: "Moderate", shortReason: "Growing public research university with practical programs.", website: "https://oregonstate.edu/", logo: "https://www.google.com/s2/favicons?domain=oregonstate.edu&sz=128" },
+  { name: "University of Oregon", region: "West Coast", state: "OR", publicPrivate: "Public", size: "Large", strengths: ["Social Sciences", "Business"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~82%", satRange: "1040–1290", gpaRange: "3.2–3.8", costNote: "~$26k in-state / ~$45k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong campus life and regional programs.", website: "https://www.uoregon.edu/", logo: "https://www.google.com/s2/favicons?domain=uoregon.edu&sz=128" },
+  { name: "Washington State University", region: "West Coast", state: "WA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Big school spirit"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~80%", satRange: "1050–1290", gpaRange: "3.2–3.8", costNote: "~25k in-state / ~$45k out-of-state", meritAidStrength: "Moderate", shortReason: "Large public with strong regional engagement and applied research.", website: "https://wsu.edu/", logo: "https://www.google.com/s2/favicons?domain=wsu.edu&sz=128" },
+  { name: "George Washington University", region: "East Coast", state: "DC", publicPrivate: "Private", size: "Medium", strengths: ["Social Sciences", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~40%", satRange: "1310–1480", gpaRange: "3.7–4.1", costNote: "~$80k", meritAidStrength: "Moderate", shortReason: "Urban research university with strong public affairs and business programs.", website: "https://www.gwu.edu/", logo: "https://www.google.com/s2/favicons?domain=gwu.edu&sz=128" },
+  { name: "American University", region: "East Coast", state: "DC", publicPrivate: "Private", size: "Medium", strengths: ["Social Sciences", "Humanities"], vibe: ["Supportive / collaborative"], selectivityTier: "Selective", estimatedAcceptanceRate: "~37%", satRange: "1250–1450", gpaRange: "3.6–4.0", costNote: "~70k", meritAidStrength: "Moderate", shortReason: "Strong public affairs and international relations programs.", website: "https://www.american.edu/", logo: "https://www.google.com/s2/favicons?domain=american.edu&sz=128" },
+  { name: "Fordham University", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Medium", strengths: ["Humanities", "Social Sciences"], vibe: ["Balanced academics and social life"], selectivityTier: "Selective", estimatedAcceptanceRate: "~46%", satRange: "1200–1400", gpaRange: "3.6–4.0", costNote: "~72k", meritAidStrength: "Moderate", shortReason: "Urban campus with strong humanities and social sciences.", website: "https://www.fordham.edu/", logo: "https://www.google.com/s2/favicons?domain=fordham.edu&sz=128" },
+  { name: "Case Western Reserve University", region: "Midwest", state: "OH", publicPrivate: "Private", size: "Medium", strengths: ["Computer Science / Engineering", "Health / Pre-Med"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~27%", satRange: "1370–1510", gpaRange: "3.9–4.2", costNote: "~$70k", meritAidStrength: "Moderate", shortReason: "Strong engineering and medical pathways with research opportunities.", website: "https://case.edu/", logo: "https://www.google.com/s2/favicons?domain=case.edu&sz=128" },
+  { name: "Brown University", region: "East Coast", state: "RI", publicPrivate: "Private", size: "Small", strengths: ["Humanities", "Social Sciences"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~6%", satRange: "1460–1560", gpaRange: "4.1+ weighted", costNote: "~82k", meritAidStrength: "Limited", shortReason: "Ivy League research university with open curriculum strengths.", website: "https://www.brown.edu/", logo: "https://www.google.com/s2/favicons?domain=brown.edu&sz=128" },
+  { name: "Cornell University", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Large", strengths: ["Computer Science / Engineering", "Humanities"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~10%", satRange: "1400–1560", gpaRange: "4.0+ weighted", costNote: "~82k", meritAidStrength: "Limited", shortReason: "Ivy League engineering and varied colleges across campuses.", website: "https://www.cornell.edu/", logo: "https://www.google.com/s2/favicons?domain=cornell.edu&sz=128" },
+  { name: "Columbia University", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Small", strengths: ["Humanities", "Social Sciences"], vibe: ["Competitive / research-focused"], selectivityTier: "Elite", estimatedAcceptanceRate: "~4%", satRange: "1500–1560", gpaRange: "4.2+ weighted", costNote: "~82k", meritAidStrength: "Limited", shortReason: "Ivy League with strong urban research and global networks.", website: "https://www.columbia.edu/", logo: "https://www.google.com/s2/favicons?domain=columbia.edu&sz=128" },
+  { name: "New York University", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Large", strengths: ["Business", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~15%", satRange: "1350–1530", gpaRange: "3.8–4.2", costNote: "~78k", meritAidStrength: "Limited", shortReason: "Urban university with strong arts, business, and global programs.", website: "https://www.nyu.edu/", logo: "https://www.google.com/s2/favicons?domain=nyu.edu&sz=128" },
+  { name: "University of Rochester", region: "East Coast", state: "NY", publicPrivate: "Private", size: "Medium", strengths: ["Computer Science / Engineering", "Humanities"], vibe: ["Supportive / collaborative"], selectivityTier: "Selective", estimatedAcceptanceRate: "~34%", satRange: "1350–1500", gpaRange: "3.8–4.1", costNote: "~75k", meritAidStrength: "Moderate", shortReason: "Strong research and liberal arts blend with flexible curriculum.", website: "https://www.rochester.edu/", logo: "https://www.google.com/s2/favicons?domain=rochester.edu&sz=128" },
+  { name: "Brandeis University", region: "East Coast", state: "MA", publicPrivate: "Private", size: "Small", strengths: ["Humanities", "Social Sciences"], vibe: ["Supportive / collaborative"], selectivityTier: "Selective", estimatedAcceptanceRate: "~30%", satRange: "1320–1480", gpaRange: "3.7–4.1", costNote: "~72k", meritAidStrength: "Moderate", shortReason: "Strong social sciences and humanities with research opportunities.", website: "https://www.brandeis.edu/", logo: "https://www.google.com/s2/favicons?domain=brandeis.edu&sz=128" },
+  { name: "Northwestern University", region: "Midwest", state: "IL", publicPrivate: "Private", size: "Medium", strengths: ["Computer Science / Engineering", "Business", "Humanities"], vibe: ["Balanced academics and social life"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~8%", satRange: "1460–1560", gpaRange: "4.1+ weighted", costNote: "~80k", meritAidStrength: "Limited", shortReason: "Strong interdisciplinary programs and industry links.", website: "https://www.northwestern.edu/", logo: "https://www.google.com/s2/favicons?domain=northwestern.edu&sz=128" },
+  { name: "Johns Hopkins University", region: "East Coast", state: "MD", publicPrivate: "Private", size: "Small", strengths: ["Health / Pre-Med", "Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~9%", satRange: "1480–1560", gpaRange: "4.1+ weighted", costNote: "~82k", meritAidStrength: "Limited", shortReason: "Top-tier research university with strong pre-med pathways.", website: "https://www.jhu.edu/", logo: "https://www.google.com/s2/favicons?domain=jhu.edu&sz=128" },
+  { name: "University of Wisconsin-Madison", region: "Midwest", state: "WI", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Social Sciences"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~52%", satRange: "1240–1460", gpaRange: "3.6–4.0", costNote: "~25k in-state / ~$50k out-of-state", meritAidStrength: "Moderate", shortReason: "Large research university with wide academic offerings.", website: "https://www.wisc.edu/", logo: "https://www.google.com/s2/favicons?domain=wisc.edu&sz=128" },
+  { name: "Michigan State University", region: "Midwest", state: "MI", publicPrivate: "Public", size: "Large", strengths: ["Business", "Health / Pre-Med"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~77%", satRange: "1110–1320", gpaRange: "3.5–3.9", costNote: "~24k in-state / ~$46k out-of-state", meritAidStrength: "Moderate", shortReason: "Broad-access public with strong professional programs.", website: "https://msu.edu/", logo: "https://www.google.com/s2/favicons?domain=msu.edu&sz=128" },
+  { name: "Ohio University", region: "Midwest", state: "OH", publicPrivate: "Public", size: "Medium", strengths: ["Humanities", "Social Sciences"], vibe: ["Supportive / collaborative"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~88%", satRange: "1000–1250", gpaRange: "3.2–3.8", costNote: "~24k in-state / ~$42k out-of-state", meritAidStrength: "Strong", shortReason: "Regional public with strong scholarship programs.", website: "https://www.ohio.edu/", logo: "https://www.google.com/s2/favicons?domain=ohio.edu&sz=128" },
+  { name: "University of Maryland, College Park", region: "East Coast", state: "MD", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Competitive / research-focused"], selectivityTier: "Selective", estimatedAcceptanceRate: "~40%", satRange: "1340–1510", gpaRange: "3.9–4.2", costNote: "~31k in-state / ~$56k out-of-state", meritAidStrength: "Moderate", shortReason: "Large research institution strong in tech and applied fields.", website: "https://www.umd.edu/", logo: "https://www.google.com/s2/favicons?domain=umd.edu&sz=128" },
+  { name: "Arizona State University", region: "West Coast", state: "AZ", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~85%", satRange: "1080–1310", gpaRange: "3.2–3.8", costNote: "~26k in-state / ~$42k out-of-state", meritAidStrength: "Strong", shortReason: "Wide-access public with expanded program offerings and innovation initiatives.", website: "https://www.asu.edu/", logo: "https://www.google.com/s2/favicons?domain=asu.edu&sz=128" },
+  { name: "Georgia Institute of Technology", region: "South", state: "GA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering"], vibe: ["Competitive / research-focused"], selectivityTier: "Highly Selective", estimatedAcceptanceRate: "~21%", satRange: "1400–1540", gpaRange: "3.9–4.2", costNote: "~28k in-state / ~$48k out-of-state", meritAidStrength: "Limited", shortReason: "Top public tech university with strong engineering programs.", website: "https://www.gatech.edu/", logo: "https://www.google.com/s2/favicons?domain=gatech.edu&sz=128" },
+  { name: "Pennsylvania State University, University Park", region: "East Coast", state: "PA", publicPrivate: "Public", size: "Large", strengths: ["Computer Science / Engineering", "Business"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~55%", satRange: "1220–1400", gpaRange: "3.6–3.9", costNote: "~38k in-state / ~$58k out-of-state", meritAidStrength: "Moderate", shortReason: "Large flagship public with broad program strengths and alumni network.", website: "https://www.psu.edu/", logo: "https://www.google.com/s2/favicons?domain=psu.edu&sz=128" },
+  { name: "University of Tennessee, Knoxville", region: "South", state: "TN", publicPrivate: "Public", size: "Large", strengths: ["Business", "Engineering"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~80%", satRange: "1100–1320", gpaRange: "3.3–3.8", costNote: "~24k in-state / ~$44k out-of-state", meritAidStrength: "Moderate", shortReason: "Large flagship with broad program offerings and strong alumni network.", website: "https://www.utk.edu/", logo: "https://www.google.com/s2/favicons?domain=utk.edu&sz=128" },
+  { name: "Auburn University", region: "South", state: "AL", publicPrivate: "Public", size: "Large", strengths: ["Engineering", "Business"], vibe: ["Big school spirit"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~85%", satRange: "1100–1320", gpaRange: "3.2–3.8", costNote: "~22k in-state / ~$42k out-of-state", meritAidStrength: "Moderate", shortReason: "Strong engineering and regional impact.", website: "https://www.auburn.edu/", logo: "https://www.google.com/s2/favicons?domain=auburn.edu&sz=128" },
+  { name: "Kent State University", region: "Midwest", state: "OH", publicPrivate: "Public", size: "Large", strengths: ["Humanities", "Social Sciences"], vibe: ["Supportive / collaborative"], selectivityTier: "Accessible", estimatedAcceptanceRate: "~92%", satRange: "950–1220", gpaRange: "2.9–3.6", costNote: "~20k in-state / ~$38k out-of-state", meritAidStrength: "Strong", shortReason: "Regional public with broad program access and scholarship opportunities.", website: "https://www.kent.edu/", logo: "https://www.google.com/s2/favicons?domain=kent.edu&sz=128" },
+  { name: "University of Louisville", region: "South", state: "KY", publicPrivate: "Public", size: "Large", strengths: ["Health / Pre-Med", "Business"], vibe: ["Balanced academics and social life"], selectivityTier: "Moderate", estimatedAcceptanceRate: "~76%", satRange: "1060–1280", gpaRange: "3.2–3.8", costNote: "~22k in-state / ~$40k out-of-state", meritAidStrength: "Moderate", shortReason: "Urban research university with strong health programs.", website: "https://louisville.edu/", logo: "https://www.google.com/s2/favicons?domain=louisville.edu&sz=128" },
 ];
+
+function filterCollegesStrict(input: FormState): College[] {
+  return COLLEGES.filter((c) => {
+    // location
+    if (input.location !== "Anywhere" && c.region !== input.location) return false;
+    // study area
+    if (input.studyArea !== "Undecided" && !c.strengths.includes(input.studyArea)) return false;
+    // school size
+    if (input.schoolSize !== "No preference" && c.size !== input.schoolSize) return false;
+    // vibe
+    if (input.vibe !== "No preference" && !c.vibe.includes(input.vibe)) return false;
+    // budget
+    if (input.budget === "In-state/public options preferred" && c.publicPrivate !== "Public") return false;
+    if (input.budget === "Need strong merit scholarships" && c.meritAidStrength === "Limited") return false;
+    // passed all strict checks
+    return true;
+  });
+}
 
 function getAcademicTier(input: FormState): AcademicTier {
   const isUnknown = input.testStatus === "Haven't taken yet" || input.testStatus === "Test optional";
@@ -295,80 +377,56 @@ function scoreCollege(college: College, input: FormState, tier: AcademicTier): R
   return { ...college, score, bucket, fitBadges: badges };
 }
 
-function pickBalanced(
-  candidates: RankedCollege[],
-  region: FormState["location"],
-  count: number
-): RankedCollege[] {
-  const sorted = [...candidates].sort((a, b) => b.score - a.score);
-  if (region === "Anywhere") return sorted.slice(0, count);
+// selectivity weight helper removed — selection now uses ranked sorting and strictness checks
 
-  const inRegion = sorted.filter((s) => s.region === region);
-  const outRegion = sorted.filter((s) => s.region !== region);
-  const minRegional = Math.min(inRegion.length, Math.ceil(count * 0.75));
-  const chosen = [...inRegion.slice(0, minRegional)];
-  const fillPool = [...inRegion.slice(minRegional), ...outRegion];
-
-  for (const school of fillPool) {
-    if (chosen.length >= count) break;
-    if (school.region !== region) {
-      school.crossRegionReason = "Included as an extra strong overall fit beyond your region preference.";
-    }
-    chosen.push(school);
-  }
-  return chosen;
-}
-
-function getSelectivityWeightForBucket(bucket: Bucket, tier: SelectivityTier): number {
-  const orderByBucket: Record<Bucket, SelectivityTier[]> = {
-    reach: ["Elite", "Highly Selective", "Selective", "Moderate", "Accessible"],
-    target: ["Selective", "Moderate", "Highly Selective", "Accessible", "Elite"],
-    likely: ["Accessible", "Moderate", "Selective", "Highly Selective", "Elite"],
-  };
-  return orderByBucket[bucket].indexOf(tier);
-}
-
-function fillBucketToCount(
-  base: RankedCollege[],
-  allRanked: RankedCollege[],
-  region: FormState["location"],
+function selectBucketWithRelaxation(
   bucket: Bucket,
+  rankedAll: RankedCollege[],
+  rankedStrict: RankedCollege[],
+  region: FormState["location"],
   count: number,
   excludedNames?: Set<string>
-): RankedCollege[] {
+): { items: RankedCollege[]; strictCount: number } {
   const chosen: RankedCollege[] = [];
-  const blockedNames = excludedNames ?? new Set<string>();
+  const blocked = excludedNames ?? new Set<string>();
 
-  for (const item of base) {
-    if (chosen.length >= count) break;
-    if (blockedNames.has(item.name)) continue;
-    if (chosen.some((selected) => selected.name === item.name)) continue;
-    chosen.push(item);
+  const strictPool = rankedStrict.filter((r) => r.bucket === bucket && !blocked.has(r.name));
+  const allPool = rankedAll.filter((r) => !blocked.has(r.name));
+
+  // pick up to 3 strict matches first
+  for (const s of strictPool) {
+    if (chosen.length >= Math.min(3, count)) break;
+    if (!chosen.some((c) => c.name === s.name)) chosen.push(s);
   }
 
-  if (chosen.length >= count) return chosen.slice(0, count);
+  const strictCount = chosen.length;
 
-  const selectedNames = new Set(chosen.map((item) => item.name));
-  const fallbackPool = allRanked
-    .filter((item) => !selectedNames.has(item.name) && !blockedNames.has(item.name))
+  // determine allowed non-strict additions: if we already have >=3 strict, allow at most 1 non-strict
+  const allowNonStrict = strictCount >= 3 ? 1 : count - strictCount;
+  let nonStrictAdded = 0;
+
+  // fill remaining slots from allPool, preferring same-region and higher score
+  const remainingPool = allPool
+    .filter((r) => !chosen.some((c) => c.name === r.name))
     .sort((a, b) => {
       const regionScoreA = region === "Anywhere" ? 0 : a.region === region ? 0 : 1;
       const regionScoreB = region === "Anywhere" ? 0 : b.region === region ? 0 : 1;
       if (regionScoreA !== regionScoreB) return regionScoreA - regionScoreB;
-
-      const selectivityA = getSelectivityWeightForBucket(bucket, a.selectivityTier);
-      const selectivityB = getSelectivityWeightForBucket(bucket, b.selectivityTier);
-      if (selectivityA !== selectivityB) return selectivityA - selectivityB;
-
       return b.score - a.score;
     });
 
-  for (const school of fallbackPool) {
+  for (const candidate of remainingPool) {
     if (chosen.length >= count) break;
-    chosen.push(school);
+    const isStrict = rankedStrict.some((r) => r.name === candidate.name);
+    if (!isStrict) {
+      if (nonStrictAdded >= allowNonStrict) continue;
+      nonStrictAdded += 1;
+      candidate.crossRegionReason = "Included as an extra strong overall fit beyond your preferences.";
+    }
+    chosen.push(candidate);
   }
 
-  return chosen.slice(0, count);
+  return { items: chosen.slice(0, count), strictCount };
 }
 
 function buildWarning(input: FormState): string | null {
@@ -408,25 +466,52 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
 
   const computed = useMemo(() => {
     const tier = getAcademicTier(formState);
-    const ranked = COLLEGES.map((c) => scoreCollege(c, formState, tier));
-    const reachPool = ranked.filter((r) => r.bucket === "reach");
-    const targetPool = ranked.filter((r) => r.bucket === "target");
-    const likelyPool = ranked.filter((r) => r.bucket === "likely");
+    const candidates = filterCollegesStrict(formState);
 
-    const reachBase = pickBalanced(reachPool, formState.location, 4).slice(0, 4);
-    const targetBase = pickBalanced(targetPool, formState.location, 4).slice(0, 4);
-    const likelyBase = pickBalanced(likelyPool, formState.location, 4).slice(0, 4);
+    if (candidates.length === 0) {
+      return {
+        tier,
+        warning:
+          "No colleges match all of your strict preferences. Try widening location, major, size, or budget to see more options.",
+        summary: buildSummary(formState, tier),
+        buckets: [
+          { title: "Possible Reach Schools", tone: "", items: [] },
+          { title: "Potential Target Schools", tone: "", items: [] },
+          { title: "Likely / Safer-Fit Options", tone: "", items: [] },
+        ],
+      };
+    }
+
+    const rankedAll = COLLEGES.map((c) => scoreCollege(c, formState, tier));
+    const strictCandidates = filterCollegesStrict(formState);
+    const rankedStrict = strictCandidates.map((c) => scoreCollege(c, formState, tier));
 
     const usedNames = new Set<string>();
-    const reach = fillBucketToCount(reachBase, ranked, formState.location, "reach", 4, usedNames);
-    reach.forEach((item) => usedNames.add(item.name));
-    const target = fillBucketToCount(targetBase, ranked, formState.location, "target", 4, usedNames);
-    target.forEach((item) => usedNames.add(item.name));
-    const likely = fillBucketToCount(likelyBase, ranked, formState.location, "likely", 4, usedNames);
+
+    const reachSel = selectBucketWithRelaxation("reach", rankedAll, rankedStrict, formState.location, 4, usedNames);
+    reachSel.items.forEach((i) => usedNames.add(i.name));
+    const targetSel = selectBucketWithRelaxation("target", rankedAll, rankedStrict, formState.location, 4, usedNames);
+    targetSel.items.forEach((i) => usedNames.add(i.name));
+    const likelySel = selectBucketWithRelaxation("likely", rankedAll, rankedStrict, formState.location, 4, usedNames);
+
+    const reach = reachSel.items;
+    const target = targetSel.items;
+    const likely = likelySel.items;
+
+    // build warning if any bucket had fewer than 3 strict matches
+    const shortageBuckets = [] as string[];
+    if (reachSel.strictCount < 3) shortageBuckets.push("reach");
+    if (targetSel.strictCount < 3) shortageBuckets.push("target");
+    if (likelySel.strictCount < 3) shortageBuckets.push("likely");
+
+    const shortageWarning =
+      shortageBuckets.length > 0
+        ? `Some buckets had fewer than 3 strict matches (${shortageBuckets.join(", ")}). Consider widening location, major, size, or budget preferences to see more exact matches.`
+        : null;
 
     return {
       tier,
-      warning: buildWarning(formState),
+      warning: shortageWarning ?? buildWarning(formState),
       summary: buildSummary(formState, tier),
       buckets: [
         { title: "Possible Reach Schools", tone: "Aspirational options that may require a strong overall application.", items: reach },
@@ -437,7 +522,7 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
   }, [formState]);
 
   function trackCalendlyClick() {
-    ReactGA.event({ category: "Consultation", action: "Clicked Calendly Button" });
+    trackConsultationClick("college_list_builder");
   }
   function scrollToConversionSection() {
     const target = document.getElementById("results-conversion-section");
@@ -447,6 +532,14 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitted(true);
+    // track college builder usage with summary metadata
+    const count = computed.buckets.reduce((sum, b) => sum + (b.items?.length ?? 0), 0);
+    trackCollegeBuilderSubmit({
+      count,
+      intendedMajor: formState.studyArea,
+      gpa: formState.gpa,
+      testStatus: formState.testStatus,
+    });
   }
 
   const selectClassName =
