@@ -21,7 +21,7 @@ export default function CollegeAdmissionsArticlePage({
   onBackToHub,
   onBackHome,
 }: CollegeAdmissionsArticlePageProps) {
-  const articleUrl = `${siteBaseUrl}/#/blogs/${post.slug}`;
+  const articleUrl = `${siteBaseUrl}/blog/${post.slug}/`;
   const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
   const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(post.title)}`;
 

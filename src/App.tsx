@@ -799,7 +799,7 @@ export default function EdupreneurLandingPage() {
                         event.currentTarget.style.display = "none";
                       }}
                     />
-                  </span>
+                  </span> // comment
 
                   {college.name}
                   </span>
