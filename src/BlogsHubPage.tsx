@@ -32,8 +32,6 @@ function formatDate(isoDate: string) {
 }
 
 export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
-  const consultationUrl =
-    "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
   const [selectedTopic, setSelectedTopic] = useState<string>("All");
 
   const topicOptions = useMemo(() => {

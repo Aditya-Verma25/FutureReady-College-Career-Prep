@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
+import { trackConsultationClick, trackContactSubmit } from "./lib/analytics";
 import SatPage from "./SatPage";
 import CollegeAppsPage from "./CollegeAppsPage";
 import TutoringPage from "./TutoringPage";
@@ -107,10 +108,8 @@ export default function EdupreneurLandingPage() {
   }, [showEarlyBirdPopup]);
 
   function trackCalendlyClick() {
-    ReactGA.event({
-      category: "Consultation",
-      action: "Clicked Calendly Button",
-    });
+    // fallback: record a generic consultation click from an unspecified location
+    trackConsultationClick("site");
   }
 
   function handleBrandClick() {
@@ -143,10 +142,7 @@ export default function EdupreneurLandingPage() {
   async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormStatus("sending");
-    ReactGA.event({
-      category: "Contact",
-      action: "Submitted Contact Form",
-    });
+    // track contact form submit after a successful submission
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -162,6 +158,7 @@ export default function EdupreneurLandingPage() {
 
       form.reset();
       setFormStatus("success");
+      trackContactSubmit("contact_section");
     } catch {
       setFormStatus("error");
     }
@@ -440,14 +437,14 @@ export default function EdupreneurLandingPage() {
         </div>
       </nav>
       {content}
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={trackCalendlyClick} />
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
     </>
   );
 
   const renderWithFooter = (content: ReactNode) => (
     <>
       {content}
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={trackCalendlyClick} />
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
     </>
   );
 
@@ -606,7 +603,7 @@ export default function EdupreneurLandingPage() {
             </h2>
 
             <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
-              Personalized guidance from a current UMD CS student who recently went through the same process.
+              Personalized guidance from a current successful college<br/>student who recently went through the same process.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-4">
@@ -799,7 +796,7 @@ export default function EdupreneurLandingPage() {
                         event.currentTarget.style.display = "none";
                       }}
                     />
-                  </span> // comment
+                  </span>
 
                   {college.name}
                   </span>
@@ -987,7 +984,7 @@ export default function EdupreneurLandingPage() {
         }}
         reserveUrl={consultationUrl}
       />
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={trackCalendlyClick} />
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
     </div>
   );
 }

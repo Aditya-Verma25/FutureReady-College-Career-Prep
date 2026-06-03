@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import ReactGA from "react-ga4";
+import { trackConsultationClick } from "./lib/analytics";
 
 type TutoringPageProps = {
   onBack: () => void;
@@ -11,10 +11,7 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
   }, []);
 
   function trackCalendlyClick() {
-    ReactGA.event({
-      category: "Consultation",
-      action: "Clicked Calendly Button",
-    });
+    trackConsultationClick("tutoring");
   }
 
   return (
