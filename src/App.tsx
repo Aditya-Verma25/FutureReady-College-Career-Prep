@@ -17,7 +17,7 @@ export default function EdupreneurLandingPage() {
   const consultationUrl =
     "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
   const messageUrl = 
-    "https://m.me/futurereadycollegeprep?ref=contact_from_website";
+    "https://m.me/futurereadycollegeprep";
   const popupDismissKey = "frp_early_bird_popup_dismissed_at";
   const popupDelayMs = 18000;
   const popupDismissCooldownMs = 24 * 60 * 60 * 1000;
@@ -365,6 +365,18 @@ export default function EdupreneurLandingPage() {
     "What stood out most was how supportive and organized he is. Weekly check-ins kept me on track without feeling overwhelmed.",
   ];
 
+  const FloatingMessageButton = () => (
+  <a
+    href={messageUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="fixed bottom-5 right-5 z-[60] inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-xl shadow-blue-900/20 transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
+    aria-label="Message me with a question"
+  >
+    <span className="text-base leading-none">💬</span>
+    <span>Questions? Chat with Me</span>
+  </a>
+);
   const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P."];
   const renderWithHeaderAndFooter = (content: ReactNode) => (
     <>
@@ -426,6 +438,8 @@ export default function EdupreneurLandingPage() {
               </a>
             </div>
 
+
+
             <a
               href={consultationUrl}
               target="_blank"
@@ -439,16 +453,17 @@ export default function EdupreneurLandingPage() {
         </div>
       </nav>
       {content}
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
-    </>
+      <FloatingMessageButton />
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />    </>
   );
 
   const renderWithFooter = (content: ReactNode) => (
-    <>
-      {content}
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
-    </>
-  );
+  <>
+    {content}
+    <FloatingMessageButton />
+    <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
+  </>
+);
 
   if (hashPath === "#/sat") {
     return renderWithHeaderAndFooter(<SatPage onBack={() => (window.location.hash = "")} />);
@@ -958,16 +973,8 @@ export default function EdupreneurLandingPage() {
           </form>
         </div>
       </section>
-      <a
-        href={messageUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-5 right-5 z-[60] inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-xl shadow-blue-900/20 transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        aria-label="Chat with us"
-      >
-        <span className="text-base leading-none">💬</span>
-        <span>Questions? Chat with Me</span>
-      </a>
+      <FloatingMessageButton />
+      
       <a
         href="#/report"
         className="fixed right-2 top-2 z-[70] text-[10px] text-slate-300 transition hover:text-slate-500"
