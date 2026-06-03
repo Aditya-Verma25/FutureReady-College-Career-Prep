@@ -16,6 +16,8 @@ import SiteFooter from "./SiteFooter";
 export default function EdupreneurLandingPage() {
   const consultationUrl =
     "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
+  const messageUrl = 
+    "https://m.me/futurereadycollegeprep?ref=contact_from_website";
   const popupDismissKey = "frp_early_bird_popup_dismissed_at";
   const popupDelayMs = 18000;
   const popupDismissCooldownMs = 24 * 60 * 60 * 1000;
@@ -957,15 +959,14 @@ export default function EdupreneurLandingPage() {
         </div>
       </section>
       <a
-        href={consultationUrl}
+        href={messageUrl}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={trackCalendlyClick}
         className="fixed bottom-5 right-5 z-[60] inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-xl shadow-blue-900/20 transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        aria-label="Book a free consultation"
+        aria-label="Chat with us"
       >
         <span className="text-base leading-none">💬</span>
-        <span>Book Free Consultation</span>
+        <span>Questions? Chat with Me</span>
       </a>
       <a
         href="#/report"
