@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+﻿import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
 import { trackConsultationClick, trackContactSubmit } from "./lib/analytics";
 import SatPage from "./SatPage";
@@ -17,7 +17,7 @@ export default function EdupreneurLandingPage() {
   const consultationUrl =
     "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
   const messageUrl = 
-    "https://m.me/futurereadycollegeprep";
+    "https://m.me/FutureReadyPrep";
   const linkedInUrl = "https://www.linkedin.com/company/futurereadyprep";
   const facebookUrl = "https://www.facebook.com/profile.php?id=61590099885144";
   const popupDismissKey = "frp_early_bird_popup_dismissed_at";
