@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
 import { trackConsultationClick, trackContactSubmit } from "./lib/analytics";
 import SatPage from "./SatPage";
@@ -18,6 +18,8 @@ export default function EdupreneurLandingPage() {
     "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
   const messageUrl = 
     "https://m.me/futurereadycollegeprep";
+  const linkedInUrl = "https://www.linkedin.com/company/futurereadyprep";
+  const facebookUrl = "https://www.facebook.com/profile.php?id=61590099885144";
   const popupDismissKey = "frp_early_bird_popup_dismissed_at";
   const popupDelayMs = 18000;
   const popupDismissCooldownMs = 24 * 60 * 60 * 1000;
@@ -440,6 +442,7 @@ export default function EdupreneurLandingPage() {
 
 
 
+
             <a
               href={consultationUrl}
               target="_blank"
@@ -454,14 +457,14 @@ export default function EdupreneurLandingPage() {
       </nav>
       {content}
       <FloatingMessageButton />
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />    </>
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />    </>
   );
 
   const renderWithFooter = (content: ReactNode) => (
   <>
     {content}
     <FloatingMessageButton />
-    <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
+    <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />
   </>
 );
 
@@ -561,6 +564,7 @@ export default function EdupreneurLandingPage() {
               Blog
             </a>
             </div>
+
 
             <a
               href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
@@ -992,7 +996,7 @@ export default function EdupreneurLandingPage() {
         }}
         reserveUrl={consultationUrl}
       />
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} />
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />
     </div>
   );
 }

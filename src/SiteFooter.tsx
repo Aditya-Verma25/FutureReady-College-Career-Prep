@@ -1,9 +1,11 @@
 type SiteFooterProps = {
   consultationUrl: string;
   onConsultationClick?: () => void;
+  linkedInUrl?: string;
+  facebookUrl?: string;
 };
 
-export default function SiteFooter({ consultationUrl, onConsultationClick }: SiteFooterProps) {
+export default function SiteFooter({ consultationUrl, onConsultationClick, linkedInUrl, facebookUrl }: SiteFooterProps) {
   return (
     <footer className="bg-blue-200 shadow-[0_-10px_30px_rgba(37,99,235,0.10)]">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-4">
@@ -15,6 +17,36 @@ export default function SiteFooter({ consultationUrl, onConsultationClick }: Sit
           <p className="mt-4 text-sm leading-relaxed text-slate-600">
             Personalized SAT prep, college application guidance, and academic tutoring from a current college student mentor.
           </p>
+          {(linkedInUrl || facebookUrl) && (
+            <div className="mt-5 flex flex-wrap gap-3 items-center">
+              {linkedInUrl && (
+                <a
+                  href={linkedInUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#0077b5] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#006097] focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                  <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  <span>Follow on LinkedIn</span>
+                </a>
+              )}
+              {facebookUrl && (
+                <a
+                  href={facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#1877f2] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#166fe5] focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                  <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                  </svg>
+                  <span>Follow on Facebook</span>
+                </a>
+              )}
+            </div>
+          )}
         </section>
 
         <section>
