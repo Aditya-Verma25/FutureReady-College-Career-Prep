@@ -755,9 +755,6 @@ export default function EdupreneurLandingPage() {
 
             <div className="space-y-4 text-slate-600 leading-relaxed">
               <p>
-                During COVID, I founded EZ Math Tutoring to support local students when school went online. Since then, I’ve mentored students through academics, SAT prep, and the college admissions process.
-              </p>
-              <p>
                 As a first-generation American college student, I understand how confusing this process can feel when your family hasn’t navigated the U.S. admissions system before. My parents attended college abroad, so much of this journey was something I had to figure out myself.
               </p>
               <p>
