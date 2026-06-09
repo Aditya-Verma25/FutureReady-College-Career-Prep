@@ -1,5 +1,14 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { trackConsultationClick, trackCollegeBuilderSubmit } from "./lib/analytics";
+import SiteHeader from "./SiteHeader";
+import SiteFooter from "./SiteFooter";
+
+
+const consultationUrl =
+  "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
+
+const linkedInUrl = "https://www.linkedin.com/company/futurereadyprep";
+const facebookUrl = "https://www.facebook.com/profile.php?id=61590099885144";
 
 type CollegeListBuilderPageProps = { onBack: () => void };
 type Region = "West Coast" | "East Coast" | "Midwest" | "South";
@@ -547,62 +556,12 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f7fbff] via-blue-50 to-indigo-50 text-slate-900">
-      <div className="bg-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
-          <a
-            href={CONSULTATION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={trackCalendlyClick}
-            className="ml-2 underline underline-offset-2 hover:text-blue-100"
-          >
-            Reserve Your Spot →
-          </a>
-        </div>
-      </div>
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={onBack}
-            className="flex items-center gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            aria-label="Go to FutureReady home page"
-          >
-            <div className="flex items-center justify-center">
-              <img src="/logo.png" alt="FutureReady logo" className="h-16 w-16 object-contain" />
-            </div>
-            <div>
-              <h1 className="text-xl font-black tracking-tight text-slate-950">
-                FutureReady College & Career Prep
-              </h1>
-              <p className="text-xs text-slate-500 font-medium">
-                SAT Prep • College Apps • Tutoring
-              </p>
-            </div>
-          </button>
+      <SiteHeader
+        onBrandClick={() => {
+          window.location.hash = "";
+        }}
+      />
 
-          <div className="flex items-center gap-5 lg:gap-8 ml-auto">
-            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-              <a href="#services" className="hover:text-blue-700 transition">Services</a>
-              <a href="#about" className="hover:text-blue-700 transition">About & Results</a>
-              <a href="#testimonials" className="hover:text-blue-700 transition">Testimonials</a>
-              <a href="#/college-list-builder" className="hover:text-blue-700 transition">College List Builder</a>
-              <a href="/blog/" className="hover:text-blue-700 transition">Blog</a>
-            </div>
-
-            <a
-              href={CONSULTATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={trackCalendlyClick}
-              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
-            >
-              Book a Free Consultation
-            </a>
-          </div>
-        </div>
-      </nav>
       <div className="max-w-7xl mx-auto px-6 py-10">
         <button type="button" onClick={onBack} className="inline-flex items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800">
           ← Back to Home
@@ -695,13 +654,17 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                         return (
                           <article key={`${bucket.title}-fallback-${index}`} className="rounded-2xl border border-blue-100 bg-white p-4">
                             <p className="text-sm font-semibold text-slate-700">Not sure which schools fit you best?</p>
-                            <button
-                              type="button"
-                              onClick={scrollToConversionSection}
+                            <a
+                              href="#/personalized-feedback"
+                              onClick={() => {
+                                window.gtag?.("event", "generate_lead", {
+                                  source: "college_list_builder_cta",
+                                });
+                              }}
                               className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
                             >
                               Let&apos;s Build Your College List
-                            </button>
+                            </a>
                           </article>
                         );
                       }
@@ -743,13 +706,17 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
                             <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/70 p-4 text-center">
                               <div>
                                 <p className="text-sm font-semibold text-slate-800">Not sure which schools fit you best?</p>
-                                <button
-                                  type="button"
-                                  onClick={scrollToConversionSection}
+                                <a
+                                  href="#/personalized-feedback"
+                                  onClick={() => {
+                                    window.gtag?.("event", "generate_lead", {
+                                      source: "college_list_builder_cta",
+                                    });
+                                  }}
                                   className="mt-2 inline-flex text-sm font-bold text-blue-700 underline-offset-2 hover:underline"
                                 >
                                   Let&apos;s Build Your College List
-                                </button>
+                                </a>
                               </div>
                             </div>
                           )}
@@ -763,17 +730,12 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
 
             <ResultsConversionSection consultationUrl={CONSULTATION_URL} onConsultationClick={trackCalendlyClick} />
 
-            <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-              <p className="text-sm text-slate-600">
-                This tool is for brainstorming only and does not predict admissions outcomes. A strong final college list should consider grades, rigor, activities, essays, finances, and personal fit.
-              </p>
-              <p className="mt-2 text-xs text-slate-500">
-                Cost, acceptance rate, SAT, and GPA ranges are approximate and can change year to year.
-              </p>
-            </div>
+            
           </section>
         )}
       </div>
+       
+      
     </div>
   );
 }

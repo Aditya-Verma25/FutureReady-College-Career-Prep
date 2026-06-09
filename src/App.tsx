@@ -1,10 +1,12 @@
 ﻿import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
+import { Link } from "react-router-dom";
 import { trackConsultationClick, trackContactSubmit } from "./lib/analytics";
 import SatPage from "./SatPage";
 import CollegeAppsPage from "./CollegeAppsPage";
 import TutoringPage from "./TutoringPage";
 import BlogsHubPage from "./BlogsHubPage";
+import PersonalizedFeedback from "./PersonalizedFeedback";
 import CollegeAdmissionsArticlePage from "./CollegeAdmissionsArticlePage";
 import CollegeListBuilderPage from "./CollegeListBuilderPage";
 import FutureReadyReportPage from "./FutureReadyReportPage";
@@ -443,15 +445,23 @@ export default function EdupreneurLandingPage() {
 
 
 
-            <a
-              href={consultationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={trackCalendlyClick}
-              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
-            >
-              Book a Free Consultation
-            </a>
+          <Link
+            to="/personalized-feedback"
+            onClick={() => {
+              trackCalendlyClick?.();
+
+              if (typeof window !== "undefined" && window.gtag) {
+                window.gtag("event", "personalized_feedback_click", {
+                  event_category: "CTA",
+                  event_label: "Navbar Hero Button",
+                });
+              }
+            }}
+            className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
+          >
+            Get Personalized Feedback!
+          </Link>
+
           </div>
         </div>
       </nav>
@@ -503,6 +513,10 @@ export default function EdupreneurLandingPage() {
         onBackToHub={() => (window.location.hash = "#/blogs")}
       />
     );
+  }
+
+  if (hashPath === "#/personalized-feedback") {
+    return <PersonalizedFeedback />;
   }
 
   return (
@@ -566,15 +580,17 @@ export default function EdupreneurLandingPage() {
             </div>
 
 
-            <a
-              href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={trackCalendlyClick}
-              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
-            >
-              Book a Free Consultation
-            </a>
+                      <a
+            href="#/personalized-feedback"
+            onClick={() => {
+              window.gtag?.("event", "generate_lead", {
+                source: "homepage_cta",
+              });
+            }}
+            className="rounded-xl bg-blue-700 px-4.5 py-3 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
+          >
+            Get Personalized Feedback
+          </a>
           </div>
         </div>
       </nav>
@@ -628,15 +644,17 @@ export default function EdupreneurLandingPage() {
             </p>
 
             <div className="mt-9 flex flex-wrap gap-4">
-              <a
-                href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={trackCalendlyClick}
-                className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
-              >
-                Book a Free Consultation →
-              </a>
+            <a
+              href="#/personalized-feedback"
+              onClick={() => {
+                window.gtag?.("event", "generate_lead", {
+                  source: "homepage_cta",
+                });
+              }}
+              className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
+            >
+              Get Personalized Feedback
+            </a>
               <a
                 href="#services"
                 className="rounded-xl bg-white px-7 py-4 text-slate-800 font-bold border border-slate-200 shadow-sm hover:border-blue-300 transition"
@@ -993,7 +1011,16 @@ export default function EdupreneurLandingPage() {
         }}
         reserveUrl={consultationUrl}
       />
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />
+      
+      <SiteFooter
+          consultationUrl={consultationUrl}
+          onConsultationClick={() => trackConsultationClick("footer")}
+          onPersonalizedFeedbackClick={() => {
+            window.gtag?.("event", "generate_lead", {
+              source: "footer_cta",
+            });
+          }}
+      />
     </div>
   );
 }
