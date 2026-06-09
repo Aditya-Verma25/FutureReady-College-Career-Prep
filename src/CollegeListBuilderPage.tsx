@@ -1,14 +1,7 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { trackConsultationClick, trackCollegeBuilderSubmit } from "./lib/analytics";
 import SiteHeader from "./SiteHeader";
-import SiteFooter from "./SiteFooter";
 
-
-const consultationUrl =
-  "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
-
-const linkedInUrl = "https://www.linkedin.com/company/futurereadyprep";
-const facebookUrl = "https://www.facebook.com/profile.php?id=61590099885144";
 
 type CollegeListBuilderPageProps = { onBack: () => void };
 type Region = "West Coast" | "East Coast" | "Midwest" | "South";
@@ -533,11 +526,8 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
   function trackCalendlyClick() {
     trackConsultationClick("college_list_builder");
   }
-  function scrollToConversionSection() {
-    const target = document.getElementById("results-conversion-section");
-    if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitted(true);
