@@ -92,29 +92,23 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
           <div className="mt-14">
             <h2 className="text-2xl font-black text-slate-950">Flexible Tutoring Options</h2>
             <p className="mt-2 text-slate-600">Select the tutoring support style that fits your current coursework and goals.</p>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   title: "1-on-1 Academic Tutoring",
-                  price: "$70",
-                  badge: "Starting at /session",
+                  price: "$55",
+                  badge: "Starting at /hr",
                   desc: "Personalized support for math, computer science, and related coursework with targeted explanations and guided practice."
                 },
                 {
-                  title: "Homework + Test Prep",
+                  title: "Homework + Test Prep Support",
                   price: "$65",
                   badge: "Starting at /session",
                   desc: "Focused sessions for quizzes, exams, assignments, and improving problem-solving confidence."
                 },
                 {
-                  title: "Academic Audit & Strategy",
-                  price: "$79",
-                  badge: "Focused starter",
-                  desc: "A planning session covering study habits, organization, pacing, and academic improvement strategy."
-                },
-                {
                   title: "Ongoing Academic Coaching",
-                  price: "$229",
+                  price: "$200",
                   badge: "Starting at /mo",
                   desc: "Weekly tutoring, accountability, study planning, assignment support, and long-term academic guidance."
                 }
@@ -132,7 +126,7 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
               ))}
             </div>
             <p className="mt-4 text-center text-xs font-semibold text-slate-500">
-              Most students begin with a tutoring or strategy session before moving into ongoing academic support.
+              Most students begin with 1-on-1 sessions before moving into ongoing academic support.
             </p>
           </div>
 
