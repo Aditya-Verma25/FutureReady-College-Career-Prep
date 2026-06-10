@@ -1,6 +1,5 @@
-﻿import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
-import { Link } from "react-router-dom";
 import { trackConsultationClick, trackContactSubmit } from "./lib/analytics";
 import SatPage from "./SatPage";
 import CollegeAppsPage from "./CollegeAppsPage";
@@ -445,8 +444,8 @@ export default function EdupreneurLandingPage() {
 
 
 
-          <Link
-            to="/personalized-feedback"
+          <a
+            href="#/personalized-feedback"
             onClick={() => {
               trackCalendlyClick?.();
 
@@ -460,7 +459,7 @@ export default function EdupreneurLandingPage() {
             className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
           >
             Get Personalized Feedback!
-          </Link>
+          </a>
 
           </div>
         </div>
