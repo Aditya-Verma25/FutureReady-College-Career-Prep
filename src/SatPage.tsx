@@ -101,10 +101,10 @@ export default function SatPage({ onBack }: SatPageProps) {
                   desc: "Personalized sessions focused on weak areas, pacing strategy, and score improvement."
                 },
                 {
-                  title: "SAT Strategy Session",
+                  title: "SAT Diagnostic & Custom Study Plan",
                   price: "$79",
-                  badge: "Focused starter",
-                  desc: "A focused planning session covering score goals, timelines, study strategy, and section breakdowns."
+                  badge: "Best Value Starter",
+                  desc: "A comprehensive diagnostic test review and detailed analysis of your highest-impact growth areas, paired with a customized weekly study calendar."
                 },
                 {
                   title: "Practice Test Review",
@@ -132,7 +132,7 @@ export default function SatPage({ onBack }: SatPageProps) {
               ))}
             </div>
             <p className="mt-4 text-center text-xs font-semibold text-slate-500">
-              Most students begin with a strategy session or diagnostic review before moving into ongoing coaching.
+              Most students begin with the Diagnostic & Custom Study Plan before moving into 1-on-1 tutoring or ongoing coaching.
             </p>
           </div>
 
