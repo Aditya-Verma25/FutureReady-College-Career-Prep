@@ -1049,20 +1049,20 @@ export default function EdupreneurLandingPage() {
             <h2 className="text-2xl font-black text-slate-950 mb-6">
               My Results & Achievements
             </h2>
-            <div className="grid grid-cols-3 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-4 w-full max-w-full">
+            <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 w-full max-w-full">
               {achievements.map((item) => (
                 <div
                   key={`${item.value}-${item.label}`}
-                  className="rounded-xl border border-slate-200 bg-slate-50 p-2.5 sm:p-6 flex flex-col justify-between"
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 sm:p-6 flex flex-col justify-between"
                 >
-                  <div className="w-6 h-6 sm:w-9 sm:h-9 rounded-lg sm:rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-2 sm:mb-4 text-xs sm:text-lg font-black shrink-0">
+                  <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-2 sm:mb-4 text-xs sm:text-lg font-black shrink-0">
                     ✦
                   </div>
                   <div>
-                    <div className="text-xs sm:text-2xl font-black text-blue-700 leading-tight">
+                    <div className="text-base sm:text-2xl font-black text-blue-700 leading-tight">
                       {item.value}
                     </div>
-                    <div className="mt-1 text-[9px] sm:text-sm font-medium text-slate-600 leading-tight">
+                    <div className="mt-1 text-xs sm:text-sm font-medium text-slate-600 leading-tight">
                       {item.label}
                     </div>
                   </div>
