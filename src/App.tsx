@@ -91,6 +91,7 @@ export default function EdupreneurLandingPage() {
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMentorExpanded, setIsMentorExpanded] = useState(false);
+  const [isContactFormExpanded, setIsContactFormExpanded] = useState(false);
 
   const nextSlide = () => {
     const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
@@ -841,7 +842,7 @@ export default function EdupreneurLandingPage() {
               </a>
             </div>
 
-            <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-6 text-sm font-semibold text-slate-600">
+            <div className="mt-10 hidden md:flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-6 text-sm font-semibold text-slate-600">
               <div className="flex items-center gap-2">
                 <span className="text-blue-700">★</span> 1500+ SAT Scorer
               </div>
@@ -858,7 +859,7 @@ export default function EdupreneurLandingPage() {
 
           </div>
 
-          <div className="relative">
+          <div className="relative hidden lg:block">
             <div className="absolute -inset-6 bg-blue-200/50 blur-3xl rounded-full" />
             <div className="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
@@ -983,11 +984,11 @@ export default function EdupreneurLandingPage() {
             <h2 className="text-2xl font-black text-slate-950 mb-6">
               My Results & Achievements
             </h2>
-            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div className="flex sm:grid sm:grid-cols-2 xl:grid-cols-3 overflow-x-auto sm:overflow-x-visible gap-4 snap-x snap-mandatory pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
               {achievements.map((item) => (
                 <div
                   key={`${item.value}-${item.label}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6"
+                  className="w-[75vw] sm:w-auto shrink-0 sm:shrink snap-center rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6"
                 >
                   <div className="w-9 h-9 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4 text-lg font-black">
                     ✦
@@ -1006,11 +1007,11 @@ export default function EdupreneurLandingPage() {
               <h3 className="font-black text-slate-950 mb-4">
                 Accepted Colleges
               </h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex sm:flex-wrap gap-2 overflow-x-auto sm:overflow-x-visible pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
                 {colleges.map((college) => (
                   <span
                   key={college.name}
-                  className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm shrink-0 sm:shrink"
                 >
                   <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
                     <img
@@ -1168,11 +1169,21 @@ export default function EdupreneurLandingPage() {
             >
               Book Consultation →
             </a>
+            <div className="lg:hidden mt-6">
+              <button
+                type="button"
+                onClick={() => setIsContactFormExpanded(!isContactFormExpanded)}
+                className="w-full text-center rounded-xl border border-white/30 bg-white/10 px-5 py-3 font-bold text-white hover:bg-white/20 transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>{isContactFormExpanded ? "Hide Message Form ↑" : "Send a Message instead ↓"}</span>
+              </button>
+            </div>
           </div>
-          <form
-            onSubmit={handleContactSubmit}
-            className="rounded-2xl bg-white/95 p-5 md:p-6 text-slate-900 shadow-lg space-y-4"
-          >
+          <div className={`${isContactFormExpanded ? "block animate-fadeIn" : "hidden"} lg:block w-full`}>
+            <form
+              onSubmit={handleContactSubmit}
+              className="rounded-2xl bg-white/95 p-5 md:p-6 text-slate-900 shadow-lg space-y-4"
+            >
             <input type="hidden" name="_subject" value="New consultation request" />            <div>
               <label htmlFor="contact-name" className="block text-sm font-bold mb-1">
                 Name
@@ -1235,6 +1246,7 @@ export default function EdupreneurLandingPage() {
               </a>
             </p>
           </form>
+          </div>
         </div>
       </section>
       <FloatingMessageButton />
