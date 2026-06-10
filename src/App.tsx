@@ -89,6 +89,8 @@ export default function EdupreneurLandingPage() {
   const [pendingSectionScroll, setPendingSectionScroll] = useState<"services" | "about" | "testimonials" | null>(null);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMentorExpanded, setIsMentorExpanded] = useState(false);
 
   const nextSlide = () => {
     const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
@@ -178,21 +180,23 @@ export default function EdupreneurLandingPage() {
     const isServicePage = hashPath === "#/sat" || hashPath === "#/college-apps" || hashPath === "#/tutoring";
     const isBlogOrToolPage = hashPath === "#/blogs" || hashPath.startsWith("#/blogs/") || hashPath === "#/college-list-builder" || hashPath === "#/report" || hashPath.startsWith("#/report-success") || hashPath === "#/personalized-feedback";
 
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+
     let timeThresholdMs = 30000;
     let scrollThresholdPercent = 50;
     let useExitIntent = false;
     let useScrollTrigger = false;
 
     if (isHomepage) {
-      timeThresholdMs = 30000; // 30 seconds
-      scrollThresholdPercent = 50; // 50% scroll
+      timeThresholdMs = isMobile ? 45000 : 30000; // 45s on mobile, 30s on desktop
+      scrollThresholdPercent = isMobile ? 60 : 50; // 60% scroll on mobile, 50% on desktop
       useScrollTrigger = true;
     } else if (isServicePage) {
-      timeThresholdMs = 45000; // 45 seconds
+      timeThresholdMs = isMobile ? 60000 : 45000; // 60s on mobile, 45s on desktop
       useScrollTrigger = false;
     } else if (isBlogOrToolPage) {
-      timeThresholdMs = 75000; // 75 seconds
-      useExitIntent = true;
+      timeThresholdMs = isMobile ? 90000 : 75000; // 90s on mobile, 75s on desktop
+      useExitIntent = !isMobile; // No exit intent on mobile
       useScrollTrigger = false;
     }
 
@@ -514,48 +518,34 @@ export default function EdupreneurLandingPage() {
     <span>Questions? Chat with Me</span>
   </a>
 );
-  const renderWithHeaderAndFooter = (content: ReactNode) => (
-    <>
-      <div className="bg-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
-          <a
-            href={consultationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={trackCalendlyClick}
-            className="ml-2 underline underline-offset-2 hover:text-blue-100"
-          >
-            Reserve Your Spot →
-          </a>
-        </div>
-      </div>
+  const renderNavbar = () => {
+    return (
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <button
             type="button"
             onClick={handleBrandClick}
-            className="flex items-center gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="flex items-center gap-2 sm:gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
             aria-label="Go to FutureReady home page"
           >
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center shrink-0">
               <img
                 src="/logo.png"
                 alt="FutureReady logo"
-                className="h-16 w-16 object-contain"
+                className="h-11 w-11 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain"
               />
             </div>
             <div>
-              <h1 className="text-xl font-black tracking-tight text-slate-950">
+              <h1 className="text-sm sm:text-base md:text-xl font-black tracking-tight text-slate-950 leading-tight">
                 FutureReady College & Career Prep
               </h1>
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-[10px] sm:text-xs text-slate-500 font-medium">
                 SAT Prep • College Apps • Tutoring
               </p>
             </div>
           </button>
 
-          <div className="flex items-center gap-5 lg:gap-8 ml-auto">
+          <div className="flex items-center gap-3 sm:gap-5 ml-auto">
             <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
               <button type="button" onClick={() => handleNavSectionClick("services")} className="hover:text-blue-700 transition">
                 Services
@@ -574,32 +564,136 @@ export default function EdupreneurLandingPage() {
               </a>
             </div>
 
-
-
-
-          <a
-            href="#/personalized-feedback"
-            onClick={() => {
-              trackCalendlyClick?.();
-
-              if (typeof window !== "undefined" && window.gtag) {
-                window.gtag("event", "personalized_feedback_click", {
-                  event_category: "CTA",
-                  event_label: "Navbar Hero Button",
+            <a
+              href="#/personalized-feedback"
+              onClick={() => {
+                window.gtag?.("event", "generate_lead", {
+                  source: "homepage_cta",
                 });
-              }
-            }}
-            className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-blue-800 transition"
-          >
-            Get Personalized Feedback!
-          </a>
+              }}
+              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-4.5 py-3 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
+            >
+              Get Personalized Feedback
+            </a>
+            <a
+              href="#/personalized-feedback"
+              onClick={() => {
+                window.gtag?.("event", "generate_lead", {
+                  source: "homepage_cta",
+                });
+              }}
+              className="inline-flex sm:hidden rounded-xl bg-blue-700 px-3 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-800 transition"
+            >
+              Get Feedback
+            </a>
 
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 transition cursor-pointer"
+              aria-label="Toggle navigation menu"
+            >
+              {isMobileMenuOpen ? (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Slide-down Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-200 bg-white py-4 px-6 space-y-4 shadow-inner flex flex-col">
+            <button 
+              type="button" 
+              onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("services"); }}
+              className="text-left py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
+            >
+              Services
+            </button>
+            <button 
+              type="button" 
+              onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("about"); }}
+              className="text-left py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
+            >
+              About & Results
+            </button>
+            <button 
+              type="button" 
+              onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("testimonials"); }}
+              className="text-left py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
+            >
+              Testimonials
+            </button>
+            <a 
+              href="#/college-list-builder"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
+            >
+              College List Builder
+            </a>
+            <a 
+              href="/blog/"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
+            >
+              Blog
+            </a>
+            <hr className="border-slate-200" />
+            <a
+              href="#/personalized-feedback"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                window.gtag?.("event", "generate_lead", { source: "mobile_menu" });
+              }}
+              className="w-full text-center rounded-xl bg-blue-700 py-3 text-white font-bold shadow-md hover:bg-blue-800 transition"
+            >
+              Get Personalized Feedback
+            </a>
+            <a
+              href={consultationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                trackCalendlyClick();
+              }}
+              className="w-full text-center rounded-xl border border-slate-200 bg-slate-50 py-3 text-slate-800 font-bold hover:bg-slate-100 transition"
+            >
+              Book Consultation
+            </a>
+          </div>
+        )}
       </nav>
+    );
+  };
+
+  const renderWithHeaderAndFooter = (content: ReactNode) => (
+    <>
+      <div className="bg-blue-800 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
+          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+          <a
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={trackCalendlyClick}
+            className="ml-2 underline underline-offset-2 hover:text-blue-100"
+          >
+            Reserve Your Spot →
+          </a>
+        </div>
+      </div>
+      {renderNavbar()}
       {content}
       <FloatingMessageButton />
-      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />    </>
+      <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />
+    </>
   );
 
   const renderWithFooter = (content: ReactNode) => (
@@ -667,65 +761,7 @@ export default function EdupreneurLandingPage() {
           </a>
         </div>
       </div>
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={handleBrandClick}
-            className="flex items-center gap-3 rounded-xl text-left transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            aria-label="Go to FutureReady home page"
-          >
-            <div className="flex items-center justify-center">
-              <img
-                src="/logo.png"
-                alt="FutureReady logo"
-                className="h-16 w-16 object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-xl font-black tracking-tight text-slate-950">
-                FutureReady College & Career Prep
-              </h1>
-              <p className="text-xs text-slate-500 font-medium">
-                SAT Prep • College Apps • Tutoring
-              </p>
-            </div>
-          </button>
-
-          <div className="flex items-center gap-5 lg:gap-8 ml-auto">
-            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-              <button type="button" onClick={() => handleNavSectionClick("services")} className="hover:text-blue-700 transition">
-                Services
-              </button>
-              <button type="button" onClick={() => handleNavSectionClick("about")} className="hover:text-blue-700 transition">
-                About & Results
-              </button>
-              <button type="button" onClick={() => handleNavSectionClick("testimonials")} className="hover:text-blue-700 transition">
-                Testimonials
-              </button>
-              <a href="#/college-list-builder" className="hover:text-blue-700 transition">
-                College List Builder
-              </a>
-            <a href="/blog/" className="hover:text-blue-700 transition">
-              Blog
-            </a>
-            </div>
-
-
-                      <a
-            href="#/personalized-feedback"
-            onClick={() => {
-              window.gtag?.("event", "generate_lead", {
-                source: "homepage_cta",
-              });
-            }}
-            className="rounded-xl bg-blue-700 px-4.5 py-3 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
-          >
-            Get Personalized Feedback
-          </a>
-          </div>
-        </div>
-      </nav>
+      {renderNavbar()}
 
       <section className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-white">
         <div className="absolute inset-0 pointer-events-none select-none hidden md:block">
@@ -749,14 +785,14 @@ export default function EdupreneurLandingPage() {
           ))}
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-24 md:pt-24 pb-28 md:pb-32 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="max-w-2xl">
+        <div className="relative max-w-7xl mx-auto px-6 pt-10 md:pt-24 pb-16 md:pb-32 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="max-w-2xl text-center lg:text-left flex flex-col items-center lg:items-start">
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm mb-7">
               <span className="h-2 w-2 rounded-full bg-green-500" />
               Summer sessions now open
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-slate-950 max-w-4xl">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-slate-950 max-w-4xl text-center lg:text-left">
               <a href="#/sat" className="block hover:text-blue-700 transition">
                 <span className="mr-3 inline-block align-middle -translate-y-[0.11em] text-[0.55em] text-blue-500">✦</span>
                 SAT Prep
@@ -771,11 +807,11 @@ export default function EdupreneurLandingPage() {
               </a>
             </h2>
 
-            <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
-              Personalized guidance from a current successful college<br/>student who recently went through the same process.
+            <p className="mt-6 text-base md:text-lg lg:text-xl text-slate-600 leading-relaxed max-w-2xl text-center lg:text-left">
+              Personalized guidance from a current successful college<br className="hidden md:inline" /> student who recently went through the same process.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-stretch sm:items-center">
             <a
               href="#/personalized-feedback"
               onClick={() => {
@@ -783,19 +819,19 @@ export default function EdupreneurLandingPage() {
                   source: "homepage_cta",
                 });
               }}
-              className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
+              className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition text-center"
             >
               Get Personalized Feedback
             </a>
               <a
                 href="#services"
-                className="rounded-xl bg-white px-7 py-4 text-slate-800 font-bold border border-slate-200 shadow-sm hover:border-blue-300 transition"
+                className="rounded-xl bg-white px-7 py-4 text-slate-800 font-bold border border-slate-200 shadow-sm hover:border-blue-300 transition text-center"
               >
                 Explore Services
               </a>
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-6 text-sm font-semibold text-slate-600">
+            <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-6 text-sm font-semibold text-slate-600">
               <div className="flex items-center gap-2">
                 <span className="text-blue-700">★</span> 1500+ SAT Scorer
               </div>
@@ -816,18 +852,18 @@ export default function EdupreneurLandingPage() {
             <div className="absolute -inset-6 bg-blue-200/50 blur-3xl rounded-full" />
             <div className="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
-                <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
+                <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-48 p-4 sm:w-56 sm:p-5 rotate-[-2deg] ml-4 sm:ml-8">
                   <p className="text-slate-800 leading-relaxed font-bold text-sm">
                     Recent applicant.<br />Real advice.
                   </p>
                   <div className="text-right text-xl mt-2 text-red-500">❤️</div>
                 </div>
 
-                <div className="bg-white/85 backdrop-blur rounded-3xl border border-slate-200 shadow-lg p-6 max-w-md ml-auto">
+                <div className="bg-white/85 backdrop-blur rounded-3xl border border-slate-200 shadow-lg p-4 sm:p-6 max-w-[18rem] sm:max-w-md ml-auto">
                   <p className="text-sm font-bold text-blue-700 mb-2">
                     Mentorship feels different when it’s personal.
                   </p>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                     I help students turn confusing goals into a clear plan — whether that means SAT improvement, stronger essays, or better grades.
                   </p>
                 </div>
@@ -837,8 +873,8 @@ export default function EdupreneurLandingPage() {
         </div>
       </section>
 
-      <section id="services" className="scroll-mt-28 px-6 pt-12 pb-16 md:pt-16">
-        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-xl p-6 md:p-10">
+      <section id="services" className="scroll-mt-28 px-6 py-8 md:py-16">
+        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-xl p-5 md:p-10">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <h2 className="text-3xl md:text-4xl font-black text-slate-950">
               Ways I Can Help You
@@ -852,13 +888,13 @@ export default function EdupreneurLandingPage() {
             {services.map((service) => (
               <div
                 key={service.title}
-                className={`rounded-3xl border p-8 shadow-sm hover:shadow-lg transition ${service.cardClass}`}
+                className={`rounded-3xl border p-6 sm:p-8 shadow-sm hover:shadow-lg transition ${service.cardClass}`}
               >
                 <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center text-3xl mb-6">
                   {service.icon}
                 </div>
                 <h3 className="text-2xl font-black mb-4">{service.title}</h3>
-                <p className="text-slate-700 leading-relaxed mb-7">
+                <p className="text-slate-700 leading-relaxed mb-7 text-sm sm:text-base">
                   {service.description}
                 </p>
                 <div className="space-y-3 mb-8">
@@ -874,7 +910,7 @@ export default function EdupreneurLandingPage() {
                 </div>
                 <a
                   href={service.title === "SAT Prep" ? "#/sat" : service.title === "College Application Help" ? "#/college-apps" : service.title === "Academic Tutoring" ? "#/tutoring" : "#contact"}
-                  className="font-bold underline underline-offset-2 hover:no-underline">
+                  className="font-bold underline underline-offset-2 hover:no-underline text-sm sm:text-base">
                   Learn More →
                 </a>
               </div>
@@ -883,9 +919,9 @@ export default function EdupreneurLandingPage() {
         </div>
       </section>
 
-      <section id="about" className="scroll-mt-28 px-6 pb-16">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-6">
-          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8">
+      <section id="about" className="scroll-mt-28 px-6 pb-10 md:pb-16">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6">
+          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3">
               Meet Your Mentor
             </p>
@@ -903,26 +939,37 @@ export default function EdupreneurLandingPage() {
               </p>
             </div>
 
-            <div className="space-y-4 text-slate-600 leading-relaxed">
+            <div className="space-y-4 text-slate-600 leading-relaxed text-sm sm:text-base">
               <p>
                 As a first-generation American college student, I understand how confusing this process can feel when your family hasn’t navigated the U.S. admissions system before. My parents attended college abroad, so much of this journey was something I had to figure out myself.
               </p>
-              <p>
-                That’s a big reason why I started this mentorship platform. Students and families shouldn’t feel pressured to spend tens of thousands of dollars on large counseling companies just to get clear, honest guidance.
-              </p>
-              <p>
-                I also think mentorship feels more relatable when it comes from someone who recently went through the process themselves — not someone who hasn’t applied to college in decades. I understand the current SAT, Common App, extracurricular expectations, and the stress students experience today.
-              </p>
-              <p>
-                My goal is to make the process feel less overwhelming, more personal, and a lot more achievable.
-              </p>
-              <p className="pt-4 text-blue-700 font-semibold italic">
-                Let’s build your future, together. — Aditya
-              </p>
+              
+              <div className={`${isMentorExpanded ? "block animate-fadeIn" : "hidden md:block"} space-y-4`}>
+                <p>
+                  That’s a big reason why I started this mentorship platform. Students and families shouldn’t feel pressured to spend tens of thousands of dollars on large counseling companies just to get clear, honest guidance.
+                </p>
+                <p>
+                  I also think mentorship feels more relatable when it comes from someone who recently went through the process themselves — not someone who hasn’t applied to college in decades. I understand the current SAT, Common App, extracurricular expectations, and the stress students experience today.
+                </p>
+                <p>
+                  My goal is to make the process feel less overwhelming, more personal, and a lot more achievable.
+                </p>
+                <p className="pt-2 text-blue-700 font-semibold italic">
+                  Let’s build your future, together. — Aditya
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsMentorExpanded(!isMentorExpanded)}
+                className="md:hidden text-blue-700 font-bold text-sm flex items-center gap-1 focus:outline-none cursor-pointer mt-2"
+              >
+                {isMentorExpanded ? "Read Less ↑" : "Read More About Me ↓"}
+              </button>
             </div>
           </div>
 
-          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8">
+          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
             <h2 className="text-2xl font-black text-slate-950 mb-6">
               My Results & Achievements
             </h2>
@@ -930,9 +977,9 @@ export default function EdupreneurLandingPage() {
               {achievements.map((item) => (
                 <div
                   key={`${item.value}-${item.label}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6"
                 >
-                  <div className="w-11 h-11 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4">
+                  <div className="w-9 h-9 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4 text-lg font-black">
                     ✦
                   </div>
                   <div className="text-2xl font-black text-blue-700">
@@ -945,7 +992,7 @@ export default function EdupreneurLandingPage() {
               ))}
             </div>
 
-            <div className="mt-8 rounded-3xl bg-blue-50 border border-blue-100 p-6">
+            <div className="mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6">
               <h3 className="font-black text-slate-950 mb-4">
                 Accepted Colleges
               </h3>
@@ -953,13 +1000,13 @@ export default function EdupreneurLandingPage() {
                 {colleges.map((college) => (
                   <span
                   key={college.name}
-                  className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm"
                 >
-                  <span className="relative h-7 w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                  <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
                     <img
                       src={college.logo}
                       alt=""
-                      className="h-5 w-5 object-contain"
+                      className="h-4.5 w-4.5 sm:h-5 sm:w-5 object-contain"
                       onError={(event) => {
                         event.currentTarget.style.display = "none";
                       }}
