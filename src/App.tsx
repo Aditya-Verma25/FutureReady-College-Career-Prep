@@ -80,7 +80,6 @@ export default function EdupreneurLandingPage() {
   const linkedInUrl = "https://www.linkedin.com/company/futurereadyprep";
   const facebookUrl = "https://www.facebook.com/profile.php?id=61590099885144";
   const popupDismissKey = "frp_early_bird_popup_dismissed_at";
-  const popupDelayMs = 18000;
   const popupDismissCooldownMs = 24 * 60 * 60 * 1000;
   const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -175,12 +174,77 @@ export default function EdupreneurLandingPage() {
       }
     }
 
-    const timer = window.setTimeout(() => {
-      setShowEarlyBirdPopup(true);
-    }, popupDelayMs);
+    const isHomepage = !hashPath || hashPath === "#" || hashPath === "#/";
+    const isServicePage = hashPath === "#/sat" || hashPath === "#/college-apps" || hashPath === "#/tutoring";
+    const isBlogOrToolPage = hashPath === "#/blogs" || hashPath.startsWith("#/blogs/") || hashPath === "#/college-list-builder" || hashPath === "#/report" || hashPath.startsWith("#/report-success") || hashPath === "#/personalized-feedback";
 
-    return () => window.clearTimeout(timer);
-  }, []);
+    let timeThresholdMs = 30000;
+    let scrollThresholdPercent = 50;
+    let useExitIntent = false;
+    let useScrollTrigger = false;
+
+    if (isHomepage) {
+      timeThresholdMs = 30000; // 30 seconds
+      scrollThresholdPercent = 50; // 50% scroll
+      useScrollTrigger = true;
+    } else if (isServicePage) {
+      timeThresholdMs = 45000; // 45 seconds
+      useScrollTrigger = false;
+    } else if (isBlogOrToolPage) {
+      timeThresholdMs = 75000; // 75 seconds
+      useExitIntent = true;
+      useScrollTrigger = false;
+    }
+
+    let timerId: number | undefined;
+    let hasTriggered = false;
+
+    const triggerPopup = () => {
+      if (hasTriggered) return;
+      hasTriggered = true;
+      setShowEarlyBirdPopup(true);
+      cleanup();
+    };
+
+    timerId = window.setTimeout(() => {
+      triggerPopup();
+    }, timeThresholdMs);
+
+    const handleScroll = () => {
+      if (hasTriggered) return;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (scrollHeight <= 0) return;
+      const scrollPercent = (scrollTop / scrollHeight) * 100;
+
+      if (scrollPercent >= scrollThresholdPercent) {
+        triggerPopup();
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (hasTriggered) return;
+      if (e.clientY < 20) {
+        triggerPopup();
+      }
+    };
+
+    if (useScrollTrigger) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
+
+    if (useExitIntent) {
+      document.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    const cleanup = () => {
+      if (timerId) window.clearTimeout(timerId);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+    };
+
+    return cleanup;
+  }, [hashPath]);
 
   useEffect(() => {
     if (!showEarlyBirdPopup) return;
@@ -753,8 +817,8 @@ export default function EdupreneurLandingPage() {
             <div className="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
                 <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
-                  <p className="text-slate-800 leading-relaxed">
-                    Invest in your child's future today. 
+                  <p className="text-slate-800 leading-relaxed font-bold text-xs">
+                    Personalized mentorship built around real student needs
                   </p>
                   <div className="text-right text-xl mt-2 text-red-500">❤️</div>
                 </div>
