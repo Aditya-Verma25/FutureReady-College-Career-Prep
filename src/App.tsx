@@ -14,6 +14,64 @@ import type { BlogPost } from "./BlogsHubPage";
 import EarlyBirdPopup from "./EarlyBirdPopup";
 import SiteFooter from "./SiteFooter";
 
+const whyDifferentCards = [
+  {
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    ),
+    title: "Recent & Relatable",
+    description: "I went through the U.S. college process recently. I understand today's pressures because I just lived them.",
+  },
+  {
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+      </svg>
+    ),
+    title: "First-Gen Insight",
+    description: "With parents who attended college abroad, I navigated the U.S. system from scratch. I know how to translate it for families.",
+  },
+  {
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+    title: "Practical & Fair",
+    description: "No massive multi-thousand dollar packages or corporate fluff. Just high-impact, student-first mentorship.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "I stopped procrastinating on applications because I actually had structure each week. Aditya helped me break down the essays so I didn't feel overwhelmed.",
+    author: "Siddharth S.",
+    role: "Student",
+  },
+  {
+    quote: "Honestly, having someone close to his age explain physics made a huge difference. My son actually listened to Aditya's advice and ended up with an A.",
+    author: "Sarah L.",
+    role: "Parent",
+  },
+  {
+    quote: "I raised my SAT score from a 1390 to a 1480. Aditya's study schedule was the first one I actually stuck to because it wasn't just pages of dry homework.",
+    author: "Ryan K.",
+    role: "Student",
+  },
+  {
+    quote: "We were so stressed about college essays, but Aditya helped my daughter figure out what she actually wanted to write about, keeping her voice completely real.",
+    author: "Michelle T.",
+    role: "Parent",
+  },
+  {
+    quote: "The weekly check-ins made sure I didn't leave my prep to the last minute. It felt more like a study partner who knew exactly what they were doing.",
+    author: "Jane P.",
+    role: "Student",
+  },
+];
+
 export default function EdupreneurLandingPage() {
   const consultationUrl =
     "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
@@ -30,6 +88,15 @@ export default function EdupreneurLandingPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [showEarlyBirdPopup, setShowEarlyBirdPopup] = useState(false);
   const [pendingSectionScroll, setPendingSectionScroll] = useState<"services" | "about" | "testimonials" | null>(null);
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
 
   useEffect(() => {
     ReactGA.initialize("G-2STM34BZQ2");
@@ -355,19 +422,6 @@ export default function EdupreneurLandingPage() {
     { value: "University of Maryland CS", label: "Top 20 CS School" },
   ];
 
-  const trustPoints = [
-    "Recently went through the U.S. college application process myself",
-    "First-generation American perspective with parents who attended college abroad",
-    "Relatable mentorship from someone close to the student experience today",
-    "Clear guidance without needing to spend tens of thousands on private counseling",
-  ];
-
-  const testimonials = [
-    "Aditya helped my daughter raise her SAT score by 130 points in just two months. His study plan was clear, targeted, and easy to follow.",
-    "The college essay coaching was amazing. My son kept his own voice, but every draft became more focused and compelling.",
-    "What stood out most was how supportive and organized he is. Weekly check-ins kept me on track without feeling overwhelmed.",
-  ];
-
   const FloatingMessageButton = () => (
   <a
     href={messageUrl}
@@ -380,7 +434,6 @@ export default function EdupreneurLandingPage() {
     <span>Questions? Chat with Me</span>
   </a>
 );
-  const testimonialAuthors = ["Olivia M.", "Daniel Y.", "Aarav P."];
   const renderWithHeaderAndFooter = (content: ReactNode) => (
     <>
       <div className="bg-blue-800 text-white">
@@ -843,63 +896,119 @@ export default function EdupreneurLandingPage() {
       </section>
 
       <section className="px-6 pb-16">
-        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8 md:p-10">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <p className="text-sm font-black uppercase tracking-wider text-blue-700 mb-3">
-                Why this feels different
-              </p>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-                Guidance from someone who actually remembers what this process feels like.
-              </h2>
-              <p className="mt-5 text-slate-600 text-lg leading-relaxed">
-                This is not a giant counseling package or a generic tutoring center. It is practical, student-first mentorship built around clarity, confidence, and realistic next steps.
-              </p>
-            </div>
+        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8 md:p-12">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <p className="text-sm font-black uppercase tracking-wider text-blue-700 mb-3">
+              Why this feels different
+            </p>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
+              Guidance from someone who actually remembers what this process feels like.
+            </h2>
+            <p className="mt-4 text-slate-600 text-lg leading-relaxed">
+              This is not a giant counseling package or a generic tutoring center. It is practical, student-first mentorship built around clarity, confidence, and realistic next steps.
+            </p>
+          </div>
 
-            <div className="grid gap-4">
-              {trustPoints.map((point) => (
-                <div
-                  key={point}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 flex items-start gap-4"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-black">
-                    ✓
-                  </div>
-                  <p className="text-slate-700 font-medium leading-relaxed">
-                    {point}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {whyDifferentCards.map((card) => (
+              <div
+                key={card.title}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
+              >
+                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-black transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+                  {card.icon}
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-lg mb-1 group-hover:text-blue-700 transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    {card.description}
                   </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       <section id="testimonials" className="scroll-mt-28 px-6 pb-16">
-        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8 md:p-10">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-black text-slate-950">
-              What Students & Parents Say
-            </h2>
-            <p className="mt-3 text-slate-600">
-              Guidance built around real student experiences and modern admissions.
-            </p>
+        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8 md:p-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div className="text-left">
+              <h2 className="text-3xl font-black text-slate-950">
+                What Students & Parents Say
+              </h2>
+              <p className="mt-2 text-slate-600">
+                Guidance built around real student experiences and modern admissions.
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={prevSlide}
+                className="w-11 h-11 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm focus:outline-none cursor-pointer"
+                aria-label="Previous testimonials"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={nextSlide}
+                className="w-11 h-11 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm focus:outline-none cursor-pointer"
+                aria-label="Next testimonials"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((quote, index) => (
-              <div
-                key={quote}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm flex flex-col"
-              >
-                <div className="text-yellow-500 mb-4">★★★★★</div>
-                <p className="text-slate-700 leading-relaxed">“{quote}”</p>
-                <p className="mt-5 text-sm font-bold text-slate-500 mt-auto pt-4">
-                  — {testimonialAuthors[index]}
-                </p>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              currentTestimonialIndex,
+              (currentTestimonialIndex + 1) % testimonials.length,
+              (currentTestimonialIndex + 2) % testimonials.length
+            ].map((idx, displayIndex) => {
+              const item = testimonials[idx];
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:border-blue-100 ${
+                    displayIndex === 1 ? "hidden sm:flex" : displayIndex === 2 ? "hidden md:flex" : "flex"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center gap-1 text-yellow-500 mb-4">
+                      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <p className="text-slate-700 leading-relaxed text-[15px] italic">
+                      “{item.quote}”
+                    </p>
+                  </div>
+                  <div className="mt-6 border-t border-slate-200/60 pt-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">
+                        {item.author}
+                      </p>
+                      <p className="text-xs font-semibold text-blue-600">
+                        {item.role}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-[10px] font-bold">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Verified
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
