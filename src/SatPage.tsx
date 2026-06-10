@@ -22,7 +22,7 @@ export default function SatPage({ onBack }: SatPageProps) {
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex cursor-pointer items-center rounded-xl bg-slate-200/80 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300"
+          className="inline-flex cursor-pointer items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800"
         >
           ← Back to Home
         </button>
@@ -161,7 +161,7 @@ export default function SatPage({ onBack }: SatPageProps) {
               <button
                 type="button"
                 onClick={onBack}
-                className="rounded-xl bg-slate-100 hover:bg-slate-200 px-7 py-4 text-slate-700 font-bold transition"
+                className="rounded-xl bg-blue-700 hover:bg-blue-800 px-7 py-4 text-white font-bold transition shadow-md shadow-blue-700/20 cursor-pointer"
               >
                 Return to Main Site
               </button>

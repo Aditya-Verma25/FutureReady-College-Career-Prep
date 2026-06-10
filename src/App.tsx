@@ -103,8 +103,8 @@ export default function EdupreneurLandingPage() {
     if (!ref.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = ref.current;
     setScrollState({
-      canScrollLeft: scrollLeft > 5,
-      canScrollRight: scrollLeft + clientWidth < scrollWidth - 5,
+      canScrollLeft: scrollLeft > 20,
+      canScrollRight: scrollWidth - (scrollLeft + clientWidth) > 50,
     });
   };
 
@@ -125,6 +125,36 @@ export default function EdupreneurLandingPage() {
 
   const prevSlide = () => {
     setCurrentTestimonialIndex((prev) => Math.max(prev - 1, 0));
+  };
+
+  const scrollToSection = (sectionId: string, initialBehavior: ScrollBehavior = "smooth") => {
+    let lastAbsoluteTop = -1;
+
+    const performScroll = (behavior: ScrollBehavior) => {
+      const target = document.getElementById(sectionId);
+      if (!target) return;
+      
+      const headerOffset = window.innerWidth >= 768 ? 105 : 69;
+      const elementPosition = target.getBoundingClientRect().top;
+      const absoluteTop = elementPosition + window.scrollY;
+
+      if (Math.abs(absoluteTop - lastAbsoluteTop) > 1) {
+        lastAbsoluteTop = absoluteTop;
+        window.scrollTo({
+          top: absoluteTop - headerOffset,
+          behavior
+        });
+      }
+    };
+
+    // Run initial scroll
+    performScroll(initialBehavior);
+    
+    // Check and adjust as layout settles
+    const intervals = [100, 250, 500, 800, 1200];
+    intervals.forEach((delay) => {
+      setTimeout(() => performScroll("smooth"), delay);
+    });
   };
 
   useEffect(() => {
@@ -169,28 +199,15 @@ export default function EdupreneurLandingPage() {
     if (!sectionHashes.has(hashPath)) return;
 
     const sectionId = hashPath.slice(1);
-    const timer = setTimeout(() => {
-      const target = document.getElementById(sectionId);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 150);
-    return () => clearTimeout(timer);
+    scrollToSection(sectionId, "smooth");
   }, [hashPath]);
 
   useEffect(() => {
     if (!pendingSectionScroll) return;
     if (hashPath && hashPath.startsWith("#/")) return;
 
-    const timer = setTimeout(() => {
-      const target = document.getElementById(pendingSectionScroll);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 150);
-
+    scrollToSection(pendingSectionScroll, "auto");
     setPendingSectionScroll(null);
-    return () => clearTimeout(timer);
   }, [hashPath, pendingSectionScroll]);
 
   useEffect(() => {
@@ -321,9 +338,7 @@ export default function EdupreneurLandingPage() {
   function handleNavSectionClick(sectionId: "services" | "about" | "testimonials") {
     const isSubpage = !!window.location.hash && window.location.hash.startsWith("#/");
     if (!isSubpage) {
-      const target = document.getElementById(sectionId);
-      if (!target) return;
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToSection(sectionId, "smooth");
       return;
     }
 
