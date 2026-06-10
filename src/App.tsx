@@ -918,10 +918,10 @@ export default function EdupreneurLandingPage() {
               Why this feels different
             </p>
             <h2 className="text-2xl md:text-3xl font-black text-slate-950 leading-tight">
-              Guidance from someone who remembers what this process feels like.
+              Guidance from someone who remembers the college process.
             </h2>
             <p className="mt-2 text-slate-600 text-base md:text-lg leading-relaxed">
-              No overpriced packages or generic centers. Just practical, student-first mentorship built on clarity, confidence, and real next steps.
+              No overpriced packages. Just practical, student-first mentorship.
             </p>
           </div>
 
