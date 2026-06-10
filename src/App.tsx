@@ -918,7 +918,7 @@ export default function EdupreneurLandingPage() {
               Why this feels different
             </p>
             <h2 className="text-2xl md:text-3xl font-black text-slate-950 leading-tight">
-              Guidance from someone who remembers the college process.
+              Guidance from someone who remembers the <span className="whitespace-nowrap">college process.</span>
             </h2>
             <p className="mt-2 text-slate-600 text-base md:text-lg leading-relaxed">
               No overpriced packages. Just practical, student-first mentorship.
