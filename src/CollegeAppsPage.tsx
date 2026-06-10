@@ -137,16 +137,6 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
             </p>
           </div>
 
-          {/* Reassurance Section */}
-          <div className="mt-14 rounded-2xl border border-violet-100 bg-violet-50/20 p-6 md:p-8">
-            <div className="mx-auto max-w-3xl text-center">
-              <span className="text-2xl">💡</span>
-              <p className="mt-3 text-base md:text-lg font-medium italic text-slate-700 leading-relaxed">
-                "Essays should sound like the student — just clearer, stronger, and more intentional. The goal is never to rewrite a student’s personality. It’s to help them communicate their story with confidence."
-              </p>
-            </div>
-          </div>
-
           {/* CTA & Urgency */}
           <div className="mt-14 border-t border-slate-200 pt-8 flex flex-col items-center">
             <p className="text-sm font-semibold text-rose-600 mb-4 flex items-center gap-1.5">
@@ -176,6 +166,16 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
               >
                 Return to Main Site
               </button>
+            </div>
+          </div>
+
+          {/* Reassurance Section */}
+          <div className="mt-14 rounded-2xl border border-violet-100 bg-violet-50/20 p-6 md:p-8">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="text-2xl">💡</span>
+              <p className="mt-3 text-base md:text-lg font-medium italic text-slate-700 leading-relaxed">
+                "Essays should sound like the student — just clearer, stronger, and more intentional. The goal is never to rewrite a student’s personality. It’s to help them communicate their story with confidence."
+              </p>
             </div>
           </div>
 
