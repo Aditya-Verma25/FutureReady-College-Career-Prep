@@ -818,7 +818,7 @@ export default function EdupreneurLandingPage() {
               <div className="h-80 bg-gradient-to-br from-blue-100 via-white to-orange-50 p-8 flex flex-col justify-between">
                 <div className="rounded-2xl bg-yellow-100 border border-yellow-200 shadow-sm w-56 p-5 rotate-[-2deg] ml-8">
                   <p className="text-slate-800 leading-relaxed font-bold text-sm">
-                    Recent applicant. Real advice.
+                    Recent applicant.<br />Real advice.
                   </p>
                   <div className="text-right text-xl mt-2 text-red-500">❤️</div>
                 </div>
