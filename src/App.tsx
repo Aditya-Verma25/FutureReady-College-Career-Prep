@@ -607,17 +607,6 @@ export default function EdupreneurLandingPage() {
             >
               Get Personalized Feedback
             </a>
-            <a
-              href="#/personalized-feedback"
-              onClick={() => {
-                window.gtag?.("event", "generate_lead", {
-                  source: "homepage_cta",
-                });
-              }}
-              className="inline-flex sm:hidden rounded-xl bg-blue-700 px-3 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-800 transition"
-            >
-              Get Feedback
-            </a>
 
             <button
               type="button"
