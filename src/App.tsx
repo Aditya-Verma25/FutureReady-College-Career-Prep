@@ -627,7 +627,7 @@ export default function EdupreneurLandingPage() {
                   source: "homepage_cta",
                 });
               }}
-              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-4.5 py-3 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition"
+              className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-700/10 hover:bg-blue-800 transition"
             >
               Get Personalized Feedback
             </a>
@@ -873,7 +873,7 @@ export default function EdupreneurLandingPage() {
                   source: "homepage_cta",
                 });
               }}
-              className="rounded-xl bg-blue-700 px-7 py-4 text-white font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition text-center"
+              className="rounded-xl bg-blue-700 px-5 py-3 text-base font-bold text-white shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition text-center"
             >
               Get Personalized Feedback
             </a>
@@ -1003,8 +1003,8 @@ export default function EdupreneurLandingPage() {
       </section>
 
       <section id="about" className="scroll-mt-28 px-6 pb-10 md:pb-16">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6 w-full max-w-full overflow-hidden">
-          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8 w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6">
+          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3">
               Meet Your Mentor
             </p>
@@ -1052,21 +1052,21 @@ export default function EdupreneurLandingPage() {
             </div>
           </div>
 
-          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8 w-full max-w-full overflow-hidden">
+          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
             <h2 className="text-2xl font-black text-slate-950 mb-6">
               My Results & Achievements
             </h2>
-            <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 w-full max-w-full">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {achievements.map((item) => (
                 <div
                   key={`${item.value}-${item.label}`}
-                  className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 sm:p-6 flex flex-col justify-between"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 flex flex-col justify-between"
                 >
-                  <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-2 sm:mb-4 text-xs sm:text-lg font-black shrink-0">
+                  <div className="w-9 h-9 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4 text-lg font-black shrink-0">
                     ✦
                   </div>
                   <div>
-                    <div className="text-base sm:text-2xl font-black text-blue-700 leading-tight">
+                    <div className="text-xl sm:text-2xl font-black text-blue-700 leading-tight">
                       {item.value}
                     </div>
                     <div className="mt-1 text-xs sm:text-sm font-medium text-slate-600 leading-tight">
@@ -1077,70 +1077,95 @@ export default function EdupreneurLandingPage() {
               ))}
             </div>
 
-            <div className="mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6 w-full max-w-full overflow-hidden">
+            <div className="mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6">
               <h3 className="font-black text-slate-950 mb-4">
                 Accepted Colleges
               </h3>
 
-              <style dangerouslySetInnerHTML={{__html: `
-                @keyframes marquee {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
-                }
-                .animate-marquee {
-                  display: flex;
-                  width: max-content;
-                  animation: marquee 30s linear infinite;
-                }
-                .animate-marquee:hover {
-                  animation-play-state: paused;
-                }
-              `}} />
-
-              <div className="relative w-full overflow-hidden py-1">
-                {/* Fade masks */}
-                <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-blue-50 to-transparent z-10 pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-blue-50 to-transparent z-10 pointer-events-none" />
-
-                <div className="flex gap-2 animate-marquee whitespace-nowrap">
-                  {/* Copy 1 */}
-                  {colleges.map((college) => (
-                    <span
-                      key={`${college.name}-1`}
-                      className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm shrink-0"
-                    >
-                      <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                        <img
-                          src={college.logo}
-                          alt=""
-                          className="h-4.5 w-4.5 sm:h-5 sm:w-5 object-contain"
-                          onError={(event) => {
-                            event.currentTarget.style.display = "none";
-                          }}
-                        />
-                      </span>
-                      {college.name}
+              {/* Desktop view: original flex wrap */}
+              <div className="hidden lg:flex lg:flex-wrap gap-2">
+                {colleges.map((college) => (
+                  <span
+                    key={`${college.name}-desktop`}
+                    className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm"
+                  >
+                    <span className="relative h-7 w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                      <img
+                        src={college.logo}
+                        alt=""
+                        className="h-5 w-5 object-contain"
+                        onError={(event) => {
+                          event.currentTarget.style.display = "none";
+                        }}
+                      />
                     </span>
-                  ))}
-                  {/* Copy 2 for infinite looping */}
-                  {colleges.map((college) => (
-                    <span
-                      key={`${college.name}-2`}
-                      className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm shrink-0"
-                    >
-                      <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                        <img
-                          src={college.logo}
-                          alt=""
-                          className="h-4.5 w-4.5 sm:h-5 sm:w-5 object-contain"
-                          onError={(event) => {
-                            event.currentTarget.style.display = "none";
-                          }}
-                        />
+                    {college.name}
+                  </span>
+                ))}
+              </div>
+
+              {/* Mobile/Tablet view: marquee */}
+              <div className="lg:hidden">
+                <style dangerouslySetInnerHTML={{__html: `
+                  @keyframes marquee {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                  }
+                  .animate-marquee {
+                    display: flex;
+                    width: max-content;
+                    animation: marquee 30s linear infinite;
+                  }
+                  .animate-marquee:hover {
+                    animation-play-state: paused;
+                  }
+                `}} />
+
+                <div className="relative w-full overflow-hidden py-1">
+                  {/* Fade masks */}
+                  <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-blue-50 to-transparent z-10 pointer-events-none" />
+                  <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-blue-50 to-transparent z-10 pointer-events-none" />
+
+                  <div className="flex gap-2 animate-marquee whitespace-nowrap">
+                    {/* Copy 1 */}
+                    {colleges.map((college) => (
+                      <span
+                        key={`${college.name}-mobile-1`}
+                        className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-sm shrink-0"
+                      >
+                        <span className="relative h-6 w-6 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                          <img
+                            src={college.logo}
+                            alt=""
+                            className="h-4.5 w-4.5 object-contain"
+                            onError={(event) => {
+                              event.currentTarget.style.display = "none";
+                            }}
+                          />
+                        </span>
+                        {college.name}
                       </span>
-                      {college.name}
-                    </span>
-                  ))}
+                    ))}
+                    {/* Copy 2 for infinite looping */}
+                    {colleges.map((college) => (
+                      <span
+                        key={`${college.name}-mobile-2`}
+                        className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-sm shrink-0"
+                      >
+                        <span className="relative h-6 w-6 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                          <img
+                            src={college.logo}
+                            alt=""
+                            className="h-4.5 w-4.5 object-contain"
+                            onError={(event) => {
+                              event.currentTarget.style.display = "none";
+                            }}
+                          />
+                        </span>
+                        {college.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
