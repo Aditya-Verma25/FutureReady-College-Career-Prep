@@ -110,8 +110,15 @@ export default function EdupreneurLandingPage() {
 
   const scrollContainer = (ref: React.RefObject<HTMLDivElement | null>, direction: "left" | "right") => {
     if (!ref.current) return;
-    const scrollAmount = ref.current.clientWidth * 0.8;
-    ref.current.scrollBy({
+    const container = ref.current;
+    const firstChild = container.firstElementChild as HTMLElement;
+    if (!firstChild) return;
+    
+    const cardWidth = firstChild.offsetWidth;
+    const computedGap = parseFloat(window.getComputedStyle(container).gap) || 24;
+    const scrollAmount = cardWidth + computedGap;
+    
+    container.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
@@ -971,7 +978,7 @@ export default function EdupreneurLandingPage() {
             {services.map((service) => (
               <div
                 key={service.title}
-                className={`w-[82vw] lg:w-auto shrink-0 snap-center rounded-3xl border p-6 sm:p-8 shadow-sm hover:shadow-lg transition flex flex-col justify-between ${service.cardClass}`}
+                className={`w-full lg:w-auto shrink-0 snap-center rounded-3xl border p-6 sm:p-8 shadow-sm hover:shadow-lg transition flex flex-col justify-between ${service.cardClass}`}
               >
                 <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center text-3xl mb-6">
                   {service.icon}
@@ -1220,7 +1227,7 @@ export default function EdupreneurLandingPage() {
             {whyDifferentCards.map((card) => (
               <div
                 key={card.title}
-                className="w-[82vw] md:w-auto shrink-0 snap-center rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
+                className="w-full md:w-auto shrink-0 snap-center rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-black transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white shrink-0">
                   {card.icon}
