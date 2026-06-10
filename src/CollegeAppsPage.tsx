@@ -147,8 +147,40 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
             </div>
           </div>
 
+          {/* CTA & Urgency */}
+          <div className="mt-14 border-t border-slate-200 pt-8 flex flex-col items-center">
+            <p className="text-sm font-semibold text-rose-600 mb-4 flex items-center gap-1.5">
+              <span className="animate-pulse h-2 w-2 rounded-full bg-rose-500" />
+              Limited summer availability as application season approaches.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a
+                href={consultationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={trackCalendlyClick}
+                className="rounded-xl bg-violet-700 px-7 py-4 text-white font-bold shadow-lg shadow-violet-700/20 hover:bg-violet-800 transition"
+              >
+                Book a Free 15-Min Consultation
+              </a>
+              <a
+                href="#/personalized-feedback"
+                className="rounded-xl bg-white px-7 py-4 text-slate-800 font-bold border border-slate-200 shadow-sm hover:border-violet-300 transition hover:text-violet-700"
+              >
+                Start With a Strategy Session
+              </a>
+              <button
+                type="button"
+                onClick={onBack}
+                className="rounded-xl bg-slate-100 hover:bg-slate-200 px-7 py-4 text-slate-700 font-bold transition"
+              >
+                Return to Main Site
+              </button>
+            </div>
+          </div>
+
           {/* FAQ Accordion */}
-          <div className="mt-14">
+          <div className="mt-14 border-t border-slate-200 pt-8">
             <h2 className="text-2xl font-black text-slate-950">Frequently Asked Questions</h2>
             <div className="mt-6 space-y-4">
               {[
@@ -183,41 +215,6 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
                   <p className="mt-3 text-sm text-slate-600 leading-relaxed">{faq.a}</p>
                 </details>
               ))}
-            </div>
-          </div>
-
-          {/* CTA & Urgency */}
-          <div className="mt-14 border-t border-slate-200 pt-8 flex flex-col items-center">
-            <p className="text-sm font-semibold text-rose-600 mb-4 flex items-center gap-1.5">
-              <span className="animate-pulse h-2 w-2 rounded-full bg-rose-500" />
-              Limited summer availability as application season approaches.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href={consultationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={trackCalendlyClick}
-                className="rounded-xl bg-violet-700 px-7 py-4 text-white font-bold shadow-lg shadow-violet-700/20 hover:bg-violet-800 transition"
-              >
-                Book a Free 15-Min Consultation
-              </a>
-              <a
-                href={consultationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={trackCalendlyClick}
-                className="rounded-xl bg-white px-7 py-4 text-slate-800 font-bold border border-slate-200 shadow-sm hover:border-violet-300 transition hover:text-violet-700"
-              >
-                Start With a Strategy Session
-              </a>
-              <button
-                type="button"
-                onClick={onBack}
-                className="rounded-xl bg-slate-100 hover:bg-slate-200 px-7 py-4 text-slate-700 font-bold transition"
-              >
-                Return to Main Site
-              </button>
             </div>
           </div>
         </div>
