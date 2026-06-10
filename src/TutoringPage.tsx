@@ -92,19 +92,13 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
           <div className="mt-14">
             <h2 className="text-2xl font-black text-slate-950">Flexible Tutoring Options</h2>
             <p className="mt-2 text-slate-600">Select the tutoring support style that fits your current coursework and goals.</p>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-3xl mx-auto">
               {[
                 {
                   title: "1-on-1 Academic Tutoring",
                   price: "$55",
                   badge: "Starting at /hr",
-                  desc: "Personalized support for math, computer science, and related coursework with targeted explanations and guided practice."
-                },
-                {
-                  title: "Homework + Test Prep Support",
-                  price: "$65",
-                  badge: "Starting at /session",
-                  desc: "Focused sessions for quizzes, exams, assignments, and improving problem-solving confidence."
+                  desc: "Personalized support for math, computer science, and related coursework with targeted explanations and guided practice (includes homework & test prep support)."
                 },
                 {
                   title: "Ongoing Academic Coaching",
@@ -126,7 +120,7 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
               ))}
             </div>
             <p className="mt-4 text-center text-xs font-semibold text-slate-500">
-              Most students begin with 1-on-1 sessions before moving into ongoing academic support.
+              Most students begin with 1-on-1 tutoring before moving into ongoing academic support.
             </p>
           </div>
 
