@@ -913,7 +913,7 @@ export default function EdupreneurLandingPage() {
 
       <section className="px-6 pb-10">
         <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-6 md:p-8">
-          <div className="text-center max-w-3xl mx-auto mb-8">
+          <div className="text-center mb-8">
             <p className="text-sm font-black uppercase tracking-wider text-blue-700 mb-2">
               Why this feels different
             </p>
