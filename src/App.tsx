@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, useRef, type FormEvent, type ReactNode } from "react";
 import ReactGA from "react-ga4";
 import { trackConsultationClick, trackContactSubmit } from "./lib/analytics";
 import SatPage from "./SatPage";
@@ -92,6 +92,19 @@ export default function EdupreneurLandingPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMentorExpanded, setIsMentorExpanded] = useState(false);
   const [isContactFormExpanded, setIsContactFormExpanded] = useState(false);
+
+  const servicesScrollRef = useRef<HTMLDivElement>(null);
+  const achievementsScrollRef = useRef<HTMLDivElement>(null);
+  const whyDifferentScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollContainer = (ref: React.RefObject<HTMLDivElement | null>, direction: "left" | "right") => {
+    if (!ref.current) return;
+    const scrollAmount = ref.current.clientWidth * 0.8;
+    ref.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   const nextSlide = () => {
     const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
@@ -893,9 +906,35 @@ export default function EdupreneurLandingPage() {
             <p className="mt-4 text-slate-600 text-lg">
               Clear, practical support for the parts of high school that feel the most overwhelming.
             </p>
+            {/* Scroll navigation arrows for mobile/tablet */}
+            <div className="flex justify-center gap-2 mt-4 lg:hidden">
+              <button
+                type="button"
+                onClick={() => scrollContainer(servicesScrollRef, "left")}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                aria-label="Scroll left"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollContainer(servicesScrollRef, "right")}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                aria-label="Scroll right"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          <div className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 lg:pb-0 -mx-4 px-4 scrollbar-none">
+          <div
+            ref={servicesScrollRef}
+            className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 lg:pb-0 -mx-4 px-4 scrollbar-none"
+          >
             {services.map((service) => (
               <div
                 key={service.title}
@@ -981,10 +1020,38 @@ export default function EdupreneurLandingPage() {
           </div>
 
           <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
-            <h2 className="text-2xl font-black text-slate-950 mb-6">
-              My Results & Achievements
-            </h2>
-            <div className="flex sm:grid sm:grid-cols-2 xl:grid-cols-3 overflow-x-auto sm:overflow-x-visible gap-4 snap-x snap-mandatory pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-black text-slate-950">
+                My Results & Achievements
+              </h2>
+              {/* Scroll navigation arrows for mobile */}
+              <div className="flex gap-2 sm:hidden">
+                <button
+                  type="button"
+                  onClick={() => scrollContainer(achievementsScrollRef, "left")}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                  aria-label="Scroll left"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollContainer(achievementsScrollRef, "right")}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                  aria-label="Scroll right"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              ref={achievementsScrollRef}
+              className="flex sm:grid sm:grid-cols-2 xl:grid-cols-3 overflow-x-auto sm:overflow-x-visible gap-4 snap-x snap-mandatory pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none"
+            >
               {achievements.map((item) => (
                 <div
                   key={`${item.value}-${item.label}`}
@@ -1045,9 +1112,35 @@ export default function EdupreneurLandingPage() {
             <p className="mt-2 text-slate-600 text-base md:text-lg leading-relaxed">
               No overpriced packages. Just practical, student-first mentorship.
             </p>
+            {/* Scroll navigation arrows for mobile/tablet */}
+            <div className="flex justify-center gap-2 mt-4 md:hidden">
+              <button
+                type="button"
+                onClick={() => scrollContainer(whyDifferentScrollRef, "left")}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                aria-label="Scroll left"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollContainer(whyDifferentScrollRef, "right")}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                aria-label="Scroll right"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 scrollbar-none">
+          <div
+            ref={whyDifferentScrollRef}
+            className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 scrollbar-none"
+          >
             {whyDifferentCards.map((card) => (
               <div
                 key={card.title}
