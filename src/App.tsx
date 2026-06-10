@@ -94,11 +94,9 @@ export default function EdupreneurLandingPage() {
   const [isContactFormExpanded, setIsContactFormExpanded] = useState(false);
 
   const servicesScrollRef = useRef<HTMLDivElement>(null);
-  const achievementsScrollRef = useRef<HTMLDivElement>(null);
   const whyDifferentScrollRef = useRef<HTMLDivElement>(null);
 
   const [servicesScrollState, setServicesScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
-  const [achievementsScrollState, setAchievementsScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
   const [whyDifferentScrollState, setWhyDifferentScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
 
   const checkScrollBounds = (ref: React.RefObject<HTMLDivElement | null>, setScrollState: React.Dispatch<React.SetStateAction<{ canScrollLeft: boolean; canScrollRight: boolean }>>) => {
@@ -138,7 +136,6 @@ export default function EdupreneurLandingPage() {
 
       // Update native scroll bounds on resize
       checkScrollBounds(servicesScrollRef, setServicesScrollState);
-      checkScrollBounds(achievementsScrollRef, setAchievementsScrollState);
       checkScrollBounds(whyDifferentScrollRef, setWhyDifferentScrollState);
     };
     window.addEventListener("resize", handleResize);
@@ -1049,54 +1046,25 @@ export default function EdupreneurLandingPage() {
           </div>
 
           <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8 w-full max-w-full overflow-hidden">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-black text-slate-950">
-                My Results & Achievements
-              </h2>
-              {/* Scroll navigation arrows for mobile */}
-              <div className="flex gap-2 sm:hidden">
-                <button
-                  type="button"
-                  onClick={() => scrollContainer(achievementsScrollRef, "left")}
-                  disabled={!achievementsScrollState.canScrollLeft}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
-                  aria-label="Scroll left"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scrollContainer(achievementsScrollRef, "right")}
-                  disabled={!achievementsScrollState.canScrollRight}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
-                  aria-label="Scroll right"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div
-              ref={achievementsScrollRef}
-              onScroll={() => checkScrollBounds(achievementsScrollRef, setAchievementsScrollState)}
-              className="flex sm:grid sm:grid-cols-2 xl:grid-cols-3 overflow-x-auto sm:overflow-x-visible gap-4 snap-x snap-mandatory pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none w-full max-w-full"
-            >
+            <h2 className="text-2xl font-black text-slate-950 mb-6">
+              My Results & Achievements
+            </h2>
+            <div className="grid grid-cols-3 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-4 w-full max-w-full">
               {achievements.map((item) => (
                 <div
                   key={`${item.value}-${item.label}`}
-                  className="w-[75vw] sm:w-auto shrink-0 sm:shrink snap-center rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6"
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-2.5 sm:p-6 flex flex-col justify-between"
                 >
-                  <div className="w-9 h-9 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4 text-lg font-black">
+                  <div className="w-6 h-6 sm:w-9 sm:h-9 rounded-lg sm:rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-2 sm:mb-4 text-xs sm:text-lg font-black shrink-0">
                     ✦
                   </div>
-                  <div className="text-2xl font-black text-blue-700">
-                    {item.value}
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-slate-600">
-                    {item.label}
+                  <div>
+                    <div className="text-xs sm:text-2xl font-black text-blue-700 leading-tight">
+                      {item.value}
+                    </div>
+                    <div className="mt-1 text-[9px] sm:text-sm font-medium text-slate-600 leading-tight">
+                      {item.label}
+                    </div>
                   </div>
                 </div>
               ))}
