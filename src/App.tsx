@@ -894,11 +894,11 @@ export default function EdupreneurLandingPage() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 lg:pb-0 -mx-4 px-4 scrollbar-none">
             {services.map((service) => (
               <div
                 key={service.title}
-                className={`rounded-3xl border p-6 sm:p-8 shadow-sm hover:shadow-lg transition ${service.cardClass}`}
+                className={`w-[82vw] lg:w-auto shrink-0 snap-center rounded-3xl border p-6 sm:p-8 shadow-sm hover:shadow-lg transition flex flex-col justify-between ${service.cardClass}`}
               >
                 <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center text-3xl mb-6">
                   {service.icon}
@@ -1046,11 +1046,11 @@ export default function EdupreneurLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 scrollbar-none">
             {whyDifferentCards.map((card) => (
               <div
                 key={card.title}
-                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
+                className="w-[82vw] md:w-auto shrink-0 snap-center rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-black transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white shrink-0">
                   {card.icon}
