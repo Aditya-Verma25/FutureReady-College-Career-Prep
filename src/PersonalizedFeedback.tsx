@@ -1,18 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import SiteFooter from "./SiteFooter";
-import SiteHeader from "./SiteHeader";
 
 const formspreeEndpoint = "https://formspree.io/f/xredoaqn";
-
-const consultationUrl =
-  "https://calendly.com/futurereadycollegeprep/free-15-min-consultation";
-
-const linkedInUrl =
-  "https://www.linkedin.com/company/futurereadyprep";
-
-const facebookUrl =
-  "https://www.facebook.com/profile.php?id=61590099885144";
 
 export default function PersonalizedFeedback() {
   const [submitted, setSubmitted] = useState(false);
@@ -69,12 +58,6 @@ export default function PersonalizedFeedback() {
 
   return (
     <>
-    
-    <SiteHeader
-      onBrandClick={() => {
-        window.location.hash = "";
-      }}
-    />
 
     <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-6 py-16">
       <section className="mx-auto max-w-3xl">
@@ -312,11 +295,6 @@ export default function PersonalizedFeedback() {
       </section>
     </main>
 
-      <SiteFooter
-      consultationUrl={consultationUrl}
-      linkedInUrl={linkedInUrl}
-      facebookUrl={facebookUrl}
-    />
-  </>
+    </>
   );
 }

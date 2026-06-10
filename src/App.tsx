@@ -169,19 +169,28 @@ export default function EdupreneurLandingPage() {
     if (!sectionHashes.has(hashPath)) return;
 
     const sectionId = hashPath.slice(1);
-    const target = document.getElementById(sectionId);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    const timer = setTimeout(() => {
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 150);
+    return () => clearTimeout(timer);
   }, [hashPath]);
 
   useEffect(() => {
     if (!pendingSectionScroll) return;
     if (hashPath && hashPath.startsWith("#/")) return;
 
-    const target = document.getElementById(pendingSectionScroll);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    const timer = setTimeout(() => {
+      const target = document.getElementById(pendingSectionScroll);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 150);
+
     setPendingSectionScroll(null);
+    return () => clearTimeout(timer);
   }, [hashPath, pendingSectionScroll]);
 
   useEffect(() => {
@@ -727,13 +736,7 @@ export default function EdupreneurLandingPage() {
     </>
   );
 
-  const renderWithFooter = (content: ReactNode) => (
-  <>
-    {content}
-    <FloatingMessageButton />
-    <SiteFooter consultationUrl={consultationUrl} onConsultationClick={() => trackConsultationClick("footer")} linkedInUrl={linkedInUrl} facebookUrl={facebookUrl} />
-  </>
-);
+
 
   if (hashPath === "#/sat") {
     return renderWithHeaderAndFooter(<SatPage onBack={() => (window.location.hash = "")} />);
@@ -745,7 +748,7 @@ export default function EdupreneurLandingPage() {
     return renderWithHeaderAndFooter(<TutoringPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/college-list-builder") {
-    return renderWithFooter(<CollegeListBuilderPage onBack={() => (window.location.hash = "")} />);
+    return renderWithHeaderAndFooter(<CollegeListBuilderPage onBack={() => (window.location.hash = "")} />);
   }
   if (hashPath === "#/report") {
     return renderWithHeaderAndFooter(<FutureReadyReportPage onBack={() => (window.location.hash = "")} />);
@@ -773,7 +776,7 @@ export default function EdupreneurLandingPage() {
   }
 
   if (hashPath === "#/personalized-feedback") {
-    return <PersonalizedFeedback />;
+    return renderWithHeaderAndFooter(<PersonalizedFeedback />);
   }
 
   const itemsPerView = windowWidth >= 768 ? 3 : windowWidth >= 640 ? 2 : 1;
@@ -1059,30 +1062,71 @@ export default function EdupreneurLandingPage() {
               ))}
             </div>
 
-            <div className="mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6">
+            <div className="mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6 w-full max-w-full overflow-hidden">
               <h3 className="font-black text-slate-950 mb-4">
                 Accepted Colleges
               </h3>
-              <div className="flex sm:flex-wrap gap-2 overflow-x-auto sm:overflow-x-visible pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
-                {colleges.map((college) => (
-                  <span
-                  key={college.name}
-                  className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm shrink-0 sm:shrink"
-                >
-                  <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                    <img
-                      src={college.logo}
-                      alt=""
-                      className="h-4.5 w-4.5 sm:h-5 sm:w-5 object-contain"
-                      onError={(event) => {
-                        event.currentTarget.style.display = "none";
-                      }}
-                    />
-                  </span>
 
-                  {college.name}
-                  </span>
-                ))}
+              <style dangerouslySetInnerHTML={{__html: `
+                @keyframes marquee {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .animate-marquee {
+                  display: flex;
+                  width: max-content;
+                  animation: marquee 30s linear infinite;
+                }
+                .animate-marquee:hover {
+                  animation-play-state: paused;
+                }
+              `}} />
+
+              <div className="relative w-full overflow-hidden py-1">
+                {/* Fade masks */}
+                <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-blue-50 to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-blue-50 to-transparent z-10 pointer-events-none" />
+
+                <div className="flex gap-2 animate-marquee whitespace-nowrap">
+                  {/* Copy 1 */}
+                  {colleges.map((college) => (
+                    <span
+                      key={`${college.name}-1`}
+                      className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm shrink-0"
+                    >
+                      <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                        <img
+                          src={college.logo}
+                          alt=""
+                          className="h-4.5 w-4.5 sm:h-5 sm:w-5 object-contain"
+                          onError={(event) => {
+                            event.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </span>
+                      {college.name}
+                    </span>
+                  ))}
+                  {/* Copy 2 for infinite looping */}
+                  {colleges.map((college) => (
+                    <span
+                      key={`${college.name}-2`}
+                      className="inline-flex items-center gap-2 rounded-full bg-white border border-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-slate-700 shadow-sm shrink-0"
+                    >
+                      <span className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                        <img
+                          src={college.logo}
+                          alt=""
+                          className="h-4.5 w-4.5 sm:h-5 sm:w-5 object-contain"
+                          onError={(event) => {
+                            event.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </span>
+                      {college.name}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

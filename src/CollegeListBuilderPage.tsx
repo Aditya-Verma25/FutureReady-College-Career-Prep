@@ -1,6 +1,5 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { trackConsultationClick, trackCollegeBuilderSubmit } from "./lib/analytics";
-import SiteHeader from "./SiteHeader";
 
 
 type CollegeListBuilderPageProps = { onBack: () => void };
@@ -546,11 +545,6 @@ export default function CollegeListBuilderPage({ onBack }: CollegeListBuilderPag
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f7fbff] via-blue-50 to-indigo-50 text-slate-900">
-      <SiteHeader
-        onBrandClick={() => {
-          window.location.hash = "";
-        }}
-      />
 
       <div className="max-w-7xl mx-auto px-6 py-10">
         <button type="button" onClick={onBack} className="inline-flex items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800">
