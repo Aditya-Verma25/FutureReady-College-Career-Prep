@@ -149,7 +149,7 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
               <button
                 type="button"
                 onClick={onBack}
-                className="rounded-xl bg-blue-700 hover:bg-blue-800 px-7 py-4 text-white font-bold transition shadow-md shadow-blue-700/20 cursor-pointer"
+                className="rounded-xl bg-slate-100 hover:bg-slate-200 px-7 py-4 text-slate-700 font-bold transition"
               >
                 Return to Main Site
               </button>
