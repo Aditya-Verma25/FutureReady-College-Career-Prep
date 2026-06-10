@@ -929,9 +929,9 @@ export default function EdupreneurLandingPage() {
             {whyDifferentCards.map((card) => (
               <div
                 key={card.title}
-                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-black transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-black transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white shrink-0">
                   {card.icon}
                 </div>
                 <div>
