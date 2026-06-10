@@ -89,14 +89,30 @@ export default function EdupreneurLandingPage() {
   const [showEarlyBirdPopup, setShowEarlyBirdPopup] = useState(false);
   const [pendingSectionScroll, setPendingSectionScroll] = useState<"services" | "about" | "testimonials" | null>(null);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
 
   const nextSlide = () => {
-    setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    const maxIndex = testimonials.length - itemsPerView;
+    setCurrentTestimonialIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    const maxIndex = testimonials.length - itemsPerView;
+    setCurrentTestimonialIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+      const maxIndex = testimonials.length - itemsPerView;
+      setCurrentTestimonialIndex((prev) => Math.min(prev, maxIndex));
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     ReactGA.initialize("G-2STM34BZQ2");
@@ -895,17 +911,17 @@ export default function EdupreneurLandingPage() {
         </div>
       </section>
 
-      <section className="px-6 pb-16">
-        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-8 md:p-12">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <p className="text-sm font-black uppercase tracking-wider text-blue-700 mb-3">
+      <section className="px-6 pb-10">
+        <div className="max-w-7xl mx-auto rounded-[2rem] bg-white border border-slate-200 shadow-sm p-6 md:p-8">
+          <div className="text-center max-w-3xl mx-auto mb-8">
+            <p className="text-sm font-black uppercase tracking-wider text-blue-700 mb-2">
               Why this feels different
             </p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-950 leading-tight">
-              Guidance from someone who actually remembers what this process feels like.
+            <h2 className="text-2xl md:text-3xl font-black text-slate-950 leading-tight">
+              Guidance from someone who remembers what this process feels like.
             </h2>
-            <p className="mt-4 text-slate-600 text-lg leading-relaxed">
-              This is not a giant counseling package or a generic tutoring center. It is practical, student-first mentorship built around clarity, confidence, and realistic next steps.
+            <p className="mt-2 text-slate-600 text-base md:text-lg leading-relaxed">
+              No overpriced packages or generic centers. Just practical, student-first mentorship built on clarity, confidence, and real next steps.
             </p>
           </div>
 
@@ -968,47 +984,47 @@ export default function EdupreneurLandingPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {[
-              currentTestimonialIndex,
-              (currentTestimonialIndex + 1) % testimonials.length,
-              (currentTestimonialIndex + 2) % testimonials.length
-            ].map((idx, displayIndex) => {
-              const item = testimonials[idx];
-              return (
+          <div className="overflow-hidden -mx-3 px-3 py-4">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ 
+                transform: `translateX(-${currentTestimonialIndex * (100 / (windowWidth >= 768 ? 3 : windowWidth >= 640 ? 2 : 1))}%)` 
+              }}
+            >
+              {testimonials.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:border-blue-100 ${
-                    displayIndex === 1 ? "hidden sm:flex" : displayIndex === 2 ? "hidden md:flex" : "flex"
-                  }`}
+                  className="w-full sm:w-1/2 md:w-1/3 shrink-0 px-3 flex animate-slide"
                 >
-                  <div>
-                    <div className="flex items-center gap-1 text-yellow-500 mb-4">
-                      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                    </div>
-                    <p className="text-slate-700 leading-relaxed text-[15px] italic">
-                      “{item.quote}”
-                    </p>
-                  </div>
-                  <div className="mt-6 border-t border-slate-200/60 pt-4 flex items-center justify-between">
+                  <div className="w-full rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:border-blue-100">
                     <div>
-                      <p className="text-sm font-bold text-slate-900">
-                        {item.author}
-                      </p>
-                      <p className="text-xs font-semibold text-blue-600">
-                        {item.role}
+                      <div className="flex items-center gap-1 text-yellow-500 mb-4">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                      </div>
+                      <p className="text-slate-700 leading-relaxed text-[15px] italic">
+                        “{item.quote}”
                       </p>
                     </div>
-                    <div className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-[10px] font-bold">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Verified
+                    <div className="mt-6 border-t border-slate-200/60 pt-4 flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-bold text-slate-900">
+                          {item.author}
+                        </p>
+                        <p className="text-xs font-semibold text-blue-600">
+                          {item.role}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-[10px] font-bold">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        Verified
+                      </div>
                     </div>
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
       </section>
