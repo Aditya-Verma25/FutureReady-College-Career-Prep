@@ -97,6 +97,19 @@ export default function EdupreneurLandingPage() {
   const achievementsScrollRef = useRef<HTMLDivElement>(null);
   const whyDifferentScrollRef = useRef<HTMLDivElement>(null);
 
+  const [servicesScrollState, setServicesScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+  const [achievementsScrollState, setAchievementsScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+  const [whyDifferentScrollState, setWhyDifferentScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+
+  const checkScrollBounds = (ref: React.RefObject<HTMLDivElement | null>, setScrollState: React.Dispatch<React.SetStateAction<{ canScrollLeft: boolean; canScrollRight: boolean }>>) => {
+    if (!ref.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = ref.current;
+    setScrollState({
+      canScrollLeft: scrollLeft > 5,
+      canScrollRight: scrollLeft + clientWidth < scrollWidth - 5,
+    });
+  };
+
   const scrollContainer = (ref: React.RefObject<HTMLDivElement | null>, direction: "left" | "right") => {
     if (!ref.current) return;
     const scrollAmount = ref.current.clientWidth * 0.8;
@@ -109,13 +122,11 @@ export default function EdupreneurLandingPage() {
   const nextSlide = () => {
     const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
     const maxIndex = testimonials.length - itemsPerView;
-    setCurrentTestimonialIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    setCurrentTestimonialIndex((prev) => Math.min(prev + 1, maxIndex));
   };
 
   const prevSlide = () => {
-    const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
-    const maxIndex = testimonials.length - itemsPerView;
-    setCurrentTestimonialIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    setCurrentTestimonialIndex((prev) => Math.max(prev - 1, 0));
   };
 
   useEffect(() => {
@@ -124,9 +135,19 @@ export default function EdupreneurLandingPage() {
       const itemsPerView = window.innerWidth >= 768 ? 3 : window.innerWidth >= 640 ? 2 : 1;
       const maxIndex = testimonials.length - itemsPerView;
       setCurrentTestimonialIndex((prev) => Math.min(prev, maxIndex));
+
+      // Update native scroll bounds on resize
+      checkScrollBounds(servicesScrollRef, setServicesScrollState);
+      checkScrollBounds(achievementsScrollRef, setAchievementsScrollState);
+      checkScrollBounds(whyDifferentScrollRef, setWhyDifferentScrollState);
     };
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    // Initial check on mount after short timeout to allow rendering
+    const timer = setTimeout(handleResize, 100);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -769,6 +790,11 @@ export default function EdupreneurLandingPage() {
     return <PersonalizedFeedback />;
   }
 
+  const itemsPerView = windowWidth >= 768 ? 3 : windowWidth >= 640 ? 2 : 1;
+  const maxTestimonialIndex = testimonials.length - itemsPerView;
+  const isPrevTestimonialDisabled = currentTestimonialIndex <= 0;
+  const isNextTestimonialDisabled = currentTestimonialIndex >= maxTestimonialIndex;
+
   return (
     <div className="min-h-screen bg-[#f7fbff] text-slate-900 font-sans">
       <div className="bg-blue-800 text-white">
@@ -911,7 +937,8 @@ export default function EdupreneurLandingPage() {
               <button
                 type="button"
                 onClick={() => scrollContainer(servicesScrollRef, "left")}
-                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                disabled={!servicesScrollState.canScrollLeft}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 aria-label="Scroll left"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -921,7 +948,8 @@ export default function EdupreneurLandingPage() {
               <button
                 type="button"
                 onClick={() => scrollContainer(servicesScrollRef, "right")}
-                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                disabled={!servicesScrollState.canScrollRight}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 aria-label="Scroll right"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -933,7 +961,8 @@ export default function EdupreneurLandingPage() {
 
           <div
             ref={servicesScrollRef}
-            className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 lg:pb-0 -mx-4 px-4 scrollbar-none"
+            onScroll={() => checkScrollBounds(servicesScrollRef, setServicesScrollState)}
+            className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 lg:pb-0 -mx-4 px-4 scrollbar-none w-full max-w-full"
           >
             {services.map((service) => (
               <div
@@ -970,8 +999,8 @@ export default function EdupreneurLandingPage() {
       </section>
 
       <section id="about" className="scroll-mt-28 px-6 pb-10 md:pb-16">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6">
-          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6 w-full max-w-full overflow-hidden">
+          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8 w-full max-w-full overflow-hidden">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3">
               Meet Your Mentor
             </p>
@@ -1019,7 +1048,7 @@ export default function EdupreneurLandingPage() {
             </div>
           </div>
 
-          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
+          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8 w-full max-w-full overflow-hidden">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-black text-slate-950">
                 My Results & Achievements
@@ -1029,7 +1058,8 @@ export default function EdupreneurLandingPage() {
                 <button
                   type="button"
                   onClick={() => scrollContainer(achievementsScrollRef, "left")}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                  disabled={!achievementsScrollState.canScrollLeft}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                   aria-label="Scroll left"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1039,7 +1069,8 @@ export default function EdupreneurLandingPage() {
                 <button
                   type="button"
                   onClick={() => scrollContainer(achievementsScrollRef, "right")}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                  disabled={!achievementsScrollState.canScrollRight}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                   aria-label="Scroll right"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1050,7 +1081,8 @@ export default function EdupreneurLandingPage() {
             </div>
             <div
               ref={achievementsScrollRef}
-              className="flex sm:grid sm:grid-cols-2 xl:grid-cols-3 overflow-x-auto sm:overflow-x-visible gap-4 snap-x snap-mandatory pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none"
+              onScroll={() => checkScrollBounds(achievementsScrollRef, setAchievementsScrollState)}
+              className="flex sm:grid sm:grid-cols-2 xl:grid-cols-3 overflow-x-auto sm:overflow-x-visible gap-4 snap-x snap-mandatory pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none w-full max-w-full"
             >
               {achievements.map((item) => (
                 <div
@@ -1117,7 +1149,8 @@ export default function EdupreneurLandingPage() {
               <button
                 type="button"
                 onClick={() => scrollContainer(whyDifferentScrollRef, "left")}
-                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                disabled={!whyDifferentScrollState.canScrollLeft}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 aria-label="Scroll left"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1127,7 +1160,8 @@ export default function EdupreneurLandingPage() {
               <button
                 type="button"
                 onClick={() => scrollContainer(whyDifferentScrollRef, "right")}
-                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                disabled={!whyDifferentScrollState.canScrollRight}
+                className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-700 flex items-center justify-center hover:bg-slate-100 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-50 disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 aria-label="Scroll right"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1139,7 +1173,8 @@ export default function EdupreneurLandingPage() {
 
           <div
             ref={whyDifferentScrollRef}
-            className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 scrollbar-none"
+            onScroll={() => checkScrollBounds(whyDifferentScrollRef, setWhyDifferentScrollState)}
+            className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 scrollbar-none w-full max-w-full"
           >
             {whyDifferentCards.map((card) => (
               <div
@@ -1179,7 +1214,8 @@ export default function EdupreneurLandingPage() {
               <button
                 type="button"
                 onClick={prevSlide}
-                className="w-11 h-11 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm focus:outline-none cursor-pointer"
+                disabled={isPrevTestimonialDisabled}
+                className="w-11 h-11 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm focus:outline-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 aria-label="Previous testimonials"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1189,7 +1225,8 @@ export default function EdupreneurLandingPage() {
               <button
                 type="button"
                 onClick={nextSlide}
-                className="w-11 h-11 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm focus:outline-none cursor-pointer"
+                disabled={isNextTestimonialDisabled}
+                className="w-11 h-11 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 hover:border-blue-300 hover:text-blue-700 active:scale-95 transition-all shadow-sm focus:outline-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 aria-label="Next testimonials"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
