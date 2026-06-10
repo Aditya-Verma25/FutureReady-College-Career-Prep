@@ -15,7 +15,7 @@ export default function SiteFooter({
 }: SiteFooterProps) {
   return (
     <footer className="bg-blue-200 shadow-[0_-10px_30px_rgba(37,99,235,0.10)]">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-8 md:py-12 md:grid-cols-2 lg:grid-cols-4">
         <section>
           <div className="flex items-center gap-3">
             <img src="/logo.png" alt="FutureReady logo" className="h-9 w-9 object-contain" />
@@ -83,7 +83,7 @@ export default function SiteFooter({
           </nav>
         </section>
 
-        <section>
+        <section className="hidden md:block">
           <h4 className="text-sm font-black uppercase tracking-[0.12em] text-slate-800">Services</h4>
           <ul className="mt-4 space-y-2 text-sm text-slate-600">
             <li>SAT Prep</li>
@@ -93,7 +93,7 @@ export default function SiteFooter({
           </ul>
         </section>
 
-        <section>
+        <section className="hidden md:block">
           <h4 className="text-lg font-black text-slate-900">Want personalized guidance?</h4>
           <p className="mt-2 text-sm text-slate-600">
             Share your student’s profile and I’ll personally review it.
