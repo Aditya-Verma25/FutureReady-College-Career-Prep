@@ -608,65 +608,75 @@ export default function EdupreneurLandingPage() {
 
         {/* Slide-down Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-200 bg-white py-4 px-6 space-y-4 shadow-inner flex flex-col">
-            <button 
-              type="button" 
-              onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("services"); }}
-              className="text-left py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
-            >
-              Services
-            </button>
-            <button 
-              type="button" 
-              onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("about"); }}
-              className="text-left py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
-            >
-              About & Results
-            </button>
-            <button 
-              type="button" 
-              onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("testimonials"); }}
-              className="text-left py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
-            >
-              Testimonials
-            </button>
-            <a 
-              href="#/college-list-builder"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
-            >
-              College List Builder
-            </a>
-            <a 
-              href="/blog/"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-base font-bold text-slate-800 hover:text-blue-700 transition"
-            >
-              Blog
-            </a>
-            <hr className="border-slate-200" />
-            <a
-              href="#/personalized-feedback"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                window.gtag?.("event", "generate_lead", { source: "mobile_menu" });
-              }}
-              className="w-full text-center rounded-xl bg-blue-700 py-3 text-white font-bold shadow-md hover:bg-blue-800 transition"
-            >
-              Get Personalized Feedback
-            </a>
-            <a
-              href={consultationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                trackCalendlyClick();
-              }}
-              className="w-full text-center rounded-xl border border-slate-200 bg-slate-50 py-3 text-slate-800 font-bold hover:bg-slate-100 transition"
-            >
-              Book Consultation
-            </a>
+          <div className="md:hidden border-t border-slate-150 bg-white/95 backdrop-blur-xl py-6 px-8 space-y-6 shadow-2xl flex flex-col">
+            <div className="flex flex-col space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-2 block">Navigation</span>
+              <button 
+                type="button" 
+                onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("services"); }}
+                className="text-left py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between border-b border-slate-100"
+              >
+                <span>Services</span>
+                <span className="text-slate-400 text-sm">→</span>
+              </button>
+              <button 
+                type="button" 
+                onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("about"); }}
+                className="text-left py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between border-b border-slate-100"
+              >
+                <span>About & Results</span>
+                <span className="text-slate-400 text-sm">→</span>
+              </button>
+              <button 
+                type="button" 
+                onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("testimonials"); }}
+                className="text-left py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between border-b border-slate-100"
+              >
+                <span>Testimonials</span>
+                <span className="text-slate-400 text-sm">→</span>
+              </button>
+              <a 
+                href="#/college-list-builder"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between border-b border-slate-100"
+              >
+                <span>College List Builder</span>
+                <span className="text-slate-400 text-sm">→</span>
+              </a>
+              <a 
+                href="/blog/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between border-b border-slate-100"
+              >
+                <span>Blog</span>
+                <span className="text-slate-400 text-sm">→</span>
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-3 pt-3">
+              <a
+                href="#/personalized-feedback"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  window.gtag?.("event", "generate_lead", { source: "mobile_menu" });
+                }}
+                className="w-full text-center rounded-2xl bg-gradient-to-r from-blue-700 to-blue-600 py-3.5 text-white font-black shadow-lg shadow-blue-700/20 hover:from-blue-800 hover:to-blue-700 transition"
+              >
+                Get Personalized Feedback
+              </a>
+              <a
+                href={consultationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  trackCalendlyClick();
+                }}
+                className="w-full text-center rounded-2xl border border-slate-200 bg-slate-50 py-3.5 text-slate-800 font-black hover:bg-slate-100 transition"
+              >
+                Book Consultation
+              </a>
+            </div>
           </div>
         )}
       </nav>
