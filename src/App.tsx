@@ -56,6 +56,11 @@ const testimonials = [
     role: "Parent",
   },
   {
+    quote: "The weekly check-ins made sure I didn't leave my prep to the last minute. It felt more like a study partner who knew exactly what they were doing.",
+    author: "Divya K.",
+    role: "Student",
+  },
+  {
     quote: "I raised my SAT score from a 1390 to a 1480. Aditya's study schedule was the first one I actually stuck to because it wasn't just pages of dry homework.",
     author: "Ryan K.",
     role: "Student",
@@ -64,11 +69,6 @@ const testimonials = [
     quote: "We were so stressed about college essays, but Aditya helped my daughter figure out what she actually wanted to write about, keeping her voice completely real.",
     author: "Michelle T.",
     role: "Parent",
-  },
-  {
-    quote: "The weekly check-ins made sure I didn't leave my prep to the last minute. It felt more like a study partner who knew exactly what they were doing.",
-    author: "Divya K.",
-    role: "Student",
   },
 ];
 
