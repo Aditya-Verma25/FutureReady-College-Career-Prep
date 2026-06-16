@@ -91,7 +91,10 @@ export default function EdupreneurLandingPage() {
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMentorExpanded, setIsMentorExpanded] = useState(false);
+  const [isResultsExpanded, setIsResultsExpanded] = useState(false);
   const [isContactFormExpanded, setIsContactFormExpanded] = useState(false);
+  const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
 
   const servicesScrollRef = useRef<HTMLDivElement>(null);
   const whyDifferentScrollRef = useRef<HTMLDivElement>(null);
@@ -253,14 +256,14 @@ export default function EdupreneurLandingPage() {
     let useScrollTrigger = false;
 
     if (isHomepage) {
-      timeThresholdMs = isMobile ? 45000 : 30000; // 45s on mobile, 30s on desktop
+      timeThresholdMs = isMobile ? 75000 : 60000; // 75s on mobile, 60s on desktop
       scrollThresholdPercent = isMobile ? 60 : 50; // 60% scroll on mobile, 50% on desktop
       useScrollTrigger = true;
     } else if (isServicePage) {
-      timeThresholdMs = isMobile ? 60000 : 45000; // 60s on mobile, 45s on desktop
+      timeThresholdMs = isMobile ? 90000 : 75000; // 90s on mobile, 75s on desktop
       useScrollTrigger = false;
     } else if (isBlogOrToolPage) {
-      timeThresholdMs = isMobile ? 90000 : 75000; // 90s on mobile, 75s on desktop
+      timeThresholdMs = isMobile ? 120000 : 90000; // 120s on mobile, 90s on desktop
       useExitIntent = !isMobile; // No exit intent on mobile
       useScrollTrigger = false;
     }
@@ -610,9 +613,49 @@ export default function EdupreneurLandingPage() {
 
           <div className="flex items-center gap-3 sm:gap-5 ml-auto">
             <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-              <button type="button" onClick={() => handleNavSectionClick("services")} className="hover:text-blue-700 transition">
-                Services
-              </button>
+              <div
+                className="relative"
+                onMouseLeave={() => setIsServicesDropdownOpen(false)}
+              >
+                <button
+                  type="button"
+                  onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
+                  onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                  className="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none"
+                >
+                  <span>Services</span>
+                  <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${isServicesDropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isServicesDropdownOpen && (
+                  <div className="absolute top-full left-0 pt-2 w-48 z-[60]">
+                    <div className="rounded-2xl border border-slate-150 bg-white p-2 shadow-xl animate-fadeIn">
+                      <a
+                        href="#/sat"
+                        onClick={() => setIsServicesDropdownOpen(false)}
+                        className="block rounded-xl px-4 py-2.5 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition"
+                      >
+                        SAT Prep
+                      </a>
+                      <a
+                        href="#/college-apps"
+                        onClick={() => setIsServicesDropdownOpen(false)}
+                        className="block rounded-xl px-4 py-2.5 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition"
+                      >
+                        College Apps
+                      </a>
+                      <a
+                        href="#/tutoring"
+                        onClick={() => setIsServicesDropdownOpen(false)}
+                        className="block rounded-xl px-4 py-2.5 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition"
+                      >
+                        Academic Tutoring
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
               <button type="button" onClick={() => handleNavSectionClick("about")} className="hover:text-blue-700 transition">
                 About & Results
               </button>
@@ -663,14 +706,41 @@ export default function EdupreneurLandingPage() {
           <div className="md:hidden border-t border-slate-150 bg-white/95 backdrop-blur-xl py-6 px-8 space-y-6 shadow-2xl flex flex-col">
             <div className="flex flex-col space-y-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-2 block">Navigation</span>
-              <button 
-                type="button" 
-                onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("services"); }}
-                className="text-left py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between border-b border-slate-100"
-              >
-                <span>Services</span>
-                <span className="text-slate-400 text-sm">→</span>
-              </button>
+              <div className="flex flex-col border-b border-slate-100">
+                <button 
+                  type="button" 
+                  onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                  className="text-left py-3.5 text-lg font-bold text-slate-800 hover:text-blue-700 transition flex items-center justify-between"
+                >
+                  <span>Services</span>
+                  <span className={`text-slate-400 text-sm transition-transform duration-200 ${isMobileServicesOpen ? "rotate-90" : ""}`}>→</span>
+                </button>
+                {isMobileServicesOpen && (
+                  <div className="pl-4 pb-3 flex flex-col space-y-3 animate-fadeIn">
+                    <a 
+                      href="#/sat"
+                      onClick={() => { setIsMobileMenuOpen(false); setIsMobileServicesOpen(false); }}
+                      className="text-left py-1 text-base font-semibold text-slate-600 hover:text-blue-700 transition"
+                    >
+                      SAT Prep
+                    </a>
+                    <a 
+                      href="#/college-apps"
+                      onClick={() => { setIsMobileMenuOpen(false); setIsMobileServicesOpen(false); }}
+                      className="text-left py-1 text-base font-semibold text-slate-600 hover:text-blue-700 transition"
+                    >
+                      College Apps
+                    </a>
+                    <a 
+                      href="#/tutoring"
+                      onClick={() => { setIsMobileMenuOpen(false); setIsMobileServicesOpen(false); }}
+                      className="text-left py-1 text-base font-semibold text-slate-600 hover:text-blue-700 transition"
+                    >
+                      Tutoring
+                    </a>
+                  </div>
+                )}
+              </div>
               <button 
                 type="button" 
                 onClick={() => { setIsMobileMenuOpen(false); handleNavSectionClick("about"); }}
@@ -739,7 +809,7 @@ export default function EdupreneurLandingPage() {
     <>
       <div className="bg-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+          Early Bird: Students who book by June 30 get a free SAT diagnostic + 15% off.
           <a
             href={consultationUrl}
             target="_blank"
@@ -810,7 +880,7 @@ export default function EdupreneurLandingPage() {
     <div className="min-h-screen bg-[#f7fbff] text-slate-900 font-sans">
       <div className="bg-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+          Early Bird: Students who book by June 30 get a free SAT diagnostic + 15% off.
           <a
             href={consultationUrl}
             target="_blank"
@@ -1011,7 +1081,7 @@ export default function EdupreneurLandingPage() {
 
       <section id="about" className="scroll-mt-28 px-6 pb-10 md:pb-16">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6">
-          <div className="lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
+          <div className="min-w-0 lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-4 sm:p-8">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3">
               Meet Your Mentor
             </p>
@@ -1019,7 +1089,7 @@ export default function EdupreneurLandingPage() {
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-2xl shadow-sm ring-1 ring-blue-200">
                 🎓
               </div>
-              <h2 className="text-3xl font-black tracking-tight text-slate-950">
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
                 A Little About Me
               </h2>
             </div>
@@ -1059,24 +1129,24 @@ export default function EdupreneurLandingPage() {
             </div>
           </div>
 
-          <div id="results" className="scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-5 sm:p-8">
-            <h2 className="text-2xl font-black text-slate-950 mb-6">
+          <div id="results" className="min-w-0 scroll-mt-28 lg:col-span-3 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-4 sm:p-8">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-950 mb-6">
               My Results & Achievements
             </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              {achievements.map((item) => (
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              {achievements.map((item, index) => (
                 <div
                   key={`${item.value}-${item.label}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 flex flex-col justify-between"
+                  className={`${!isResultsExpanded && index >= 4 ? "hidden md:flex" : "flex"} rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-6 flex-col justify-between`}
                 >
-                  <div className="w-9 h-9 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4 text-lg font-black shrink-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4 text-base sm:text-lg font-black shrink-0">
                     ✦
                   </div>
                   <div>
-                    <div className="text-xl sm:text-2xl font-black text-blue-700 leading-tight">
+                    <div className="text-[1.05rem] sm:text-xl md:text-2xl font-black text-blue-700 leading-tight break-words">
                       {item.value}
                     </div>
-                    <div className="mt-1 text-xs sm:text-sm font-medium text-slate-600 leading-tight">
+                    <div className="mt-1 text-[0.7rem] sm:text-xs md:text-sm font-medium text-slate-600 leading-tight">
                       {item.label}
                     </div>
                   </div>
@@ -1084,7 +1154,15 @@ export default function EdupreneurLandingPage() {
               ))}
             </div>
 
-            <div className="mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6">
+            <button
+              type="button"
+              onClick={() => setIsResultsExpanded(!isResultsExpanded)}
+              className="md:hidden text-blue-700 font-bold text-sm flex items-center gap-1 focus:outline-none cursor-pointer mt-4"
+            >
+              {isResultsExpanded ? "Read Less ↑" : "Read More Results ↓"}
+            </button>
+
+            <div className={`${isResultsExpanded ? "block animate-fadeIn" : "hidden md:block"} mt-6 rounded-3xl bg-blue-50 border border-blue-100 p-4 sm:p-6`}>
               <h3 className="font-black text-slate-950 mb-4">
                 Accepted Colleges
               </h3>

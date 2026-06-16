@@ -48,9 +48,9 @@ function baseStyles() {
     .btn-primary { background:#1d4ed8; color:#fff; }
     .btn-secondary { background:#fff; color:#334155; border:1px solid #e2e8f0; }
     .meta { color:#64748b; font-size: 13px; }
-    .toolbar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin: 18px 0 0; padding: 12px; border:1px solid #e2e8f0; border-radius:16px; background:#f8fafc; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center; margin: 18px 0 0; padding: 12px; border:1px solid #e2e8f0; border-radius:16px; background:#f8fafc; }
     .search { flex: 1 1 260px; min-width: 220px; border:1px solid #cbd5e1; border-radius:12px; padding:12px 14px; font-size:14px; background:#fff; }
-    .chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .chips { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
     .chip { border:1px solid #e2e8f0; background:#fff; color:#334155; border-radius:999px; padding:8px 12px; font-size:12px; font-weight:800; cursor:pointer; }
     .chip.active { background:#1d4ed8; border-color:#1d4ed8; color:#fff; }
     .grid { display:grid; gap:16px; grid-template-columns: repeat(1,minmax(0,1fr)); margin-top: 18px; }
@@ -75,7 +75,7 @@ function baseStyles() {
 function sharedHeader() {
   return `
   <div class="topbar">
-    Early Bird: Students who book by June 15 get a free SAT diagnostic + 15% off.
+    Early Bird: Students who book by June 30 get a free SAT diagnostic + 15% off.
     <a href="https://calendly.com/futurereadycollegeprep/free-15-min-consultation" target="_blank" rel="noopener noreferrer" onclick="window.gtag?.('event','consultation_click',{location:'topbar'})">Reserve Your Spot -></a>
   </div>
   <header class="nav">

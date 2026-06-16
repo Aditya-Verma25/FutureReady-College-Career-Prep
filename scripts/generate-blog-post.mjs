@@ -100,6 +100,8 @@ const topics = [
     topic: "College Admissions",
     title: "How to Write a Common App Essay That Doesn't Sound Like Everyone Else's",
     excerpt: "How to avoid common essay cliches and find a unique, authentic voice that admissions officers will remember.",
+    imageUrl: "https://miro.medium.com/v2/resize:fit:720/format:webp/1*oyotWR2_Vfj30RKJsFWPwQ.jpeg",
+    imageAttribution: "Image via Medium",
     query: "writing student college desk",
     sections: [
       {
@@ -122,6 +124,8 @@ const topics = [
     topic: "SAT Prep",
     title: "The Digital SAT Secret: How a Physical Error Log Boosts Your Score",
     excerpt: "The exact technique of keeping a physical error log to target your mistakes and score higher on the Digital SAT.",
+    imageUrl: "https://m.media-amazon.com/images/I/716nKw-6UxL._AC_UF1000,1000_QL80_.jpg",
+    imageAttribution: "Image via Amazon",
     query: "notebook open with pen math",
     sections: [
       {
@@ -144,6 +148,8 @@ const topics = [
     topic: "College Admissions",
     title: "Managing the AP Grind: Balancing Rigor and Mental Health",
     excerpt: "Practical tips on how to choose the right number of Advanced Placement classes without burning out or sacrificing your GPA.",
+    imageUrl: "https://www.pinecrestmiddlehigh.org/ourpages/auto/2022/11/7/57521163/AP-Feature-Image.png?rnd=1667805010164",
+    imageAttribution: "Photo via pinecrestmiddlehigh.org",
     query: "tired student studying library",
     sections: [
       {

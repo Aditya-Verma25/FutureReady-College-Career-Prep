@@ -97,13 +97,15 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
                 {
                   title: "1-on-1 Academic Tutoring",
                   price: "$55",
-                  badge: "Starting at /hr",
+                  unit: "/hr",
+                  badge: "Starting at",
                   desc: "Personalized support for math, computer science, and related coursework with targeted explanations and guided practice (includes homework & test prep support)."
                 },
                 {
                   title: "Ongoing Academic Coaching",
                   price: "$200",
-                  badge: "Starting at /mo",
+                  unit: "/mo",
+                  badge: "Starting at",
                   desc: "Weekly tutoring, accountability, study planning, assignment support, and long-term academic guidance."
                 }
               ].map((pkg, idx) => (
@@ -113,8 +115,11 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
                     <h3 className="mt-3 text-lg font-bold text-slate-950">{pkg.title}</h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed">{pkg.desc}</p>
                   </div>
-                  <div className="mt-6 border-t border-slate-100 pt-4">
-                    <span className="text-3xl font-black text-slate-950">{pkg.price}</span>
+                  <div className="mt-6 border-t border-slate-100 pt-4 flex items-baseline">
+                    <span className="text-3xl font-black text-slate-950 tracking-tight">{pkg.price}</span>
+                    {pkg.unit && (
+                      <span className="text-[13px] font-medium text-slate-400/90 ml-1">{pkg.unit}</span>
+                    )}
                   </div>
                 </div>
               ))}

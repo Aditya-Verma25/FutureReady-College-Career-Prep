@@ -30,7 +30,7 @@ export default function EarlyBirdPopup({
         </p>
 
         <p className="mt-4 text-sm font-bold text-slate-800">
-          Book by June 15 to receive:
+          Book by June 30 to receive:
         </p>
         <ul className="mt-3 space-y-2.5">
           <li className="flex items-start gap-2.5">

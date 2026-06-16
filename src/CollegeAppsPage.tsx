@@ -56,11 +56,11 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
             <h2 className="text-2xl font-black text-slate-950">Best Fit For Students Who...</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {[
+                "Want elite, reasonably priced support instead of spending $10k+ on large counseling firms",
                 "Feel overwhelmed by the college application process",
                 "Need structure and accountability",
                 "Want authentic essays that still sound like them",
                 "Are applying to competitive schools and want strategic guidance",
-                "Want support without the pressure or cost of traditional admissions consulting",
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-3 rounded-2xl border border-violet-100 bg-violet-50/30 p-5">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-100 text-sm font-bold text-violet-700">✓</span>
@@ -98,25 +98,29 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
                 {
                   title: "College Strategy Session",
                   price: "$79",
+                  unit: "",
                   badge: "Popular Starter",
                   desc: "Personalized roadmap, application strategy, college list direction, timeline planning, and Q&A."
                 },
                 {
                   title: "Essay Review",
                   price: "$59",
+                  unit: "/essay",
                   badge: "Starting at",
                   desc: "Actionable written feedback on structure, storytelling, clarity, and authenticity while keeping the student's voice intact."
                 },
                 {
                   title: "Live Essay Coaching",
                   price: "$75",
+                  unit: "/session",
                   badge: "45–60 min session",
                   desc: "A collaborative live session to brainstorm, draft, revise, or strengthen an essay in real time."
                 },
                 {
                   title: "Ongoing Coaching",
                   price: "$249",
-                  badge: "Starting at /mo",
+                  unit: "/mo",
+                  badge: "Starting at",
                   desc: "Weekly guidance, timeline support, essay coaching, messaging support, and overall application planning."
                 }
               ].map((pkg, idx) => (
@@ -126,8 +130,11 @@ export default function CollegeAppsPage({ onBack }: CollegeAppsPageProps) {
                     <h3 className="mt-3 text-lg font-bold text-slate-950">{pkg.title}</h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed">{pkg.desc}</p>
                   </div>
-                  <div className="mt-6 border-t border-slate-100 pt-4">
-                    <span className="text-3xl font-black text-slate-950">{pkg.price}</span>
+                  <div className="mt-6 border-t border-slate-100 pt-4 flex items-baseline">
+                    <span className="text-3xl font-black text-slate-950 tracking-tight">{pkg.price}</span>
+                    {pkg.unit && (
+                      <span className="text-[13px] font-medium text-slate-400/90 ml-1">{pkg.unit}</span>
+                    )}
                   </div>
                 </div>
               ))}

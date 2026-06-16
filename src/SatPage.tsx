@@ -96,26 +96,30 @@ export default function SatPage({ onBack }: SatPageProps) {
               {[
                 {
                   title: "1-on-1 SAT Tutoring",
-                  price: "$75",
-                  badge: "Starting at /session",
+                  price: "$59",
+                  unit: "/hr",
+                  badge: "Starting at",
                   desc: "Personalized sessions focused on weak areas, pacing strategy, and score improvement."
                 },
                 {
                   title: "SAT Diagnostic & Custom Study Plan",
                   price: "$79",
+                  unit: "",
                   badge: "Best Value Starter",
                   desc: "A comprehensive diagnostic test review and detailed analysis of your highest-impact growth areas, paired with a customized weekly study calendar."
                 },
                 {
                   title: "Practice Test Review",
                   price: "$59",
+                  unit: "/review",
                   badge: "Starting at",
                   desc: "Detailed review of mistakes, pacing issues, and improvement opportunities after a full-length SAT."
                 },
                 {
                   title: "Monthly SAT Coaching",
                   price: "$249",
-                  badge: "Starting at /mo",
+                  unit: "/mo",
+                  badge: "Starting at",
                   desc: "Ongoing support including weekly sessions, structured study planning, homework guidance, and accountability."
                 }
               ].map((pkg, idx) => (
@@ -125,8 +129,11 @@ export default function SatPage({ onBack }: SatPageProps) {
                     <h3 className="mt-3 text-lg font-bold text-slate-950">{pkg.title}</h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed">{pkg.desc}</p>
                   </div>
-                  <div className="mt-6 border-t border-slate-100 pt-4">
-                    <span className="text-3xl font-black text-slate-950">{pkg.price}</span>
+                  <div className="mt-6 border-t border-slate-100 pt-4 flex items-baseline">
+                    <span className="text-3xl font-black text-slate-950 tracking-tight">{pkg.price}</span>
+                    {pkg.unit && (
+                      <span className="text-[13px] font-medium text-slate-400/90 ml-1">{pkg.unit}</span>
+                    )}
                   </div>
                 </div>
               ))}

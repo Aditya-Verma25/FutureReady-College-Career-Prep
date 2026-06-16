@@ -68,7 +68,7 @@ export default function BlogsHubPage({ onBack, posts }: BlogsHubPageProps) {
           </p>
 
           <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3">
             <p className="text-sm font-bold text-slate-700">Sort by:</p>
             {topicOptions.map((topic) => {
               const active = topic === selectedTopic;
