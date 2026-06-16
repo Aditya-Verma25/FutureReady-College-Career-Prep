@@ -1102,7 +1102,7 @@ export default function EdupreneurLandingPage() {
             </div>
             <div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
               <p className="text-[1.05rem] leading-7 text-slate-700">
-                Hi, I'm Aditya, a University of Maryland Computer Science student who recently went through the college admissions process myself. After earning over $200,000 in merit scholarships, I started FutureReady to provide honest, personalized guidance for students and families.
+                Hi, I'm Aditya, a University of Maryland Computer Science student providing personalized guidance for college admissions, SAT prep, and academic planning.
               </p>
             </div>
 
