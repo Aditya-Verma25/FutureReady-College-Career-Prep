@@ -1086,9 +1086,11 @@ export default function EdupreneurLandingPage() {
               Meet Your Mentor
             </p>
             <div className="flex items-center gap-3 mb-5">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-2xl shadow-sm ring-1 ring-blue-200">
-                🎓
-              </div>
+              <img
+                src="/aditya.jpg"
+                alt="Aditya"
+                className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-2xl object-cover shadow-sm ring-1 ring-slate-100"
+              />
               <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
                 A Little About Me
               </h2>
