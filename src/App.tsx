@@ -1089,7 +1089,7 @@ export default function EdupreneurLandingPage() {
               <img
                 src="/aditya.jpg"
                 alt="Aditya"
-                className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-2xl object-cover shadow-sm ring-1 ring-slate-100"
+                className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-2xl object-cover shadow-sm ring-1 ring-slate-100"
               />
               <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
                 A Little About Me
