@@ -577,11 +577,13 @@ export default function EdupreneurLandingPage() {
     href={messageUrl}
     target="_blank"
     rel="noopener noreferrer"
-    className="fixed bottom-5 right-5 z-[60] inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-xl shadow-blue-900/20 transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
+    className="fixed bottom-3 right-3 sm:bottom-5 sm:right-5 z-[60] inline-flex items-center gap-1.5 rounded-full bg-blue-700 px-3.5 py-2 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-xl shadow-blue-900/20 transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
     aria-label="Message me with a question"
   >
-    <span className="text-base leading-none">💬</span>
-    <span>Questions? Chat with Me</span>
+    <span className="text-xs sm:text-base leading-none">💬</span>
+    <span>
+      <span className="hidden sm:inline">Questions? </span>Chat with Me
+    </span>
   </a>
 );
   const renderNavbar = () => {
@@ -1102,7 +1104,7 @@ export default function EdupreneurLandingPage() {
             </div>
             <div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
               <p className="text-[1.05rem] leading-7 text-slate-700">
-                Hi, I'm Aditya, a University of Maryland Computer Science student providing personalized guidance for college admissions, SAT prep, and academic planning.
+                Hi, I'm Aditya, a University of Maryland Computer Science student helping students navigate college admissions, SAT prep, and academic success with confidence.
               </p>
             </div>
 
