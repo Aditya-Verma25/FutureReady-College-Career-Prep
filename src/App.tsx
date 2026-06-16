@@ -67,7 +67,7 @@ const testimonials = [
   },
   {
     quote: "The weekly check-ins made sure I didn't leave my prep to the last minute. It felt more like a study partner who knew exactly what they were doing.",
-    author: "Jane P.",
+    author: "Divya K.",
     role: "Student",
   },
 ];
