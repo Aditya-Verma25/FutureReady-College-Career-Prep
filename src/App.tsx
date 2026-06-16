@@ -1102,7 +1102,7 @@ export default function EdupreneurLandingPage() {
             </div>
             <div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
               <p className="text-[1.05rem] leading-7 text-slate-700">
-                Hi, I’m Aditya, a Computer Science student at the University of Maryland who cares deeply about helping students feel less alone in academics.
+                Hi, I’m Aditya, a University of Maryland Computer Science student who recently went through the college admissions process myself. After earning admission to multiple top universities and over $200,000 in merit scholarships, I started FutureReady to help students navigate the process with confidence.
               </p>
             </div>
 
@@ -1122,7 +1122,7 @@ export default function EdupreneurLandingPage() {
                   My goal is to make the process feel less overwhelming, more personal, and a lot more achievable.
                 </p>
                 <p className="pt-2 text-blue-700 font-semibold italic">
-                  Let’s build your future, together. — Aditya
+                  <a href="#contact" className="hover:underline">Let’s build your future, together.</a> — Aditya
                 </p>
               </div>
 
