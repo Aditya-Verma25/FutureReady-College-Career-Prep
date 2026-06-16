@@ -1082,18 +1082,23 @@ export default function EdupreneurLandingPage() {
       <section id="about" className="scroll-mt-28 px-6 pb-10 md:pb-16">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-4 md:gap-6">
           <div className="min-w-0 lg:col-span-2 rounded-[2rem] bg-white border border-slate-200 shadow-sm p-4 sm:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-3 hidden sm:block">
               Meet Your Mentor
             </p>
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-5">
               <img
                 src="/aditya.jpg"
                 alt="Aditya"
-                className="h-24 w-24 sm:h-28 sm:w-28 shrink-0 rounded-2xl object-cover shadow-sm ring-1 ring-slate-100"
+                className="h-36 w-36 sm:h-40 sm:w-40 shrink-0 rounded-2xl object-cover shadow-sm ring-1 ring-slate-100"
               />
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
-                A Little About Me
-              </h2>
+              <div className="text-center sm:text-left">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700 mb-1 sm:hidden">
+                  Meet Your Mentor
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
+                  A Little About Me
+                </h2>
+              </div>
             </div>
             <div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
               <p className="text-[1.05rem] leading-7 text-slate-700">
