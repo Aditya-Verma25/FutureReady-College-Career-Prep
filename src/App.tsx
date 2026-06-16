@@ -62,7 +62,7 @@ const testimonials = [
   },
   {
     quote: "I raised my SAT score from a 1390 to a 1480. Aditya's study schedule was the first one I actually stuck to because it wasn't just pages of dry homework.",
-    author: "Ryan K.",
+    author: "Ryan S.",
     role: "Student",
   },
   {
