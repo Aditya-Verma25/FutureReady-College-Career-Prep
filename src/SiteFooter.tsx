@@ -85,11 +85,16 @@ export default function SiteFooter({
 
         <section className="hidden md:block">
           <h4 className="text-sm font-black uppercase tracking-[0.12em] text-slate-800">Services</h4>
-          <ul className="mt-4 space-y-2 text-sm text-slate-600">
-            <li>SAT Prep</li>
-            <li>College Applications</li>
-            <li>Essay Guidance</li>
-            <li>Academic Tutoring</li>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li>
+              <a href="#/sat" className="text-slate-600 transition hover:text-blue-700">SAT Prep</a>
+            </li>
+            <li>
+              <a href="#/college-apps" className="text-slate-600 transition hover:text-blue-700">College Apps</a>
+            </li>
+            <li>
+              <a href="#/tutoring" className="text-slate-600 transition hover:text-blue-700">Academic Tutoring</a>
+            </li>
           </ul>
         </section>
 
