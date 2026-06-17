@@ -244,29 +244,8 @@ export default function EdupreneurLandingPage() {
       }
     }
 
-    const isHomepage = !hashPath || hashPath === "#" || hashPath === "#/";
     const isServicePage = hashPath === "#/sat" || hashPath === "#/college-apps" || hashPath === "#/tutoring";
-    const isBlogOrToolPage = hashPath === "#/blogs" || hashPath.startsWith("#/blogs/") || hashPath === "#/college-list-builder" || hashPath === "#/report" || hashPath.startsWith("#/report-success") || hashPath === "#/personalized-feedback";
-
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-
-    let timeThresholdMs = 30000;
-    let scrollThresholdPercent = 50;
-    let useExitIntent = false;
-    let useScrollTrigger = false;
-
-    if (isHomepage) {
-      timeThresholdMs = isMobile ? 75000 : 60000; // 75s on mobile, 60s on desktop
-      scrollThresholdPercent = isMobile ? 60 : 50; // 60% scroll on mobile, 50% on desktop
-      useScrollTrigger = true;
-    } else if (isServicePage) {
-      timeThresholdMs = isMobile ? 90000 : 75000; // 90s on mobile, 75s on desktop
-      useScrollTrigger = false;
-    } else if (isBlogOrToolPage) {
-      timeThresholdMs = isMobile ? 120000 : 90000; // 120s on mobile, 90s on desktop
-      useExitIntent = !isMobile; // No exit intent on mobile
-      useScrollTrigger = false;
-    }
+    const timeThresholdMs = isServicePage ? 30000 : 60000; // 30s on service pages, 60s (1 min) elsewhere
 
     let timerId: number | undefined;
     let hasTriggered = false;
@@ -282,37 +261,8 @@ export default function EdupreneurLandingPage() {
       triggerPopup();
     }, timeThresholdMs);
 
-    const handleScroll = () => {
-      if (hasTriggered) return;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      if (scrollHeight <= 0) return;
-      const scrollPercent = (scrollTop / scrollHeight) * 100;
-
-      if (scrollPercent >= scrollThresholdPercent) {
-        triggerPopup();
-      }
-    };
-
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (hasTriggered) return;
-      if (e.clientY < 20) {
-        triggerPopup();
-      }
-    };
-
-    if (useScrollTrigger) {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }
-
-    if (useExitIntent) {
-      document.addEventListener("mouseleave", handleMouseLeave);
-    }
-
     const cleanup = () => {
       if (timerId) window.clearTimeout(timerId);
-      window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("mouseleave", handleMouseLeave);
     };
 
     return cleanup;
