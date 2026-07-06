@@ -2,8 +2,7 @@ name: Generate Blog Posts
 
 on:
   schedule:
-    - cron: "0 15 * * 1"
-    - cron: "0 15 * * 3"
+    - cron: "0 15 * * 2"
     - cron: "0 15 * * 5"
   workflow_dispatch:
 

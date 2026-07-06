@@ -10,7 +10,7 @@ const topics = [
     topic: "SAT Prep",
     title: "How To Build A Weekly SAT Study Plan That Actually Works",
     excerpt: "A practical SAT plan students can stick to without burning out or wasting hours. Written by a UMD CS student who scored 1500+.",
-    query: "SAT exam student studying",
+    query: "Standardized test",
     sections: [
       {
         heading: "Start With A Baseline, Not Guesswork",
@@ -34,7 +34,7 @@ const topics = [
     excerpt: "A step-by-step way for students to build a realistic and competitive college list that balances academic fit and financial constraints.",
     imageUrl: "https://milkenroar.com/wp-content/uploads/2022/06/Untitled-design-900x655.jpg",
     imageAttribution: "Image source: Milken Roar",
-    query: "college campus students admission",
+    query: "University campus",
     sections: [
       {
         heading: "Know Your Academic Profile First",
@@ -56,7 +56,7 @@ const topics = [
     topic: "College Admissions",
     title: "Activities That Matter: How To Show Impact, Not Just Participation",
     excerpt: "How students can turn clubs and personal projects into stronger admissions stories that stand out to readers.",
-    query: "high school students project teamwork",
+    query: "Extracurricular activity",
     sections: [
       {
         heading: "Depth Beats Random Breadth",
@@ -78,7 +78,7 @@ const topics = [
     topic: "College Admissions",
     title: "Demystifying STEM Admissions: What Got Me Into UMD CS",
     excerpt: "A first-hand look at what top-tier Computer Science and STEM programs look for in applicants, written by a current UMD CS student.",
-    query: "computer coding student library",
+    query: "Computer science",
     sections: [
       {
         heading: "The Reality of STEM Selectivity",
@@ -102,7 +102,7 @@ const topics = [
     excerpt: "How to avoid common essay cliches and find a unique, authentic voice that admissions officers will remember.",
     imageUrl: "https://miro.medium.com/v2/resize:fit:720/format:webp/1*oyotWR2_Vfj30RKJsFWPwQ.jpeg",
     imageAttribution: "Image via Medium",
-    query: "writing student college desk",
+    query: "Creative writing",
     sections: [
       {
         heading: "Avoid the Big Cliches",
@@ -126,7 +126,7 @@ const topics = [
     excerpt: "The exact technique of keeping a physical error log to target your mistakes and score higher on the Digital SAT.",
     imageUrl: "https://m.media-amazon.com/images/I/716nKw-6UxL._AC_UF1000,1000_QL80_.jpg",
     imageAttribution: "Image via Amazon",
-    query: "notebook open with pen math",
+    query: "Notebook",
     sections: [
       {
         heading: "Why Practice Tests Aren't Enough",
@@ -150,7 +150,7 @@ const topics = [
     excerpt: "Practical tips on how to choose the right number of Advanced Placement classes without burning out or sacrificing your GPA.",
     imageUrl: "https://www.pinecrestmiddlehigh.org/ourpages/auto/2022/11/7/57521163/AP-Feature-Image.png?rnd=1667805010164",
     imageAttribution: "Photo via pinecrestmiddlehigh.org",
-    query: "tired student studying library",
+    query: "Study skills",
     sections: [
       {
         heading: "Rigor vs. GPA: The Golden Balance",
@@ -172,7 +172,7 @@ const topics = [
     topic: "College Admissions",
     title: "How to Secure Outstanding Teacher Letters of Recommendation",
     excerpt: "How to build relationships with your teachers and compile a brag sheet that helps them write specific, memorable letters.",
-    query: "teacher student classroom speaking",
+    query: "Teacher",
     sections: [
       {
         heading: "Choose the Right Teachers",
@@ -194,7 +194,7 @@ const topics = [
     topic: "College Admissions",
     title: "How to Secure Merit Scholarships: Earning $200K+ in College Aid",
     excerpt: "Learn how to build a strategic list and write compelling essays to win generous merit aid from colleges, written by a scholarship recipient.",
-    query: "diploma money graduation student",
+    query: "Scholarship",
     sections: [
       {
         heading: "Target the Right Schools",
@@ -216,7 +216,7 @@ const topics = [
     topic: "SAT Prep",
     title: "SAT Grammar Hacks: The Essential Rules for Easy Writing Points",
     excerpt: "Master the high-yield grammar rules that appear on every Digital SAT Reading & Writing section to quickly boost your score.",
-    query: "books library study math grammar",
+    query: "Grammar",
     sections: [
       {
         heading: "Master Punctuation Rules",
@@ -321,13 +321,19 @@ async function main() {
 
   const imageUrl = selectedTopic.imageUrl ?? (await fetchWikimediaImage(selectedTopic.query));
 
+  // Calculate read time estimate based on sections content (approx. 200 words per minute)
+  const totalWords = sections.reduce((acc, sec) => {
+    return acc + (sec.heading ? sec.heading.split(/\s+/).length : 0) + (sec.paragraph ? sec.paragraph.split(/\s+/).length : 0);
+  }, 0);
+  const calculatedReadTime = Math.max(1, Math.round(totalWords / 200));
+
   const newPost = {
     slug,
     title,
     excerpt,
     topic: selectedTopic.topic,
     publishedAt: date,
-    readTimeMinutes: 6,
+    readTimeMinutes: calculatedReadTime,
     imageUrl,
     imageAttribution: selectedTopic.imageAttribution ?? "Photo via Wikimedia Commons (open license)",
     sections,
