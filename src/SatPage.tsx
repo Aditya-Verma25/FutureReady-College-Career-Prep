@@ -96,7 +96,7 @@ export default function SatPage({ onBack }: SatPageProps) {
               {[
                 {
                   title: "1-on-1 SAT Tutoring",
-                  price: "$59",
+                  price: "$49",
                   unit: "/hr",
                   badge: "Starting at",
                   desc: "Personalized sessions focused on weak areas, pacing strategy, and score improvement."

@@ -96,7 +96,7 @@ export default function TutoringPage({ onBack }: TutoringPageProps) {
               {[
                 {
                   title: "1-on-1 Academic Tutoring",
-                  price: "$55",
+                  price: "$49",
                   unit: "/hr",
                   badge: "Starting at",
                   desc: "Personalized support for math, computer science, and related coursework with targeted explanations and guided practice (includes homework & test prep support)."
