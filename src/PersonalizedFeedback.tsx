@@ -42,8 +42,7 @@ export default function PersonalizedFeedback() {
             Thanks — I got your submission!
           </h1>
           <p className="mt-4 text-slate-600">
-            I’ll personally review your profile and follow up with personalized
-            feedback on college fit, admissions strategy, and next steps.
+            I’ll personally review your student's profile and reach out to you soon with details to schedule our consultation.
           </p>
           <a
             href="/"
@@ -67,13 +66,11 @@ export default function PersonalizedFeedback() {
           </p>
 
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
-            Get Personalized College Feedback
+            Consultation Interest Form
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-            Share a few details about your student’s goals, academics, and
-            concerns. I’ll personally review the profile and send practical
-            next steps.
+            Submit this interest form to share a few details about your student's goals and academics. Once received, I will personally review your profile and reach out to you with details to schedule a consultation.
           </p>
         </div>
 
@@ -82,7 +79,7 @@ export default function PersonalizedFeedback() {
             <input
               type="hidden"
               name="_subject"
-              value="New Personalized Feedback Request"
+              value="New Consultation Interest Form Submission"
             />
 
             <div>
@@ -259,7 +256,7 @@ export default function PersonalizedFeedback() {
             >
               {status === "sending"
                 ? "Submitting..."
-                : "Submit for Personalized Feedback"}
+                : "Submit Interest Form"}
             </button>
 
             {status === "error" && (
@@ -278,12 +275,10 @@ export default function PersonalizedFeedback() {
           <div className="mt-4 space-y-3 text-slate-700">
             <p>1. I personally review your student’s profile and goals.</p>
             <p>
-              2. I send feedback on college fit, admissions strategy, and next
-              steps.
+              2. I reach out to you with initial feedback and details to schedule a consultation.
             </p>
             <p>
-              3. If it makes sense, we can talk about SAT prep, essays,
-              tutoring, or application support afterward.
+              3. During our consultation, we will map out a customized plan for SAT prep, college essays, tutoring, or application support.
             </p>
           </div>
 

@@ -244,8 +244,7 @@ export default function EdupreneurLandingPage() {
       }
     }
 
-    const isServicePage = hashPath === "#/sat" || hashPath === "#/college-apps" || hashPath === "#/tutoring";
-    const timeThresholdMs = isServicePage ? 30000 : 60000; // 30s on service pages, 60s (1 min) elsewhere
+    const timeThresholdMs = 60000; // 1 minute on the site
 
     let timerId: number | undefined;
     let hasTriggered = false;
@@ -254,19 +253,17 @@ export default function EdupreneurLandingPage() {
       if (hasTriggered) return;
       hasTriggered = true;
       setShowEarlyBirdPopup(true);
-      cleanup();
+      if (timerId) window.clearTimeout(timerId);
     };
 
     timerId = window.setTimeout(() => {
       triggerPopup();
     }, timeThresholdMs);
 
-    const cleanup = () => {
+    return () => {
       if (timerId) window.clearTimeout(timerId);
     };
-
-    return cleanup;
-  }, [hashPath]);
+  }, []);
 
   useEffect(() => {
     if (!showEarlyBirdPopup) return;
@@ -563,7 +560,7 @@ export default function EdupreneurLandingPage() {
             </div>
           </button>
 
-          <div className="flex items-center gap-3 sm:gap-5 ml-auto">
+          <div className="flex items-center gap-4 md:gap-8 ml-auto">
             <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
               <div
                 className="relative"
@@ -631,7 +628,7 @@ export default function EdupreneurLandingPage() {
               }}
               className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-700/10 hover:bg-blue-800 transition"
             >
-              Get Personalized Feedback
+              Consultation Interest Form
             </a>
 
             <button
@@ -736,7 +733,7 @@ export default function EdupreneurLandingPage() {
                 }}
                 className="w-full text-center rounded-2xl bg-gradient-to-r from-blue-700 to-blue-600 py-3.5 text-white font-black shadow-lg shadow-blue-700/20 hover:from-blue-800 hover:to-blue-700 transition"
               >
-                Get Personalized Feedback
+                Consultation Interest Form
               </a>
               <a
                 href={consultationUrl}
@@ -904,7 +901,7 @@ export default function EdupreneurLandingPage() {
               }}
               className="rounded-xl bg-blue-700 px-5 py-3 text-base font-bold text-white shadow-lg shadow-blue-700/20 hover:bg-blue-800 transition text-center"
             >
-              Get Personalized Feedback
+              Consultation Interest Form
             </a>
               <a
                 href="#services"

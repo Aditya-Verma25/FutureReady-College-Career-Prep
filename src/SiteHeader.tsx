@@ -50,7 +50,7 @@ export default function SiteHeader({
             </div>
           </button>
 
-          <div className="ml-auto flex items-center gap-5 lg:gap-8">
+          <div className="ml-auto flex items-center gap-8">
             <div className="hidden items-center gap-8 text-sm font-semibold text-slate-600 md:flex">
               <button
                 type="button"
@@ -100,7 +100,7 @@ export default function SiteHeader({
               }}
               className="hidden sm:inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-blue-800"
             >
-              Get Personalized Feedback!
+              Consultation Interest Form
             </a>
           </div>
         </div>

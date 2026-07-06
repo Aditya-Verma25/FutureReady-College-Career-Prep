@@ -65,7 +65,7 @@ export default function SiteFooter({
           <nav className="mt-4 space-y-2 text-sm">
             <a href="/" className="block text-slate-600 transition hover:text-blue-700">Home</a>
             <a href="/personalized-feedback" onClick={onPersonalizedFeedbackClick} className="block text-slate-600 transition hover:text-blue-700">
-              Get Personalized Feedback
+              Consultation Interest Form
             </a>
             <a href="#services" className="block text-slate-600 transition hover:text-blue-700">Services</a>
             <a href="#/college-list-builder" className="block text-slate-600 transition hover:text-blue-700">College List Builder</a>
@@ -109,7 +109,7 @@ export default function SiteFooter({
             onClick={onPersonalizedFeedbackClick}
             className="mt-4 inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-blue-800"
           >
-            Get Personalized Feedback
+            Consultation Interest Form
           </a>
 
           <a
