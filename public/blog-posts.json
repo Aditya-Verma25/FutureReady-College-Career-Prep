@@ -1,5 +1,31 @@
 [
   {
+    "slug": "demystifying-stem-admissions-what-got-me-into-umd-cs-mentor-insights-2026-07-07",
+    "title": "Demystifying STEM Admissions: What Got Me Into UMD CS — Mentor Insights",
+    "excerpt": "First-hand advice: A first-hand look at what top-tier Computer Science and STEM programs look for in applicants, written by a current UMD CS student.",
+    "topic": "College Admissions",
+    "publishedAt": "2026-07-07",
+    "readTimeMinutes": 1,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Half_Adder.svg/1280px-Half_Adder.svg.png",
+    "imageAttribution": "Photo via Wikimedia Commons (open license)",
+    "sections": [
+      {
+        "heading": "The Reality of STEM Selectivity",
+        "paragraph": "Applying as a Computer Science or engineering major is a completely different game than applying for other fields. The competition is intense, and having a high GPA is just the baseline. I applied to the University of Maryland for Computer Science, and I quickly realized that colleges want to see specific academic preparation. You need to demonstrate strong math readiness—taking AP Calculus BC or AP Statistics and doing well is crucial. If your school doesn't offer these, seek out dual enrollment or online classes to prove you can handle college-level math."
+      },
+      {
+        "heading": "Show, Don't Just Tell, Your Technical Interest",
+        "paragraph": "Lots of students write that they love programming, but very few have projects to show for it. I built personal coding projects, participated in local hackathons, and published simple web tools. You don't need to build the next Facebook. Even a simple React app, a Python script that automates a task, or a coding club project shows that you are self-motivated. Put your code on GitHub and include a link in your application. It proves you have actual coding experience and curiosity."
+      },
+      {
+        "heading": "The Power of a Cohesive Application Theme",
+        "paragraph": "Your application should tell a clear story. For me, my activities, coursework, and essays all pointed toward my interest in technology and education. I didn't try to look like a varsity athlete who also plays violin and runs debate if that wasn't who I was. I doubled down on CS and mentorship. This cohesion made it easy for admissions readers to understand exactly who I was and what I would bring to UMD. Find your 'spike'—the one or two areas you excel at—and build your application theme around them."
+      }
+    ],
+    "cta": "STEM programs value rigorous math preparation, self-motivated coding projects, and a cohesive application theme over a generic, well-rounded profile.",
+    "generatorKey": "umd-cs-admissions"
+  },
+  {
     "slug": "activities-that-matter-how-to-show-impact-not-just-participation-mentor-insights-2026-07-06",
     "title": "Activities That Matter: How To Show Impact, Not Just Participation — Mentor Insights",
     "excerpt": "First-hand advice: How students can turn clubs and personal projects into stronger admissions stories that stand out to readers.",
