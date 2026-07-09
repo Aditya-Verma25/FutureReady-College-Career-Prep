@@ -245,25 +245,22 @@ export default function EdupreneurLandingPage() {
     }
 
     const timeThresholdMs = 60000; // 1 minute on the site
-
-    let timerId: number | undefined;
     let hasTriggered = false;
 
     const triggerPopup = () => {
       if (hasTriggered) return;
       hasTriggered = true;
       setShowEarlyBirdPopup(true);
-      if (timerId) window.clearTimeout(timerId);
     };
 
-    timerId = window.setTimeout(() => {
+    const timerId = window.setTimeout(() => {
       triggerPopup();
     }, timeThresholdMs);
 
     return () => {
-      if (timerId) window.clearTimeout(timerId);
+      window.clearTimeout(timerId);
     };
-  }, []);
+  }, [popupDismissCooldownMs]);
 
   useEffect(() => {
     if (!showEarlyBirdPopup) return;
@@ -758,7 +755,7 @@ export default function EdupreneurLandingPage() {
     <>
       <div className="bg-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 30 get a free SAT diagnostic + 15% off.
+          Free College & SAT Strategy Session — Leave with a personalized action plan for your student's next steps.
           <a
             href={consultationUrl}
             target="_blank"
@@ -829,7 +826,7 @@ export default function EdupreneurLandingPage() {
     <div className="min-h-screen bg-[#f7fbff] text-slate-900 font-sans">
       <div className="bg-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-6 py-2 text-center text-xs sm:text-sm font-semibold tracking-[0.01em]">
-          Early Bird: Students who book by June 30 get a free SAT diagnostic + 15% off.
+          Free College & SAT Strategy Session — Leave with a personalized action plan for your student's next steps.
           <a
             href={consultationUrl}
             target="_blank"

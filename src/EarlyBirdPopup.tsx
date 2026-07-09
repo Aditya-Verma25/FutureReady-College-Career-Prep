@@ -26,30 +26,12 @@ export default function EarlyBirdPopup({
         </button>
 
         <p className="pr-10 text-xl font-black leading-tight text-slate-950">
-          Summer SAT & College Prep Spots Filling Up
+          Know Exactly What Your Student Should Focus on Next
         </p>
 
-        <p className="mt-4 text-sm font-bold text-slate-800">
-          Book by June 30 to receive:
+        <p className="mt-4 text-sm text-slate-600 leading-relaxed">
+          Stop guessing what matters most. In this free strategy session, we'll identify the highest-impact opportunities for your student's SAT prep and college journey, then build a personalized action plan they can start using immediately.
         </p>
-        <ul className="mt-3 space-y-2.5">
-          <li className="flex items-start gap-2.5">
-            <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-slate-700 font-medium text-sm">Free SAT diagnostic review</span>
-          </li>
-          <li className="flex items-start gap-2.5">
-            <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-slate-700 font-medium text-sm">15% off first month/session</span>
-          </li>
-        </ul>
-
-        <div className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-          <span className="text-sm">⚠️</span> Limited summer availability.
-        </div>
 
         <div className="mt-6 flex flex-wrap gap-2">
           <a
@@ -59,7 +41,7 @@ export default function EarlyBirdPopup({
             onClick={onReserve}
             className="inline-flex rounded-xl bg-blue-700 px-5 py-3 text-sm font-black text-white shadow-md hover:bg-blue-800 transition cursor-pointer"
           >
-            Reserve My Spot →
+            Get My Student's Free Action Plan →
           </a>
           <button
             type="button"

@@ -95,32 +95,52 @@ export default function SatPage({ onBack }: SatPageProps) {
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 {
-                  title: "1-on-1 SAT Tutoring",
-                  price: "$49",
-                  unit: "/hr",
-                  badge: "Starting at",
-                  desc: "Personalized sessions focused on weak areas, pacing strategy, and score improvement."
+                  title: "SAT Diagnostic & Study Plan",
+                  price: "$99",
+                  unit: "",
+                  badge: "⭐ Recommended",
+                  desc: "Build a personalized roadmap before you begin tutoring.",
+                  bullets: [
+                    "Comprehensive SAT performance review",
+                    "Personalized study plan & timeline",
+                    "Written action plan with recommended resources"
+                  ]
                 },
                 {
-                  title: "SAT Diagnostic & Custom Study Plan",
-                  price: "$79",
-                  unit: "",
-                  badge: "Best Value Starter",
-                  desc: "A comprehensive diagnostic test review and detailed analysis of your highest-impact growth areas, paired with a customized weekly study calendar."
+                  title: "1-on-1 Tutoring",
+                  price: "$69",
+                  unit: "/hr",
+                  badge: "⭐ Flexible",
+                  desc: "Personalized lessons focused on your biggest score gains.",
+                  bullets: [
+                    "Target weak concepts",
+                    "Practice with official SAT questions",
+                    "Homework & strategy between sessions"
+                  ]
+                },
+                {
+                  title: "SAT Success Program",
+                  price: "$299",
+                  unit: "/mo",
+                  badge: "⭐ Most Popular",
+                  desc: "Ongoing coaching for students seeking consistent improvement.",
+                  bullets: [
+                    "Weekly one-on-one coaching",
+                    "Personalized study plan & accountability",
+                    "Regular practice test reviews"
+                  ]
                 },
                 {
                   title: "Practice Test Review",
                   price: "$59",
-                  unit: "/review",
-                  badge: "Starting at",
-                  desc: "Detailed review of mistakes, pacing issues, and improvement opportunities after a full-length SAT."
-                },
-                {
-                  title: "Monthly SAT Coaching",
-                  price: "$249",
-                  unit: "/mo",
-                  badge: "Starting at",
-                  desc: "Ongoing support including weekly sessions, structured study planning, homework guidance, and accountability."
+                  unit: "",
+                  badge: "⭐ Quick Review",
+                  desc: "Turn one practice test into a clear improvement plan.",
+                  bullets: [
+                    "Analyze missed questions",
+                    "Identify recurring mistakes",
+                    "Personalized next steps"
+                  ]
                 }
               ].map((pkg, idx) => (
                 <div key={idx} className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
@@ -128,6 +148,16 @@ export default function SatPage({ onBack }: SatPageProps) {
                     <span className="text-[10px] font-black uppercase tracking-wider text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded-md">{pkg.badge}</span>
                     <h3 className="mt-3 text-lg font-bold text-slate-950">{pkg.title}</h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed">{pkg.desc}</p>
+                    {pkg.bullets && (
+                      <ul className="mt-4 space-y-2 border-t border-slate-100 pt-3 text-xs text-slate-600">
+                        {pkg.bullets.map((bullet, bIdx) => (
+                          <li key={bIdx} className="flex items-start gap-2">
+                            <span className="text-cyan-700 font-bold shrink-0">•</span>
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                   <div className="mt-6 border-t border-slate-100 pt-4 flex items-baseline">
                     <span className="text-3xl font-black text-slate-950 tracking-tight">{pkg.price}</span>
@@ -139,7 +169,7 @@ export default function SatPage({ onBack }: SatPageProps) {
               ))}
             </div>
             <p className="mt-4 text-center text-xs font-semibold text-slate-500">
-              Most students begin with the Diagnostic & Custom Study Plan before moving into 1-on-1 tutoring or ongoing coaching.
+              Most students begin with the SAT Diagnostic & Study Plan before moving into 1-on-1 Tutoring or the SAT Success Program.
             </p>
           </div>
 

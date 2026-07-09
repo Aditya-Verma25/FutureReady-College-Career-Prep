@@ -14,7 +14,7 @@ export default function SiteHeader({
   return (
     <>
       <div className="bg-gradient-to-r from-blue-700 to-indigo-700 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm">
-        Summer admissions season is here — personalized support spots are limited.
+        Free College & SAT Strategy Session — Leave with a personalized action plan for your student's next steps.
         <a
           href="#/personalized-feedback"
           className="ml-2 underline underline-offset-2 hover:text-blue-100"
