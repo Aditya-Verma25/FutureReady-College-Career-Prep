@@ -153,7 +153,8 @@ High school prep involves complex details, but overloading visitors with text re
 
 ## Screenshots
 
-*(Placeholders: Add screenshots of the landing page, College List Builder, and assessment report page here after hosting).*
+<img width="947" height="470" alt="Screenshot 2026-06-29 122200" src="https://github.com/user-attachments/assets/36486bb3-fdcc-4a4c-a1dc-2ccff55e811b" />
+
 
 ## License
 
