@@ -8,6 +8,8 @@ A full-stack web application designed to manage client onboarding, showcase tuto
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
+Live Site: [https://futurereadyprep.org](https://futurereadyprep.org)
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -201,3 +203,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Aditya Verma - studyav007@outlook.com
 
 Project Link: [https://github.com/Aditya-Verma25/FutureReady-College-Career-Prep](https://github.com/Aditya-Verma25/FutureReady-College-Career-Prep)
+
+Live Website: [https://futurereadyprep.org](https://futurereadyprep.org)
