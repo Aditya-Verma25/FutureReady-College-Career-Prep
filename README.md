@@ -1,6 +1,8 @@
 # FutureReady College & Career Prep
 
-A full-stack client-facing web application built to support and automate operations for an independent college preparation and academic tutoring business. The platform enables parents and high school students to explore service offerings, book strategy consultations, build custom college lists, and receive personalized academic reports. Access Link: www.futurereadyprep.org
+A full-stack client-facing web application built to support and automate operations for an independent college preparation and academic tutoring business. The platform enables parents and high school students to explore service offerings, book strategy consultations, build custom college lists, and receive personalized academic reports. 
+
+🔗 Access Link: www.futurereadyprep.org
 
 ## Table of Contents
 
