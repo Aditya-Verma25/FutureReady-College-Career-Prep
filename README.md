@@ -1,6 +1,6 @@
 # FutureReady College & Career Prep
 
-A full-stack client-facing web application built to support and automate operations for an independent college preparation and academic tutoring business. The platform enables parents and high school students to explore service offerings, book strategy consultations, build custom college lists, and receive personalized academic reports.
+A full-stack client-facing web application built to support and automate operations for an independent college preparation and academic tutoring business. The platform enables parents and high school students to explore service offerings, book strategy consultations, build custom college lists, and receive personalized academic reports. Access Link: www.futurereadyprep.org
 
 ## Table of Contents
 
@@ -153,15 +153,10 @@ High school prep involves complex details, but overloading visitors with text re
 
 ## Screenshots
 
-<img width="947" height="470" alt="Screenshot 2026-06-29 122200" src="https://github.com/user-attachments/assets/36486bb3-fdcc-4a4c-a1dc-2ccff55e811b" />
-
+<img width="951" height="467" alt="Screenshot 2026-06-29 122056" src="https://github.com/user-attachments/assets/ef21e566-e4e9-4ed8-92c9-ab6cf9896050" />
 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-Aditya Verma - studyav007@outlook.com
 
 Project Link: [https://github.com/Aditya-Verma25/FutureReady-College-Career-Prep](https://github.com/Aditya-Verma25/FutureReady-College-Career-Prep)
