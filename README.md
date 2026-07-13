@@ -38,40 +38,38 @@ Live Site: [https://futurereadyprep.org](https://futurereadyprep.org)
 
 ## Overview
 
-FutureReady is a web application built to run the digital operations of my independent tutoring and college advising business. The platform acts as a public service catalog and an interactive onboarding tool. Prospective students and parents can explore academic programs, use a college match builder, complete academic interest surveys, and book consultation sessions.
+I built FutureReady to run the digital side of my tutoring and college advising business. The website hosts my service catalog, lets families use an interactive college match tool, collects basic student goals, and links to my consultation scheduler.
 
 ## Why I Built This
 
-I started FutureReady because managing my tutoring business using separate emails, spreadsheets, and shared documents was becoming difficult to coordinate. I wanted to build a single platform where:
-- I could display all my academic services and clear, transparent pricing options in one place.
-- Prospective families could get immediate value (like a draft college list or career alignment review) before our first meeting.
-- I could gather a student's basic details (GPA, test scores, target majors) before scheduling a call, saving time during onboarding.
-- I could apply my software engineering coursework to build a real product that solves actual day-to-day problems for real users.
+I started this project because running my business through separate email chains, spreadsheets, and Google Docs was getting messy. I wanted to build a single website where:
+- Families can see tutoring programs and transparent hourly rates.
+- Parents get immediate value (like generating a target college list) before booking a call.
+- I can collect academic details (GPA, test scores, intended majors) ahead of time, saving time during our first consultation.
+- I could apply what I learned in my computer science classes to build a real application for my own business.
 
 ## Business Problem
 
-Before building this site, onboarding a new student was highly manual and repetitive. I spent hours emailing back and forth to collect transcripts, GPA metrics, test scores, and university preferences. Parents also frequently asked the same questions about my tutoring programs, schedule formats, and rates. I needed a clear way to present my tutoring services, qualify serious inquiries, and gather educational metrics from students automatically before our initial strategy sessions.
+Before building this site, starting with a new student required a lot of manual coordination. I spent hours emailing parents back and forth to collect their GPA, test scores, and college preferences. I also had to repeatedly answer the same questions about program schedules and hourly rates. I wanted to show my pricing transparently and collect academic details before families booked strategy sessions.
 
 ## Solution
 
-The application streamlines my client intake process:
-- Instead of manually collecting school lists, students use the College List Builder to view university options matching their profile.
-- A personalized feedback questionnaire collects each student's academic background, goals, and interests. The submitted information is used during consultations, while an automated PDF report generation workflow is currently under development.
-- Integrations with booking tools allow parents to schedule consultations directly, using the pre-collected student metrics to prepare for the session.
+I built a few features to solve these issues:
+- An interactive College List Builder that lets students filter and match schools based on their GPA and test scores.
+- An intake questionnaire that collects academic backgrounds and target majors. The responses are stored on the server to help me prepare for our advising calls (an automated PDF report generator is currently in progress).
+- Inline scheduling widgets that let parents pick consultation slots immediately after filling out their student's profile.
 
-This setup saves hours of onboarding administration and makes my initial sessions with families much more productive.
+This saves hours of admin work and lets us focus on tutoring strategy during our first meeting.
 
 ## Features
 
-- **Responsive Landing Page**: Home interface introducing the prep programs, client testimonials, and direct buttons to schedule a session.
-- **Service Pages**: Detail specific programs (SAT Prep, Academic Tutoring, College Advising) with transparent pricing structures to qualify leads.
-- **College List Builder**: Interactive client-side tool where users input their GPA and SAT scores, choose school region, size, and selectivity preferences, and view dynamically filtered lists of reach, target, and safety colleges.
-- **Personalized Recommendation Flow**: A multi-step questionnaire that collects a student's academic background, goals, and intended major. The responses help personalize advising sessions, while automated PDF report generation is currently being developed.
-- **Consultation Booking**: Embedded inline Calendly scheduler, enabling parents to book a free 30-minute college strategy session without leaving the site.
-- **Analytics Tracking**: Google Analytics integration to track button clicks, service page traffic, and navigation paths.
-- **Mobile-Friendly Layout**: Responsive grids and elements configured for mobile phones, tablets, and desktops.
-- **SEO Elements**: Semantic HTML5 markup, canonical URLs, and heading structures to ensure local search visibility.
-- **Lead Generation**: Dynamic intake forms on program pages that collect parent contact details and student academic profiles.
+- **Interactive College List Builder**: A client-side tool where users input their GPA, SAT scores, and preferences (region, size, campus vibe) to get a filtered list of safety, target, and reach schools.
+- **Academic Program Pages**: Dedicated pages explaining SAT prep, academic tutoring, and college admissions programs, complete with hourly rates.
+- **Advising Questionnaire**: A multi-step form to collect a student's academic strengths and intended major to prepare for consultation calls.
+- **Embedded Scheduling**: An inline Calendly scheduler so parents can book a free 15-minute consultation directly on the site.
+- **Analytics Tracking**: Uses Google Analytics 4 to track navigation paths, button clicks, and form submissions.
+- **Mobile Responsive Layout**: Scaled layouts using Tailwind breakpoints to work on phones, tablets, and desktops.
+- **SEO Best Practices**: Proper semantic HTML5 tags and descriptive metadata to help families find my services on Google.
 
 ## Tech Stack
 
@@ -82,15 +80,15 @@ This setup saves hours of onboarding administration and makes my initial session
 
 ## Architecture
 
-The application is a React Single Page Application (SPA) hosted on Vercel.
+The website is a React SPA running on Vercel.
 
-- **React Component Structure**: Built using a modular component layout. Global UI parts (Header, Footer, Popups) are separated from the main page views (SatPage, TutoringPage, CollegeListBuilderPage).
-- **Client-Side Routing**: Navigates between page views using a state-based controller. This avoids full page reloads, ensuring data entered in intake forms is not lost if a user clicks around.
-- **Backend Handlers**: Includes serverless API routes (`api/`) that support future payment processing and report generation workflows currently under development.
-- **Storage**: Uses JSON file storage for prototype persistence, with plans to migrate to a hosted database as the application grows. (`data/report-orders.json`)
-- **TypeScript Interfaces**: Defines exact types for university structures, student intake responses, and service models to catch data errors during compilation.
-- **State Management**: Uses React state hooks (`useState`, `useEffect`, `useCallback`) to manage questionnaire values and handle form validation.
-- **Responsive Layout**: Responsive grids and elements built with Tailwind CSS breakpoints to adapt viewports dynamically.
+- **Component Design**: Shared layout components (Header, Footer, Popups) are separated from the main page views (SatPage, CollegeListBuilderPage, etc.).
+- **State-Based Navigation**: I chose custom state-based routing over standard router packages. This lets me switch pages using standard React state, preserving active questionnaire inputs if a user navigates away to view pricing.
+- **Backend APIs**: Includes Node.js serverless functions under `api/` to process Stripe and report generation tasks (currently under development).
+- **Storage**: Uses JSON file storage for prototype persistence, with plans to migrate to a hosted database as the application grows (`data/report-orders.json`).
+- **Type Safety**: Strictly typed interfaces for college profiles, intake payloads, and order records to catch bugs during Vite compilation.
+- **State Hooks**: Uses standard React hooks (`useState`, `useEffect`, `useMemo`) to calculate college match scores and manage form validations.
+- **Responsive Layout**: Tailwind CSS utility classes resize and stack layouts dynamically for mobile and desktop screens.
 
 ## Project Structure
 
@@ -145,33 +143,33 @@ To run this project locally, make sure you have Node.js installed.
 
 ## Usage
 
-- **Local Server**: The Vite server uses Hot Module Replacement (HMR) to reflect source code changes instantly.
-- **Build Compilation**: Run the compile script to output static assets in the `dist` folder:
+- **Local Development**: Runs a local development server with hot-reloading.
+- **Build Compilation**: Run the compile script to output static build files in the `dist` folder:
   ```bash
   npm run build
   ```
 
 ## Challenges
 
-### Challenge 1: Implementing the College Matching Logic
-Determining Safety, Target, and Reach classifications for universities without using complex database operations.
+### Challenge 1: Client-Side College Matching
+Evaluating safety, target, and reach status for schools purely on the client side without database lookups.
 *   *Solution*: I stored a university dataset locally as a structured JSON array. Each university record includes the middle 50% GPA and SAT ranges of admitted students. I wrote a client-side comparison function:
     - If the student's scores are above the 75th percentile of the college, it is labeled a **Safety**.
     - If they fall within the 25th-75th percentile, it is labeled a **Target**.
     - If they are below the 25th percentile, it is labeled a **Reach**.
-    This simple threshold filtering logic is fast, runs entirely on the client, and does not require complex backend operations.
+    This simple filtering logic is fast, runs entirely on the client, and does not require complex backend operations.
 
-### Challenge 2: Mobile Responsiveness for Data Grids
-The College List Builder displays lists and comparison tables that became illegible and broke layouts on small viewports.
-*   *Solution*: Used Tailwind CSS responsive utility classes to build adaptive layouts. On screens smaller than `768px` (mobile), tables collapse into stacked cards with simple text wrapping. On larger screens, the CSS transitions back to standard side-by-side grids.
+### Challenge 2: Mobile layouts for data tables
+The College List Builder displays lists and comparison tables that broke layouts on small viewports.
+*   *Solution*: I used Tailwind CSS utility classes to build adaptive layouts. On screens smaller than `768px` (mobile), tables collapse into stacked cards with simple text wrapping. On larger screens, the CSS transitions back to standard side-by-side grids.
 
-### Challenge 3: Product Usability vs. Information Gathering
+### Challenge 3: Designing a clean intake form
 Getting detailed academic and career preferences is crucial to prepare for consultations, but presenting users with a long, tedious form caused them to close the tab.
-*   *Solution*: Based on testing with a few initial users, I chunked the long form into separate, progressive steps. I grouped similar questions, added clear progress bars, and simplified text input boxes into clickable dropdown options. I also made sure scheduling links remained visible but non-intrusive. This improved form completion rates and led to more booked consultations.
+*   *Solution*: Based on testing with a few family members, I broke the long form into separate, progressive steps. I grouped similar questions, added clear progress bars, and simplified text input boxes into clickable dropdown options. I also made sure scheduling links remained visible but non-intrusive. This improved form completion rates and led to more booked consultations.
 
 ## Lessons Learned
 
-- **Designing for Real Users**: Unlike class assignments where you only write code to pass test files, building FutureReady forced me to think about visual layouts, page speeds, and user navigation, since parents and students need to easily navigate the site.
+- **Designing for Real Users**: Unlike class assignments where you only write code to pass test cases, building FutureReady forced me to think about visual layouts, page speeds, and user navigation, since parents and students need to easily navigate the site.
 - **User Testing and Iteration**: I learned the value of watching family members use the site. Simplifying text fields into simple multi-choice selectors made a significant difference in how easily parents completed onboarding surveys.
 - **Production Logistics**: Gained experience setting up static hosting on Vercel, linking custom domains, configuring clean client-side routing redirects, and tracking user traffic patterns with analytics.
 
