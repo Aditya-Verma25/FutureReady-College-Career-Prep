@@ -68,7 +68,8 @@ This setup saves hours of onboarding administration and makes my initial session
 
 ## Tech Stack
 
-- **Frontend**: React (v18), TypeScript, Vite, Tailwind CSS
+- **Frontend**: React (v19), TypeScript, Tailwind CSS, Vite
+- **Backend & APIs**: Node.js, Vercel Serverless Functions, Stripe SDK, Resend API
 - **Deployment**: Vercel
 - **Third-Party Integrations**: Calendly Widget, Google Analytics
 
@@ -170,11 +171,17 @@ Getting detailed academic and career preferences is crucial to prepare for consu
 - **User Testing and Iteration**: I learned the value of watching family members use the site. Simplifying text fields into simple multi-choice selectors made a significant difference in how easily parents completed onboarding surveys.
 - **Production Logistics**: Gained experience setting up static hosting on Vercel, linking custom domains, configuring clean client-side routing redirects, and tracking user traffic patterns with analytics.
 
-## Future Improvements
+## In-Progress & Planned Features
 
-- **An Authenticated Student Portal**: A login area where current students can log in to view assignment sheets, access resources, and check lesson homework details.
+### In-Progress (Backend & API Integration)
+- **Stripe Payment Gateway**: Connecting the existing `/api/create-checkout-session` serverless endpoint to the client-side report builder to process custom advising sheet orders.
+- **Server-Side PDF Generation**: Wiring the `pdf-lib` drawing module (`renderPdf.ts`) to programmatically output 3-page Helvetica roadmaps.
+- **Transactional Email Delivery**: Enabling `/api/confirm-payment` callbacks to base64-encode reports and send them automatically via the Resend API.
+
+### Planned Improvements
+- **An Authenticated Student Portal**: A secure login area where current students can log in to view assignment sheets, access resources, and check lesson homework details.
 - **Parent Portal**: A dashboard for parents to view billing details, completed hours, and progress updates.
-- **Integrated Scheduling**: Replacing embedded calendar links with custom in-app scheduling panels.
+- **Integrated Scheduling**: Replacing embedded Calendly links with custom in-app scheduling panels.
 - **Progress Tracker**: An interactive graphing tool where students can log and visualize their practice SAT scores.
 
 ## Screenshots
