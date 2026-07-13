@@ -13,7 +13,7 @@ Live Site: [https://futurereadyprep.org](https://futurereadyprep.org)
 ## Key Highlights
 
 - Built for a real tutoring and college advising business with active users
-- Full-stack React application with Vercel serverless backend
+- Full-stack web application with a React frontend and Vercel serverless backend
 - Interactive college matching and student intake workflows
 - Deployed on Vercel with Google Analytics and custom domain
 
@@ -75,7 +75,7 @@ This setup saves hours of onboarding administration and makes my initial session
 
 ## Tech Stack
 
-- **Frontend**: React (v19), TypeScript, Tailwind CSS, Vite
+- **Frontend**: React, TypeScript, Tailwind CSS, Vite
 - **Backend**: Node.js, Vercel Serverless Functions
 - **Integrations**: Stripe (In Progress), Resend (In Progress), Calendly, Google Analytics
 - **Deployment**: Vercel
@@ -87,7 +87,7 @@ The application is a React Single Page Application (SPA) hosted on Vercel.
 - **React Component Structure**: Built using a modular component layout. Global UI parts (Header, Footer, Popups) are separated from the main page views (SatPage, TutoringPage, CollegeListBuilderPage).
 - **Client-Side Routing**: Navigates between page views using a state-based controller. This avoids full page reloads, ensuring data entered in intake forms is not lost if a user clicks around.
 - **Backend Handlers**: Includes serverless API routes (`api/`) that support future payment processing and report generation workflows currently under development.
-- **Storage**: Reads and writes order records to a local JSON file (`data/report-orders.json`) on the server.
+- **Storage**: Uses JSON file storage for prototype persistence, with plans to migrate to a hosted database as the application grows. (`data/report-orders.json`)
 - **TypeScript Interfaces**: Defines exact types for university structures, student intake responses, and service models to catch data errors during compilation.
 - **State Management**: Uses React state hooks (`useState`, `useEffect`, `useCallback`) to manage questionnaire values and handle form validation.
 - **Responsive Layout**: Responsive grids and elements built with Tailwind CSS breakpoints to adapt viewports dynamically.
