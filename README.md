@@ -10,6 +10,13 @@ A full-stack web application designed to manage client onboarding, showcase tuto
 
 Live Site: [https://futurereadyprep.org](https://futurereadyprep.org)
 
+## Key Highlights
+
+- Built for a real tutoring and college advising business with active users
+- Full-stack React application with Vercel serverless backend
+- Interactive college matching and student intake workflows
+- Deployed on Vercel with Google Analytics and custom domain
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -24,7 +31,7 @@ Live Site: [https://futurereadyprep.org](https://futurereadyprep.org)
 - [Usage](#usage)
 - [Challenges](#challenges)
 - [Lessons Learned](#lessons-learned)
-- [Future Improvements](#future-improvements)
+- [In-Progress & Planned Features](#in-progress--planned-features)
 - [Screenshots](#screenshots)
 - [License](#license)
 - [Contact](#contact)
@@ -47,9 +54,9 @@ Before building this site, onboarding a new student was highly manual and repeti
 
 ## Solution
 
-The application automates my client intake process:
+The application streamlines my client intake process:
 - Instead of manually collecting school lists, students use the College List Builder to view university options matching their profile.
-- A personalized feedback questionnaire lets students submit their weak academic areas and target majors. The application handles the processing and emails them a structured college and career roadmap.
+- A personalized feedback questionnaire collects each student's academic background, goals, and interests. The submitted information is used during consultations, while an automated PDF report generation workflow is currently under development.
 - Integrations with booking tools allow parents to schedule consultations directly, using the pre-collected student metrics to prepare for the session.
 
 This setup saves hours of onboarding administration and makes my initial sessions with families much more productive.
@@ -59,7 +66,7 @@ This setup saves hours of onboarding administration and makes my initial session
 - **Responsive Landing Page**: Home interface introducing the prep programs, client testimonials, and direct buttons to schedule a session.
 - **Service Pages**: Detail specific programs (SAT Prep, Academic Tutoring, College Advising) with transparent pricing structures to qualify leads.
 - **College List Builder**: Interactive client-side tool where users input their GPA and SAT scores, choose school region, size, and selectivity preferences, and view dynamically filtered lists of reach, target, and safety colleges.
-- **Personalized Recommendation Flow**: A multi-step form where users enter their target major, areas of academic difficulty, and SAT goals. The backend script matches their major to regional career growth datasets, compiles a PDF roadmap report, and emails it directly to their inbox.
+- **Personalized Recommendation Flow**: A multi-step questionnaire that collects a student's academic background, goals, and intended major. The responses help personalize advising sessions, while automated PDF report generation is currently being developed.
 - **Consultation Booking**: Embedded inline Calendly scheduler, enabling parents to book a free 30-minute college strategy session without leaving the site.
 - **Analytics Tracking**: Google Analytics integration to track button clicks, service page traffic, and navigation paths.
 - **Mobile-Friendly Layout**: Responsive grids and elements configured for mobile phones, tablets, and desktops.
@@ -69,9 +76,9 @@ This setup saves hours of onboarding administration and makes my initial session
 ## Tech Stack
 
 - **Frontend**: React (v19), TypeScript, Tailwind CSS, Vite
-- **Backend & APIs**: Node.js, Vercel Serverless Functions, Stripe SDK, Resend API
+- **Backend**: Node.js, Vercel Serverless Functions
+- **Integrations**: Stripe (In Progress), Resend (In Progress), Calendly, Google Analytics
 - **Deployment**: Vercel
-- **Third-Party Integrations**: Calendly Widget, Google Analytics
 
 ## Architecture
 
@@ -79,10 +86,7 @@ The application is a React Single Page Application (SPA) hosted on Vercel.
 
 - **React Component Structure**: Built using a modular component layout. Global UI parts (Header, Footer, Popups) are separated from the main page views (SatPage, TutoringPage, CollegeListBuilderPage).
 - **Client-Side Routing**: Navigates between page views using a state-based controller. This avoids full page reloads, ensuring data entered in intake forms is not lost if a user clicks around.
-- **Backend Handlers**: Uses Vercel serverless API routes (`api/`) to handle server-side operations:
-  - Creating Stripe sessions for paid report tiers.
-  - Processing Stripe webhook events.
-  - Running backend calculations to compile custom academic reports, render PDF documents, and email them to users.
+- **Backend Handlers**: Includes serverless API routes (`api/`) that support future payment processing and report generation workflows currently under development.
 - **Storage**: Reads and writes order records to a local JSON file (`data/report-orders.json`) on the server.
 - **TypeScript Interfaces**: Defines exact types for university structures, student intake responses, and service models to catch data errors during compilation.
 - **State Management**: Uses React state hooks (`useState`, `useEffect`, `useCallback`) to manage questionnaire values and handle form validation.
