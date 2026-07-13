@@ -194,16 +194,16 @@ Getting detailed academic and career preferences is crucial to prepare for consu
 <img width="951" height="467" alt="FutureReady Homepage" src="https://github.com/user-attachments/assets/ef21e566-e4e9-4ed8-92c9-ab6cf9896050" />
 
 ### College List Builder
-*(Screenshot of College List Builder widget)*
+<img width="946" height="464" alt="Screenshot 2026-07-12 190319" src="https://github.com/user-attachments/assets/98137ad6-12d8-475a-898e-a07f0c9b2811" />
 
-### Personalized Feedback / Report
-*(Screenshot of Generated Student Report)*
+### FutureReady Blog
+<img width="943" height="467" alt="Screenshot 2026-07-12 190339" src="https://github.com/user-attachments/assets/f4c4a374-a9e2-4405-9c38-1778b15cc8b2" />
 
 ### Service Page
-*(Screenshot of SAT Program Service Page)*
+<img width="938" height="471" alt="Screenshot 2026-07-12 190611" src="https://github.com/user-attachments/assets/aed985a5-1d20-472b-b6f5-34a8b322f54f" />
 
 ### Mobile View
-*(Screenshot of Mobile Home Navigation)*
+<img width="220" height="346" alt="Screenshot 2026-07-12 190717" src="https://github.com/user-attachments/assets/1b0d9873-ece3-493b-b409-d23e32aa86d2" />
 
 ## License
 
