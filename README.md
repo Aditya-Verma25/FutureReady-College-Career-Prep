@@ -1,10 +1,9 @@
 # FutureReady College & Career Prep
 
-A full-stack web application designed to manage client onboarding, showcase tutoring services, and provide interactive college planning tools for high school families.
+A modern web application designed to manage client onboarding, showcase tutoring services, and provide interactive college planning tools for high school families.
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
@@ -13,7 +12,7 @@ Live Site: [https://futurereadyprep.org](https://futurereadyprep.org)
 ## Key Highlights
 
 - Built for a real tutoring and college advising business with active users
-- Full-stack web application with a React frontend and Vercel serverless backend
+- Built with React, TypeScript, Vite, and Vercel using reusable components and responsive design
 - Interactive college matching and student intake workflows
 - Deployed on Vercel with Google Analytics and custom domain
 
@@ -56,7 +55,7 @@ Before building this site, starting with a new student required a lot of manual 
 
 I built a few features to solve these issues:
 - An interactive College List Builder that lets students filter and match schools based on their GPA and test scores.
-- An intake questionnaire that collects academic backgrounds and target majors. The responses are stored on the server to help me prepare for our advising calls (an automated PDF report generator is currently in progress).
+- An intake questionnaire that collects academic backgrounds and target majors. The responses are collected to streamline consultation preparation, with automated report generation currently under development.
 - Inline scheduling widgets that let parents pick consultation slots immediately after filling out their student's profile.
 
 This saves hours of admin work and lets us focus on tutoring strategy during our first meeting.
@@ -73,10 +72,10 @@ This saves hours of admin work and lets us focus on tutoring strategy during our
 
 ## Tech Stack
 
-- **Frontend**: React, TypeScript, Tailwind CSS, Vite
-- **Backend**: Node.js, Vercel Serverless Functions
-- **Integrations**: Stripe (In Progress), Resend (In Progress), Calendly, Google Analytics
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS
 - **Deployment**: Vercel
+- **Integrations**: Google Analytics, Calendly, Formspree
+- **In Progress**: Stripe (In Progress), Resend (In Progress),
 
 ## Architecture
 
@@ -84,7 +83,6 @@ The website is a React SPA running on Vercel.
 
 - **Component Design**: Shared layout components (Header, Footer, Popups) are separated from the main page views (SatPage, CollegeListBuilderPage, etc.).
 - **State-Based Navigation**: I chose custom state-based routing over standard router packages. This lets me switch pages using standard React state, preserving active questionnaire inputs if a user navigates away to view pricing.
-- **Backend APIs**: Includes Node.js serverless functions under `api/` to process Stripe and report generation tasks (currently under development).
 - **Storage**: Uses JSON file storage for prototype persistence, with plans to migrate to a hosted database as the application grows (`data/report-orders.json`).
 - **Type Safety**: Strictly typed interfaces for college profiles, intake payloads, and order records to catch bugs during Vite compilation.
 - **State Hooks**: Uses standard React hooks (`useState`, `useEffect`, `useMemo`) to calculate college match scores and manage form validations.
