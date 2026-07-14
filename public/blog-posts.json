@@ -1,5 +1,31 @@
 [
   {
+    "slug": "how-to-build-a-weekly-sat-study-plan-that-actually-works-mentor-insights-2026-07-14",
+    "title": "How To Build A Weekly SAT Study Plan That Actually Works — Mentor Insights",
+    "excerpt": "First-hand advice: A practical SAT plan students can stick to without burning out or wasting hours. Written by a UMD CS student who scored 1500+.",
+    "topic": "SAT Prep",
+    "publishedAt": "2026-07-14",
+    "readTimeMinutes": 2,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Matura2005_ILOSzczecin.jpg",
+    "imageAttribution": "Photo via Wikimedia Commons (open license)",
+    "sections": [
+      {
+        "heading": "Start With A Baseline, Not Guesswork",
+        "paragraph": "When I started studying for the SAT, my biggest mistake was opening a prep book to page one and reading through it sequentially. This is a massive waste of time. You need to take a timed, official diagnostic test first. Once you have a starting score, analyze every single mistake. Did you miss a question because you didn't know the math formula (a concept gap), did you misread the question (a careless mistake), or did you run out of time? Grouping your errors this way tells you exactly what to study, so you can spend your hours on your weakest areas instead of reviewing things you already know."
+      },
+      {
+        "heading": "Use A 4-Day Weekly SAT Structure",
+        "paragraph": "Cramming for 6 hours on Sunday is the fastest way to forget everything by the next week. Instead, space your prep into four days, doing 45 to 60 minutes per session. Day 1 should focus on math concepts and targeted drills. Day 2 should be dedicated to Reading & Writing strategies, practicing with short, timed passages. On Day 3, take a mixed timed section to simulate actual test pressure and build pacing. Finally, Day 4 is for deep error review—redo every question you got wrong and explain in writing why the correct answer is right. This consistent habit is how you build real test-taking reflexes."
+      },
+      {
+        "heading": "Track Progress The Smart Way",
+        "paragraph": "Don't judge your progress by a single diagnostic score. Standardized test scores naturally fluctuate, which can be discouraging if you have a bad day. Instead, track your accuracy percentages by topic over time. If your punctuation accuracy goes from 60% to 90%, you are making real progress, even if your total score doesn't show it immediately. Keep a dedicated error log where you write down the question, your wrong answer, the correct answer, and the key takeaway. Before every study session, review your error log so you don't repeat the same mistakes."
+      }
+    ],
+    "cta": "SAT scores improve fastest when your plan is specific, consistent, and heavily focused on error analysis rather than volume.",
+    "generatorKey": "sat-study-plan"
+  },
+  {
     "slug": "demystifying-stem-admissions-what-got-me-into-umd-cs-mentor-insights-2026-07-07",
     "title": "Demystifying STEM Admissions: What Got Me Into UMD CS — Mentor Insights",
     "excerpt": "First-hand advice: A first-hand look at what top-tier Computer Science and STEM programs look for in applicants, written by a current UMD CS student.",
